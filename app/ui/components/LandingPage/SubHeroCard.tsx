@@ -18,13 +18,8 @@ const cardVariants: Variants = {
 };
 
 export default function SubHeroCard({ data }: { data: CardData }) {
-  const { title, number, subtitle } = data;
-  const src =
-    number == "01"
-      ? "/abstract-level.jpg"
-      : number == "02"
-      ? "/abstract-coin.jpg"
-      : "/abstract-leaderb.jpg";
+  const { title, number, subtitle, image } = data;
+
   return (
     <motion.div
       variants={cardVariants}
@@ -41,7 +36,7 @@ export default function SubHeroCard({ data }: { data: CardData }) {
       <div className="text-[32px] max-w-[300px]">{title}</div>
       <div className="relative w-full h-[268px] flex flex-col justify-end">
         <Image
-          src={src}
+          src={image}
           width={500}
           height={268}
           alt="point"

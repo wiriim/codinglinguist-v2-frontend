@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { montserrat } from "./ui/fonts";
 import "./globals.css";
-import Navbar from "./ui/navbar";
+import Navbar from "./ui/components/Navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "CodingLinguist",

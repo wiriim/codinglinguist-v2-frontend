@@ -4,7 +4,7 @@ import FAQQuestion from "./FAQQuestion";
 
 export default function FAQSection() {
   return (
-    <div className="h-[1146px] w-full flex flex-col bg-white items-center">
+    <div className="w-full flex flex-col bg-white items-center">
       <FAQTitle />
 
       <div className="w-4/5">
