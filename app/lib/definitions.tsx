@@ -77,3 +77,20 @@ export type Forum = {
   categoryType: CategoryType;
   _count: { likes: number; comments: number };
 };
+
+export type Level = {
+  id: number;
+  number: number;
+  title: string;
+  content: string;
+  input: string;
+  answer: string;
+  point: number;
+  courseId: number;
+}
+
+export type Course = {
+  id: number;
+  name: string;
+  levels: Level[];
+}
