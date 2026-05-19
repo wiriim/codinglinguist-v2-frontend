@@ -9,7 +9,7 @@ export default async function Course(props: {
   const params = await props.params;
   let courseName = params.name;
   courseName = courseName.charAt(0).toUpperCase() + courseName.slice(1);
-  
+
   const course: Course = await (
     await fetch(`http://localhost:3000/courses/c`)
   ).json();
@@ -21,7 +21,8 @@ export default async function Course(props: {
   const functions = levels.slice(15, 20);
 
   return (
-    <div className="mt-8 flex justify-center">
+    <div className="mt-8 flex flex-col items-center">
+        <div className="p-3 border border-[#DEDEDE] rounded-[10px]">Sign In Required For Level 2+</div>
       <div className="w-[80vw]">
         <div className="flex items-center gap-8">
           <h1 className="text-[36px] min-w-fit">Basic Syntax</h1>

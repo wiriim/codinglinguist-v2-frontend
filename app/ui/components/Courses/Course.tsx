@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CourseData } from "@/app/lib/definitions";
+import Link from "next/link";
 
 export default function Course({ data }: { data: CourseData }) {
   const { name, description, levels, difficulty, image } = data;
@@ -26,7 +27,7 @@ export default function Course({ data }: { data: CourseData }) {
           <div className="rounded-[15px] bg-[#48D278] text-white font-semibold w-[150px] h-[50px] flex justify-center items-center">
             {difficulty}
           </div>
-          <div className="rounded-[15px] bg-[#5988FF] text-white font-semibold w-[165px] h-[50px] flex justify-center items-center cursor-pointer">
+          <Link href={`/course/${name.charAt(0).toLowerCase()}`} className="rounded-[15px] bg-[#5988FF] text-white font-semibold w-[165px] h-[50px] flex justify-center items-center cursor-pointer">
             Start Course
             <span>
               <Image
@@ -37,7 +38,7 @@ export default function Course({ data }: { data: CourseData }) {
                 className="rotate-[145deg] ml-1"
               />
             </span>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
