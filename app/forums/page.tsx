@@ -7,8 +7,9 @@ import type { Forum } from "../lib/definitions";
 const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Forums() {
-  const forums: Forum[] = await (await fetch(`http://localhost:3000/forums`)).json();
-  console.log(forums);
+  const forums: Forum[] = await (
+    await fetch(`http://localhost:3000/forums`)
+  ).json();
 
   return (
     <div className="flex justify-center my-12">
@@ -17,12 +18,12 @@ export default async function Forums() {
           <ForumCreate />
 
           {forums.map((data, i) => (
-            <ForumCard key={data.id} data={data}/>
+            <ForumCard key={data.id} data={data} />
           ))}
         </div>
         <div className="w-1/3">
-            <ForumSearch />
-            <ForumFilter />
+          <ForumSearch />
+          <ForumFilter />
         </div>
       </div>
     </div>
