@@ -8,10 +8,10 @@ export default async function Course(props: {
 }) {
   const params = await props.params;
   let courseName = params.name;
-  courseName = courseName.charAt(0).toUpperCase() + courseName.slice(1);
+  // courseName = courseName.charAt(0).toUpperCase() + courseName.slice(1);
 
   const course: Course = await (
-    await fetch(`http://localhost:3000/courses/c`)
+    await fetch(`${backendServer}/courses/${courseName}`)
   ).json();
   const levels = course.levels;
 

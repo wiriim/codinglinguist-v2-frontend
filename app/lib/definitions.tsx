@@ -32,6 +32,7 @@ export type User = {
   point: number;
   status: number;
   role: string;
+  forums: Forum[];
 };
 
 export type Category = {

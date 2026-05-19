@@ -8,7 +8,7 @@ const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Forums() {
   const forums: Forum[] = await (
-    await fetch(`http://localhost:3000/forums`)
+    await fetch(`${backendServer}/forums`)
   ).json();
 
   return (

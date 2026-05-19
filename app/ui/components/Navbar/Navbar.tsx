@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="flex p-8 justify-between">
+    <div className="flex p-8 justify-between sticky top-0 bg-white z-50">
       <Link href={"/"} className="font-bold text-[32px] cursor-pointer">CodingLinguist</Link>
       <div className="flex rounded-[15px] justify-around items-center text-[20px] bg-[#F1F1F1] w-2/5 h-[50px]">
         {navbarDatas.map((data, i) => (
