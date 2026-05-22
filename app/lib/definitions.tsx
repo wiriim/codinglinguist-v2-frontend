@@ -88,6 +88,15 @@ export type Level = {
   answer: string;
   point: number;
   courseId: number;
+  questions: Question[];
+}
+
+export type Question = {
+  id: number;
+  content: string;
+  answer: string;
+  number: string;
+  Level: Level;
 }
 
 export type Course = {

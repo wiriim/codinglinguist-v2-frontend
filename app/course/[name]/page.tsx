@@ -31,12 +31,12 @@ export default async function Course(props: {
 
         <div className="flex flex-wrap justify-around my-25">
           {basicSyntax1.map((data, i) => (
-            <Level key={data.id} data={data} />
+            <Level key={data.id} data={data} course={courseName} />
           ))}
         </div>
         <div className="flex flex-wrap justify-around my-25">
           {basicSyntax2.map((data, i) => (
-            <Level key={data.id} data={data} />
+            <Level key={data.id} data={data} course={courseName} />
           ))}
         </div>
 
@@ -47,7 +47,7 @@ export default async function Course(props: {
 
         <div className="flex flex-wrap justify-around my-25">
           {conditionals.map((data, i) => (
-            <Level key={data.id} data={data} />
+            <Level key={data.id} data={data} course={courseName} />
           ))}
         </div>
 
@@ -58,7 +58,7 @@ export default async function Course(props: {
 
         <div className="flex flex-wrap justify-around my-25">
           {functions.map((data, i) => (
-            <Level key={data.id} data={data} />
+            <Level key={data.id} data={data} course={courseName} />
           ))}
         </div>
       </div>
