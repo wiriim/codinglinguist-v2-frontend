@@ -10,9 +10,12 @@ export default function NavLink({ data }: { data: NavLink }) {
   return (
     <Link
       href={route}
-      className={clsx("cursor-pointer", {
-        "bg-white shadow-md rounded-[10px] px-3 py-1": pathname.includes(route),
-      })}
+      className={clsx(
+        "cursor-pointer px-3 py-1 hover:bg-[#cacaca] rounded-[10px]",
+        {
+          "bg-white shadow-md rounded-[10px]  ": pathname.includes(route),
+        }
+      )}
     >
       {name}
     </Link>

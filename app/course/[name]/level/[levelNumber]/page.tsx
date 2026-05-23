@@ -1,4 +1,7 @@
 import type { Level } from "@/app/lib/definitions";
+import CodeInput from "@/app/ui/components/Level/CodeInput";
+import Link from "next/link";
+import Image from "next/image";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -12,14 +15,57 @@ export default async function Level(props: {
   const level: Level = await (
     await fetch(`${backendServer}/courses/${courseName}/levels/${levelNumber}`)
   ).json();
-  console.log(level);
+
+  const bossLevels = [10, 15, 20];
 
   return (
-    <div className="flex justify-center w-full my-12">
-      <div
-        dangerouslySetInnerHTML={{ __html: level.content }}
-        className="border border-[#DEDEDE] rounded-[10px] p-8 px-12 w-[80vw]"
-      ></div>
+    <div className="flex flex-col items-center w-full my-12">
+      <div className="border border-[#DEDEDE] rounded-[10px] p-8 px-12 w-[80vw]">
+        <Link href={`/course/${courseName}`} className="flex gap-2 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]">
+          <Image
+            src="/right-arrow.png"
+            width={12}
+            height={12}
+            alt=""
+            className="object-contain rotate-180"
+          />
+          Back
+        </Link>
+        <div dangerouslySetInnerHTML={{ __html: level.content }}></div>
+
+        {bossLevels.includes(level.number) ? (
+          <>
+            <CodeInput />{" "}
+            <button className="border border-[#3E50DA] rounded-[10px] text-[#3E50DA] px-8 py-2 mt-8 cursor-pointer block max-w-[120px] text-center ml-auto hover:bg-[#3E50DA] hover:text-white">
+              Submit
+            </button>
+          </>
+        ) : (
+          <Link
+            href={`/course/${courseName}/level/${levelNumber}/question/1`}
+            className="border border-[#00e622] rounded-[10px] text-[#00e622] px-8 py-2 mt-8 cursor-pointer block max-w-[120px] text-center ml-auto hover:bg-[#00e622] hover:text-white"
+          >
+            Begin
+          </Link>
+        )}
+      </div>
+
+      <div className="flex justify-end w-[80vw] mt-5">
+        <div className="flex  items-center gap-10 rounded-[10px] bg-[#F3F3F3] px-8 py-2 font-semibold">
+          <div className="rounded-[10px] text-center bg-white px-5 py-2 cursor-pointer shadow-md">
+            i
+          </div>
+          {level.questions.map((data, i) => (
+            <Link
+              href={`/course/${courseName}/level/${levelNumber}/question/${data.number}`}
+              key={data.number}
+              className="text-center px-5 py-2 hover:bg-[#cacaca] rounded-[10px]"
+            >
+              {data.number}
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

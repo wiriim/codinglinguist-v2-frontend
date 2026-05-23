@@ -57,7 +57,7 @@ export default function CTATwo() {
         >
           Ready To Take Your First Step?
         </motion.div>
-        <div className="absolute top-150 rounded-[15px] border border-[#DEDEDE] w-[165px] h-[50px] flex justify-center items-center cursor-pointer">
+        <div className="absolute top-150 rounded-[15px] border border-[#DEDEDE] w-[165px] h-[50px] flex justify-center items-center cursor-pointer hover:bg-[#DEDEDE] hover:text-black">
           Sign Up
         </div>
       </div>
