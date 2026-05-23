@@ -15,7 +15,7 @@ export default function Course({ data }: { data: CourseData }) {
         />
       </div>
       <div className="w-3/5 flex flex-col ">
-        <h1 className="text-[40px] font-medium">{name}</h1>
+        <h1 className="text-[40px] font-medium">{name} Course</h1>
         <div className="text-[#918D8D] text-[24px] font-[24px] mt-5">
           {description}
         </div>
@@ -27,7 +27,7 @@ export default function Course({ data }: { data: CourseData }) {
           <div className="rounded-[15px] bg-[#48D278] text-white font-semibold w-[150px] h-[50px] flex justify-center items-center">
             {difficulty}
           </div>
-          <Link href={`/course/${name.charAt(0).toLowerCase()}`} className="rounded-[15px] bg-[#5988FF] text-white font-semibold w-[165px] h-[50px] flex justify-center items-center cursor-pointer">
+          <Link href={`/course/${name}`} className="rounded-[15px] bg-[#5988FF] text-white font-semibold w-[165px] h-[50px] flex justify-center items-center cursor-pointer">
             Start Course
             <span>
               <Image

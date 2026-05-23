@@ -6,7 +6,7 @@ export default function ForumCard({ data }: { data: Forum }) {
   return (
     <div
       key={id}
-      className="flex flex-col border border-[#DEDEDE] rounded-[30px] p-8 my-8 shadow cursor-pointer hover:scale-101 hover:shadow-lg transition delay-1"
+      className="flex flex-col border border-[#DEDEDE] rounded-[15px] p-8 my-8 shadow cursor-pointer hover:scale-101 hover:shadow-lg transition delay-1"
     >
       <div className="flex gap-5">
         <div className="w-[80px] h-[80px] rounded-[100%] bg-[#E9E9E3]"></div>

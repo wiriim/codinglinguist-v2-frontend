@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ForumCreate() {
   return (
-    <div className="flex flex-col border border-[#DEDEDE] rounded-[30px] h-[225px] p-8">
+    <div className="flex flex-col border border-[#DEDEDE] rounded-[15px] h-[225px] p-8">
       <div className="flex gap-5">
         <div className="w-[80px] h-[80px] rounded-[100%] bg-[#E9E9E3]"></div>
         <input

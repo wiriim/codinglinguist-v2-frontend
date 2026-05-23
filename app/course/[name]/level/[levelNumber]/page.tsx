@@ -18,7 +18,7 @@ export default async function Level(props: {
     <div className="flex justify-center w-full my-12">
       <div
         dangerouslySetInnerHTML={{ __html: level.content }}
-        className="border border-[#DEDEDE] rounded-[10px] p-8 px-12 min-w-[80vw]"
+        className="border border-[#DEDEDE] rounded-[10px] p-8 px-12 w-[80vw]"
       ></div>
     </div>
   );
