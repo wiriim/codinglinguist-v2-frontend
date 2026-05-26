@@ -37,7 +37,7 @@ export default async function Navbar() {
           </>
         ) : (
           <div className="flex items-center gap-5">
-            <div className="w-[60px] h-[60px] rounded-[100%] bg-[#e9e9e3]"></div>
+            <Link href={`/profile/${session.user.username}`} className="w-[60px] h-[60px] rounded-[100%] bg-[#e9e9e3]"></Link>
             <form
               action={async () => {
                 "use server";

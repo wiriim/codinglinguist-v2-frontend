@@ -2,12 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { handler } from "./signInHandler";
+import { handler } from "./loginHandler";
 
 export default function Login() {
   const [error, setError] = useState(false);
 
-  async function signInHandler(formData: FormData) {
+  async function loginHandler(formData: FormData) {
     const result = await handler(formData);
     if (result) {
       setError(result);
@@ -57,7 +57,7 @@ export default function Login() {
             </div>
           )}
 
-          <form action={signInHandler}>
+          <form action={loginHandler}>
             <div>
               <label htmlFor="email" className="block">
                 Email

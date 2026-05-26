@@ -14,6 +14,16 @@ export default async function Profile(props: {
     await fetch(`${backendServer}/users/${username}`)
   ).json();
 
+  console.log(user);
+
+  if (!user) {
+    return (
+      <div className="my-8 flex flex-col items-center">
+        <h1>Can't seem to find anyone with that username</h1>
+      </div>
+    );
+  }
+
   const { forums } = user;
 
   return (

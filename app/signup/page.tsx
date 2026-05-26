@@ -1,7 +1,25 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { handler } from "./signUpHandler";
+import { useState } from "react";
 
 export default function Signup() {
+  const [error, setError] = useState<null | string>(null);
+  const [success, setSuccess] = useState<null | string>(null);
+
+  async function signUpHandler(formData: FormData) {
+    const result = await handler(formData);
+
+    if (!result.success) {
+      setError(result.msg);
+      setSuccess(null);
+    } else {
+      setError(null);
+      setSuccess(result.msg);
+    }
+  }
+
   return (
     <div className="flex justify-center w-full items-center my-8">
       <div className="w-[70vw] min-h-[800px] flex">
@@ -30,13 +48,22 @@ export default function Signup() {
             <h1 className="text-[32px]">Welcome!</h1>
             <p className="text-[#918D8D]">
               Already have an account? &nbsp;
-              <Link href={"/login"} className="underline text-black cursor-pointer">
+              <Link
+                href={"/login"}
+                className="underline text-black cursor-pointer"
+              >
                 Login to your account
               </Link>
             </p>
           </div>
 
-          <form action="">
+          {error && !success && (
+            <div className="text-red-500 text-[16px] my-2">{error}</div>
+          )}
+          {success && !error && (
+            <div className="text-green-500 text-[16px] my-2">{success}</div>
+          )}
+          <form action={signUpHandler}>
             <div>
               <label htmlFor="username" className="block">
                 Username

@@ -1,12 +1,42 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PassThrough } from "stream";
 import { signInSchema } from "./lib/zod";
 import { ZodError } from "zod";
+import { JWT } from "next-auth/jwt";
+import { User } from "./app/lib/definitions";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      username: string;
+      point: number;
+    } & DefaultSession["user"];
+  }
+  interface User {
+    username?: string;
+    point?: number;
+  }
+}
 
 const backendServer = process.env.BACKEND_SERVER;
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.point = user.point;
+        token.username = user.username;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.username = token.username as string;
+      session.user.point = token.point as number;
+      return session;
+    },
+  },
   pages: {
     signIn: "/login",
   },

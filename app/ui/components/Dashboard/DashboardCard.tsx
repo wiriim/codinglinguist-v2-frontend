@@ -1,6 +1,7 @@
 import { CourseData } from "@/app/lib/definitions";
 import Image from "next/image";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function DashboardCard({ data }: { data: CourseData }) {
   const { name, levels, image } = data; 
@@ -11,7 +12,7 @@ export default function DashboardCard({ data }: { data: CourseData }) {
         "bg-[#8BC3C8]" : name.includes("Java"),
     })}>
       <Image src={image} width={90} height={90} alt={name} />
-      <p className="font-semibold text-white text-[24px] mt-5 w-fit cursor-pointer">{name} Course</p>
+      <Link href={`/course/${name}`} className="font-semibold text-white text-[24px] mt-5 w-fit cursor-pointer hover:underline">{name} Course</Link>
 
       <p className="text-white mt-8">{levels} | 20%</p>
       <div className="rounded-[10px] w-[200px] h-[21px] border border-[#DEDEDE] mt-2"></div>
