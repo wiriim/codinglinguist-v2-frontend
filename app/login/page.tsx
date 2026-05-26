@@ -1,7 +1,19 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { handler } from "./signInHandler";
 
 export default function Login() {
+  const [error, setError] = useState(false);
+
+  async function signInHandler(formData: FormData) {
+    const result = await handler(formData);
+    if (result) {
+      setError(result);
+    } 
+  }
+
   return (
     <div className="flex justify-center w-full items-center my-8">
       <div className="w-[70vw] h-[800px] flex">
@@ -29,14 +41,23 @@ export default function Login() {
           <div className="mt-20 mb-15">
             <h1 className="text-[32px]">Welcome!</h1>
             <p className="text-[#918D8D]">
-              <Link href={"/signup"} className="underline text-black cursor-pointer">
+              <Link
+                href={"/signup"}
+                className="underline text-black cursor-pointer"
+              >
                 Create a free account
               </Link>
               &nbsp; or login to your existing one
             </p>
           </div>
 
-          <form action="">
+          {error && (
+            <div className="text-red-500 text-[16px] my-2">
+              Invalid credentials.
+            </div>
+          )}
+
+          <form action={signInHandler}>
             <div>
               <label htmlFor="email" className="block">
                 Email
