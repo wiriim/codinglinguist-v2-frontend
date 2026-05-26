@@ -18,13 +18,13 @@ export default function Level({
         width={100}
         height={100}
         alt={number.toString()}
-        className="rounded-[100%] w-[100px] h-[100px] border border-[#DEDEDE] flex justify-center items-center cursor-pointer"
+        className="rounded-[100%] w-[100px] h-[100px] border border-[#DEDEDE] flex justify-center items-center cursor-pointer hover:border-green-500 hover:scale-105 transition duration-200"
       />
     </Link>
   ) : (
     <Link
       href={`/course/${course}/level/${number}`}
-      className="rounded-[100%] w-[100px] h-[100px] border border-[#DEDEDE] flex justify-center items-center cursor-pointer font-semibold text-[36px]"
+      className="rounded-[100%] w-[100px] h-[100px] border border-[#DEDEDE] flex justify-center items-center cursor-pointer font-semibold text-[36px] hover:border-green-500 hover:scale-105 transition duration-200"
     >
       {number}
     </Link>
