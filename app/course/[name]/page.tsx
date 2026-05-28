@@ -1,11 +1,13 @@
 import type { Course } from "@/app/lib/definitions";
 import Level from "@/app/ui/components/Course/Level";
+import { auth } from "@/auth";
 
 const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Course(props: {
   params: Promise<{ name: string }>;
 }) {
+  const session = await auth();
   const params = await props.params;
   let courseName = params.name;
   // courseName = courseName.charAt(0).toUpperCase() + courseName.slice(1);
@@ -22,7 +24,11 @@ export default async function Course(props: {
 
   return (
     <div className="mt-8 flex flex-col items-center">
-        <div className="p-3 border border-[#DEDEDE] rounded-[10px]">Sign In Required For Level 2+</div>
+      {!session?.user && (
+        <div className="p-3 border border-[#DEDEDE] rounded-[10px]">
+          Sign In Required For Level 2+
+        </div>
+      )}
       <div className="w-[80vw]">
         <div className="flex items-center gap-8">
           <h1 className="text-[36px] min-w-fit">Basic Syntax</h1>

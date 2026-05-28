@@ -4,12 +4,18 @@ import type { NextRequest } from "next/server";
 
 export default async function customProxy(request: NextRequest) {
   const session = await auth();
-  if (session?.user){
-    return NextResponse.next();
+  console.log("TEST");
+
+  if (session?.user && request.nextUrl.pathname == "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-  return NextResponse.redirect(new URL("/login", request.url));
+  if (session?.user) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard"],
+  matcher: ["/", "/dashboard/"],
 };
