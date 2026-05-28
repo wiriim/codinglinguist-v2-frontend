@@ -27,7 +27,7 @@ export default function Login() {
           />
         </div>
         <div className="w-1/2 p-8">
-          <Link href={"/"} className="flex gap-3 cursor-pointer">
+          <Link href={"/"} className="flex gap-3 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]">
             <Image
               src="/right-arrow.png"
               width={12}
