@@ -20,9 +20,12 @@ export default async function Level({
   const { number } = data;
   const bossLevels = [10, 15, 20];
 
-  const userLevel = await (
-    await fetch(`${backendServer}/users/${session?.user.id}/levels/${id}`)
-  ).json();
+  let userLevel = null;
+  if (session?.user){
+    userLevel = await (
+      await fetch(`${backendServer}/users/${session?.user.id}/levels/${id}`)
+    ).json();
+  }
 
   const isLocked = number > 1 && !userLevel;
   const isBoss = bossLevels.includes(number);
