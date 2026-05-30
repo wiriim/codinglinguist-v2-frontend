@@ -14,8 +14,6 @@ export default async function Profile(props: {
     await fetch(`${backendServer}/users/${username}`)
   ).json();
 
-  console.log(user);
-
   if (!user) {
     return (
       <div className="my-8 flex flex-col items-center">

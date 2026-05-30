@@ -4,19 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 
+const backendServer = process.env.BACKEND_SERVER;
+
 export default async function Level({
   data,
   course,
+  id,
 }: {
   data: Level;
   course: string;
+  id: number;
 }) {
   const session = await auth();
 
   const { number } = data;
   const bossLevels = [10, 15, 20];
 
-  const isLocked = !session?.user && number > 1;
+  const userLevel = await (
+    await fetch(`${backendServer}/users/${session?.user.id}/levels/${id}`)
+  ).json();
+
+  const isLocked = number > 1 && !userLevel;
   const isBoss = bossLevels.includes(number);
 
   return isBoss && isLocked ? (
@@ -28,7 +36,13 @@ export default async function Level({
         alt={number.toString()}
         className="opacity-40 absolute"
       />
-      <Image src="/lock.png" width={50} height={50} alt={number.toString()} className="absolute inset-0 m-auto" />
+      <Image
+        src="/lock.png"
+        width={50}
+        height={50}
+        alt={number.toString()}
+        className="absolute inset-0 m-auto"
+      />
     </div>
   ) : isBoss ? (
     <Link

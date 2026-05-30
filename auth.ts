@@ -9,6 +9,7 @@ import { User } from "./app/lib/definitions";
 declare module "next-auth" {
   interface Session {
     user: {
+      id: string;
       username: string;
       point: number;
     } & DefaultSession["user"];
@@ -32,6 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     session({ session, token }) {
+      session.user.id = token.id as string;
       session.user.username = token.username as string;
       session.user.point = token.point as number;
       return session;

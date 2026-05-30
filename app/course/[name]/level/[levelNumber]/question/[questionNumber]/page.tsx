@@ -5,10 +5,12 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export default function Question() {
+  const { data: session } = useSession();
   const params = useParams();
   const courseName = params.name;
   const { levelNumber, questionNumber } = params;
@@ -16,53 +18,114 @@ export default function Question() {
   const [level, setLevel] = useState<null | Level>(null);
   const [question, setQuestion] = useState<null | Question>(null);
   const [answer, setAnswer] = useState<null | string>(null);
+  const [finished, setFinished] = useState<boolean>(false);
+  const [incorrect, setIncorrect] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(`${backendServer}/courses/${courseName}/levels/${levelNumber}`);
     async function fetchQuestion() {
-      const levelData: Level = await (
-        await fetch(
-          `${backendServer}/courses/${courseName}/levels/${levelNumber}`
-        )
-      ).json();
-      setLevel(levelData);
+      if (!level) {
+        const levelData: Level = await (
+          await fetch(
+            `${backendServer}/courses/${courseName}/levels/${levelNumber}`
+          )
+        ).json();
+        setLevel(levelData);
+      }
 
-      const questionData: Question = await (
-        await fetch(
-          `${backendServer}/courses/${courseName}/levels/${levelNumber}/questions/${questionNumber}`
-        )
-      ).json();
-      setQuestion(questionData);
+      if (!question) {
+        const questionData: Question = await (
+          await fetch(
+            `${backendServer}/courses/${courseName}/levels/${levelNumber}/questions/${questionNumber}`
+          )
+        ).json();
+        setQuestion(questionData);
+      }
+
+      if (session?.user && question && !finished) {
+        const questionData: Question = await (
+          await fetch(
+            `${backendServer}/users/${session.user.id}/questions/${question?.id}`
+          )
+        ).json();
+        if (questionData) {
+          setAnswer(questionData.answer);
+          setFinished(true);
+        }
+      }
     }
     fetchQuestion();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
-    const choice = document.querySelectorAll(".question-choice");
-    for (const c of choice) {
-      if (c.textContent == answer)
-        (c as HTMLElement).style.border = "1px solid #00c753";
-    }
-
     const input: null | HTMLInputElement =
       document.querySelector(".question-input");
     if (input && answer) {
       input.value = answer;
       input.focus();
     }
-  }, [answer]);
+  }, [finished, answer, incorrect]);
 
   function handleContainerClick(e: React.MouseEvent) {
     const target = e.target as HTMLElement;
-    if (target.matches(".question-choice")) {
+    if (target.matches(".question-choice") && !finished) {
       setAnswer(target.textContent);
+      target.style.border = "1px solid #505050";
     }
   }
 
   function handleContainerChange(e: React.InputEvent) {
     const target = e.target as HTMLInputElement;
-    if (target.matches(".question-input")) {
+    if (target.matches(".question-input") && !finished) {
       setAnswer(target.value);
+    }
+  }
+
+  async function handleSubmit(e: React.MouseEvent) {
+    if (answer && !finished) {
+      const result: boolean = await (
+        await fetch(`${backendServer}/questions/${question?.id}/submit`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            answer: answer,
+            userId: session?.user?.id,
+            levelId: level?.id,
+          }),
+        })
+      ).json();
+      result ? setFinished(true) : setIncorrect(true);
+    }
+  }
+
+  let dynamicHtml = question ? question.content : "";
+
+  if (answer) {
+    const choices = document.querySelectorAll(".question-choice");
+    if (choices) {
+      dynamicHtml = dynamicHtml
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">");
+      const borderColor = finished ? "#00e622" : "#505050";
+
+      const activeStyle = `class="question-choice" style="border: 1px solid ${borderColor};"`;
+
+      dynamicHtml = dynamicHtml.replace(
+        `class="question-choice">${answer}`,
+        `${activeStyle}>${answer}`
+      );
+    }
+
+    const input: null | HTMLInputElement =
+      document.querySelector(".question-input");
+
+    if (input && finished && dynamicHtml) {
+      dynamicHtml = dynamicHtml.replace(
+        `class="question-input"`,
+        `class="question-input" value="${answer}" readonly`
+      );
     }
   }
 
@@ -82,16 +145,43 @@ export default function Question() {
           />
           Back
         </Link>
-        {question && (
+        {question ? (
           <div
             onClick={handleContainerClick}
             onInput={handleContainerChange}
-            dangerouslySetInnerHTML={{ __html: question.content }}
+            dangerouslySetInnerHTML={{ __html: dynamicHtml }}
           ></div>
+        ) : (
+          <div className="mt-8 ms-7"> Fetching question... </div>
         )}
-        <button className="border border-[#3E50DA] rounded-[10px] text-[#3E50DA] px-8 py-2 mt-8 cursor-pointer block ml-auto text-center hover:bg-[#3E50DA] hover:text-white">
-          Submit
-        </button>
+
+        {incorrect && !finished && (
+          <div className="text-red-500">Incorrect</div>
+        )}
+
+        {finished ? (
+          <Link
+            href={
+              question!.number != "4"
+                ? `/course/${courseName}/level/${levelNumber}/question/${
+                    question!.number + 1
+                  }`
+                : `/course/${courseName}`
+            }
+            className="border border-[#00e622] rounded-[10px] text-[#00e622] px-8 py-2 mt-8 cursor-pointer block max-w-[140px] ml-auto hover:bg-[#00e622] hover:text-white"
+          >
+            Continue
+          </Link>
+        ) : (
+          question && (
+            <button
+              onClick={handleSubmit}
+              className="border border-[#3E50DA] rounded-[10px] text-[#3E50DA] px-8 py-2 mt-8 cursor-pointer block ml-auto text-center hover:bg-[#3E50DA] hover:text-white"
+            >
+              Submit
+            </button>
+          )
+        )}
       </div>
 
       <div className="flex justify-end w-[80vw] mt-5">

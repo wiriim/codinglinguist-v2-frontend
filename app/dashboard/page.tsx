@@ -4,7 +4,7 @@ import DashboardCard from "../ui/components/Dashboard/DashboardCard";
 
 export default async function Dashboard() {
   const session = await auth();
-  console.log(session)
+  
   return (
     <div className="flex flex-col w-full items-center mt-8">
       <h1 className="text-[36px]">Hello, {session?.user?.username}</h1>

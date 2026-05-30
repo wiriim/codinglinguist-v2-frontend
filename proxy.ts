@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 
 export default async function customProxy(request: NextRequest) {
   const session = await auth();
-  console.log("TEST");
 
   if (session?.user && request.nextUrl.pathname == "/") {
     return NextResponse.redirect(new URL("/dashboard", request.url));

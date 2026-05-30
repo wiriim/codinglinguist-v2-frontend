@@ -10,7 +10,6 @@ export default async function Course(props: {
   const session = await auth();
   const params = await props.params;
   let courseName = params.name;
-  // courseName = courseName.charAt(0).toUpperCase() + courseName.slice(1);
 
   const course: Course = await (
     await fetch(`${backendServer}/courses/${courseName}`)
@@ -37,12 +36,12 @@ export default async function Course(props: {
 
         <div className="flex flex-wrap justify-around my-25">
           {basicSyntax1.map((data, i) => (
-            <Level key={data.id} data={data} course={courseName} />
+            <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
         </div>
         <div className="flex flex-wrap justify-around my-25">
           {basicSyntax2.map((data, i) => (
-            <Level key={data.id} data={data} course={courseName} />
+            <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
         </div>
 
@@ -53,7 +52,7 @@ export default async function Course(props: {
 
         <div className="flex flex-wrap justify-around my-25">
           {conditionals.map((data, i) => (
-            <Level key={data.id} data={data} course={courseName} />
+            <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
         </div>
 
@@ -64,7 +63,7 @@ export default async function Course(props: {
 
         <div className="flex flex-wrap justify-around my-25">
           {functions.map((data, i) => (
-            <Level key={data.id} data={data} course={courseName} />
+            <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
         </div>
       </div>
