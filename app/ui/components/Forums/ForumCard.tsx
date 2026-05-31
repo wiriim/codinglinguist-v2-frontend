@@ -5,7 +5,8 @@ import Link from "next/link";
 export default function ForumCard({ data }: { data: Forum }) {
   const { id, user, createdAt, category, categoryType, title, _count } = data;
   return (
-    <div
+    <Link
+      href={`/forums/${id}`}
       key={id}
       className="flex flex-col border border-[#DEDEDE] rounded-[10px] p-8 my-8 shadow cursor-pointer hover:scale-101 hover:shadow-lg transition delay-1"
     >
@@ -45,6 +46,6 @@ export default function ForumCard({ data }: { data: Forum }) {
           {_count.comments}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

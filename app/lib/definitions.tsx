@@ -52,6 +52,7 @@ export type Reply = {
   content: string;
   createdAt: string;
   _count: { likes: number };
+  user: User;
 };
 
 export type Comment = {
@@ -62,6 +63,7 @@ export type Comment = {
   createdAt: string;
   _count: { likes: number };
   replies: Reply[];
+  user: User;
 };
 
 export type Forum = {
@@ -89,7 +91,7 @@ export type Level = {
   point: number;
   courseId: number;
   questions: Question[];
-}
+};
 
 export type Question = {
   id: number;
@@ -97,10 +99,10 @@ export type Question = {
   answer: string;
   number: string;
   Level: Level;
-}
+};
 
 export type Course = {
   id: number;
   name: string;
   levels: Level[];
-}
+};

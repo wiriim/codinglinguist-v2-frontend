@@ -15,20 +15,20 @@ export default function ForumFilter() {
           <label htmlFor="language">Language :</label>
           <select name="language" id="language" defaultValue={"all"}>
             <option value="all">All</option>
-            <option value="c">C</option>
-            <option value="java">Java</option>
-            <option value="python">Python</option>
+            <option value="1">C</option>
+            <option value="2">Python</option>
+            <option value="3">Java</option>
           </select>
         </div>
         <div className="flex items-center gap-2">
           <label htmlFor="type">Type :</label>
           <select name="language" id="language" defaultValue={"all"}>
             <option value="all">All</option>
-            <option value="guide">Guide</option>
-            <option value="error">Error</option>
-            <option value="discussion">Discussion</option>
-            <option value="question">Question</option>
-            <option value="other">Other</option>
+            <option value="1">Error</option>
+            <option value="2">Question</option>
+            <option value="3">Discussion</option>
+            <option value="4">Guide</option>
+            <option value="5">Other</option>
           </select>
         </div>
       </div>
