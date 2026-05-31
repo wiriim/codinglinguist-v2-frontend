@@ -59,9 +59,11 @@ export default function Question() {
   useEffect(() => {
     const input: null | HTMLInputElement =
       document.querySelector(".question-input");
+    if (input){
+      input.focus();
+    }
     if (input && answer) {
       input.value = answer;
-      input.focus();
     }
   }, [finished, answer, incorrect]);
 
@@ -103,11 +105,12 @@ export default function Question() {
 
   if (answer) {
     const choices = document.querySelectorAll(".question-choice");
-    if (choices) {
+    if (choices.length > 0) {
       dynamicHtml = dynamicHtml
         .replace(/&amp;/g, "&")
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">");
+      
       const borderColor = finished ? "#00e622" : "#505050";
 
       const activeStyle = `class="question-choice" style="border: 1px solid ${borderColor};"`;
