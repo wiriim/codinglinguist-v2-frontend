@@ -4,6 +4,7 @@ import type { Forum } from "@/app/lib/definitions";
 import CommentCreate from "@/app/ui/components/Forum/CommentCreate";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
+import Link from "next/link";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -21,8 +22,22 @@ export default async function Forum(props: {
   return (
     <div className="my-8 flex justify-center w-full">
       <div className="w-2/3">
+        <Link
+          href={"/forums"}
+          className="flex gap-3 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea] my-7"
+        >
+          <Image
+            src="/right-arrow.png"
+            width={12}
+            height={12}
+            alt=""
+            className="object-contain rotate-180"
+          />
+          Back to forums
+        </Link>
+
         <div className="flex gap-4 items-center">
-          <div className="min-w-[75px] h-[75px] rounded-[100%] bg-[#E9E9E3]"></div>
+          <div className="min-w-[70px] h-[70px] rounded-[100%] bg-[#E9E9E3]"></div>
           <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
             <div className="cursor-pointer w-fit hover:underline">
               {forum.user.username}
