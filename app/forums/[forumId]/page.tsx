@@ -60,7 +60,7 @@ export default async function Forum(props: {
         </div>
 
         <SessionProvider>
-          <CommentCreate forumId={forumId}/>
+          <CommentCreate forumId={forumId} />
         </SessionProvider>
 
         <div className="flex justify-between mt-5">
@@ -74,9 +74,11 @@ export default async function Forum(props: {
         </div>
 
         <div className="mt-5">
-          {comments.map((data, i) => (
-            <Comment key={data.id} data={data} />
-          ))}
+          <SessionProvider>
+            {comments.map((data, i) => (
+              <Comment key={data.id} data={data} />
+            ))}
+          </SessionProvider>
         </div>
       </div>
     </div>

@@ -35,6 +35,7 @@ export default function CommentCreate({ forumId }: { forumId: string }) {
 
       if (!response.ok) {
         setError(response.statusText);
+        setSuccess("");
       } else {
         setSuccess("Comment created");
         setError("");

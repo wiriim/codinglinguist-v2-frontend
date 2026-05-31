@@ -1,9 +1,54 @@
+"use client";
 import type { Comment } from "@/app/lib/definitions";
 import Image from "next/image";
 import Reply from "./Reply";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import clsx from "clsx";
+
+const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export default function Comment({ data }: { data: Comment }) {
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const { id, content, createdAt, _count, user, replies } = data;
+  const [showReplies, setShowReplies] = useState(false);
+  const [reply, setReply] = useState(false);
+  const [replyContent, setReplyContent] = useState(`@${user.username} `);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
+  async function handleReply() {
+    if (!session?.user) {
+      router.push("/login");
+    } else if (!replyContent) {
+      setError("Reply is empty");
+    } else {
+      const response = await fetch(`${backendServer}/comments/${id}/replies`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: replyContent,
+          userId: session!.user.id,
+        }),
+      });
+
+      if (!response.ok) {
+        setError(response.statusText);
+        setSuccess("");
+      } else {
+        setSuccess("Reply created");
+        setError("");
+        setShowReplies(true);
+        setReply(false);
+        router.refresh();
+      }
+    }
+  }
 
   return (
     <div>
@@ -28,18 +73,77 @@ export default function Comment({ data }: { data: Comment }) {
           </span>
           {_count.likes}
         </div>
-        <div className="flex gap-1 items-center text-[20px] cursor-pointer">
+        <button
+          onClick={() => {
+            reply ? setReply(false) : setReply(true);
+          }}
+          className="flex gap-1 items-center text-[18px] cursor-pointer"
+        >
           <span>
             <Image src="/comment.png" width={23} height={23} alt="like" />
           </span>
           Reply
-        </div>
+        </button>
+      </div>
+
+      {error && <div className="text-red-500 mt-1 ms-14">{error}</div>}
+      {success && <div className="text-green-500 mt-1 ms-14">{success}</div>}
+
+      <div className="flex flex-col">
+        {reply && (
+          <>
+            <input
+              value={replyContent}
+              onChange={(e) => setReplyContent(e.target.value)}
+              className="ms-14 bg-[#F3F3F3] rounded-[10px] my-3 p-3 w-[95%]"
+            ></input>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => {
+                  setReply(false);
+                  setError("");
+                  setReplyContent(`@${user.username} `);
+                }}
+                className="text-[16px] w-fit mt-1 rounded-[10px] border border-red-500 text-red-500 px-4 py-2 hover:bg-red-500 hover:text-white flex justify-center items-center cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReply}
+                className="text-[16px] w-fit mt-1 rounded-[10px] border border-[#DEDEDE] px-4 py-2 hover:bg-black hover:text-white flex justify-center items-center cursor-pointer"
+              >
+                Reply
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="ms-14 mt-4">
-        {replies.map((data, i) => (
-          <Reply key={data.id} data={data} />
-        ))}
+        {replies.length > 0 && (
+          <button
+            className="flex items-center mb-4 gap-2 cursor-pointer hover:bg-[#ebeaea] w-fit p-1 rounded-[10px]"
+            onClick={() => {
+              showReplies ? setShowReplies(false) : setShowReplies(true);
+            }}
+          >
+            Replies ({replies.length})
+            <Image
+              src="/right-arrow.png"
+              width={12}
+              height={12}
+              alt=""
+              className={clsx("object-contain", {
+                "rotate-90": !showReplies,
+                "-rotate-90": showReplies,
+              })}
+            />
+          </button>
+        )}
+        {showReplies &&
+          replies.map((data, i) => (
+            <Reply key={data.id} data={data} commentId={id} />
+          ))}
       </div>
     </div>
   );
