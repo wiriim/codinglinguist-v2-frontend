@@ -1,39 +1,35 @@
 export default function ForumFilter() {
   return (
-    <div className="border border-[#DEDEDE] rounded-[15px] p-8 my-8">
-      <div>
-        <div className="text-[20px]">Programming Languages</div>
-        <div className="flex flex-wrap gap-5 justify-around items-center p-2 bg-[#F3F3F3] rounded-[10px] my-3 text-[16px]">
-          <div className="cursor-pointer bg-white shadow-md rounded-[10px] px-5 py-1">
-            All
-          </div>
-          <div className="cursor-pointer">C</div>
-          <div className="cursor-pointer">Java</div>
-          <div className="cursor-pointer">Python</div>
-        </div>
+    <div className="flex w-full justify-between mt-4">
+      <div className="flex gap-4">
+        <button className="bg-[#E2E2E2] rounded-[10px] p-2 cursor-pointer">
+          New
+        </button>
+        <button className="rounded-[10px] p-2 hover:bg-[#E2E2E2] cursor-pointer">
+          Popular
+        </button>
       </div>
-      <div>
-        <div className="text-[20px]">Post Type</div>
-        <div className="flex flex-wrap gap-5 justify-around items-center p-3 bg-[#F3F3F3] rounded-[10px] my-3 text-[16px]">
-          <div className="cursor-pointer bg-white shadow-md rounded-[10px] px-5 py-1">
-            All
-          </div>
-          <div className="cursor-pointer">Error</div>
-          <div className="cursor-pointer">Question</div>
-          <div className="cursor-pointer">Other</div>
-          <div className="cursor-pointer">Guide</div>
-          <div className="cursor-pointer">Discussion</div>
+
+      <div className="flex gap-5">
+        <div className="flex items-center gap-2">
+          <label htmlFor="language">Language :</label>
+          <select name="language" id="language" defaultValue={"all"}>
+            <option value="all">All</option>
+            <option value="c">C</option>
+            <option value="java">Java</option>
+            <option value="python">Python</option>
+          </select>
         </div>
-      </div>
-      <div>
-        <div className="text-[20px]">Sort By</div>
-        <div className="flex flex-wrap gap-5 justify-around items-center p-3 bg-[#F3F3F3] rounded-[10px] my-3 text-[16px]">
-          <div className="cursor-pointer bg-white shadow-md rounded-[10px] px-5 py-1">
-            New
-          </div>
-          <div className="cursor-pointer">Old</div>
-          <div className="cursor-pointer">Most Popular</div>
-          <div className="cursor-pointer">Least Popular</div>
+        <div className="flex items-center gap-2">
+          <label htmlFor="type">Type :</label>
+          <select name="language" id="language" defaultValue={"all"}>
+            <option value="all">All</option>
+            <option value="guide">Guide</option>
+            <option value="error">Error</option>
+            <option value="discussion">Discussion</option>
+            <option value="question">Question</option>
+            <option value="other">Other</option>
+          </select>
         </div>
       </div>
     </div>
