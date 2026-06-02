@@ -1,9 +1,48 @@
+"use client";
 import Image from "next/image";
 import type { Forum } from "@/app/lib/definitions";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export default function ForumCard({ data }: { data: Forum }) {
-  const { id, user, createdAt, category, categoryType, title, _count } = data;
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { id, user, createdAt, category, categoryType, title, _count, likes } =
+    data;
+
+  const liked = likes.length > 0;
+
+  async function handleLike() {
+    if (!session?.user) {
+      router.push("/login");
+    } else {
+      const response = liked
+        ? await fetch(`${backendServer}/forums/${id}/dislike`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: session.user.id,
+            }),
+          })
+        : await fetch(`${backendServer}/forums/${id}/like`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: session.user.id,
+            }),
+          });
+
+      router.refresh();
+    }
+  }
+
   return (
     <Link
       href={`/forums/${id}`}
@@ -33,18 +72,46 @@ export default function ForumCard({ data }: { data: Forum }) {
 
       <div className="text-[28px] font-semibold mt-6">{title}</div>
       <div className="flex mt-5 gap-5">
-        <div className="flex gap-2 items-center text-[22px] cursor-pointer">
-          <span>
-            <Image src="/heart-empty.png" width={25} height={25} alt="like" />
-          </span>
-          {_count.likes}
-        </div>
-        <div className="flex gap-1 items-center text-[22px] cursor-pointer">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleLike();
+          }}
+          className="group flex gap-2 items-center text-[22px] relative cursor-pointer hover:text-red-500"
+        >
+          {liked ? (
+            <>
+              <div className="group-hover:bg-red-50 w-[45px] h-[45px] rounded-[100%] absolute z-0 -left-2.5"></div>
+              <Image src="/heart-fill.png" width={25} height={25} alt="like" className="z-1"/>
+            </>
+          ) : (
+            <>
+              <div className="group-hover:bg-red-50 w-[45px] h-[45px] rounded-[100%] absolute z-0 -left-2.5"></div>
+              <Image
+                src="/heart-empty.png"
+                width={25}
+                height={25}
+                alt="like"
+                className="group-hover:opacity-0"
+              />
+              <Image
+                src="/heart-empty-red.png"
+                width={25}
+                height={25}
+                alt="like"
+                className="absolute opacity-0 group-hover:opacity-100"
+              />
+            </>
+          )}
+
+          <span className="z-1">{_count.likes}</span>
+        </button>
+        <button className="flex gap-1 items-center text-[22px] cursor-pointer">
           <span>
             <Image src="/comment.png" width={31} height={31} alt="like" />
           </span>
           {_count.comments}
-        </div>
+        </button>
       </div>
     </Link>
   );

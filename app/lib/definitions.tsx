@@ -78,8 +78,16 @@ export type Forum = {
   user: User;
   category: Category;
   categoryType: CategoryType;
+  likes: ForumLike[];
   _count: { likes: number; comments: number };
 };
+
+export type ForumLike = {
+  forum: Forum;
+  forumId: number;
+  user: User;
+  userId: number;
+}
 
 export type Level = {
   id: number;

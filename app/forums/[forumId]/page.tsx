@@ -5,18 +5,28 @@ import CommentCreate from "@/app/ui/components/Forum/CommentCreate";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
+import ForumLike from "@/app/ui/components/Forum/ForumLike";
 
 const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Forum(props: {
   params: Promise<{ forumId: string }>;
 }) {
-  const session = auth();
+  const session = await auth();
   const params = await props.params;
   const forumId = params.forumId;
+
   const forum: Forum = await (
-    await fetch(`${backendServer}/forums/${forumId}`)
+    await fetch(`${backendServer}/forums/${forumId}`, {
+      headers: session?.user?.id
+        ? {
+            "x-user-id": session.user.id,
+          }
+        : {},
+    })
   ).json();
+
+  const liked = forum.likes.length > 0;
   const comments = forum.comments;
 
   return (
@@ -60,12 +70,9 @@ export default async function Forum(props: {
         <div className="mt-5 text-[24px]">{forum.content}</div>
 
         <div className="flex mt-7 gap-5">
-          <div className="flex gap-2 items-center text-[22px] cursor-pointer">
-            <span>
-              <Image src="/heart-empty.png" width={25} height={25} alt="like" />
-            </span>
-            {forum._count.likes}
-          </div>
+          <SessionProvider>
+            <ForumLike id={forumId} likes={forum._count.likes} liked={liked} />
+          </SessionProvider>
           <div className="flex gap-1 items-center text-[22px] cursor-pointer">
             <span>
               <Image src="/comment.png" width={31} height={31} alt="like" />
