@@ -1,6 +1,7 @@
 import { User } from "@/app/lib/definitions";
 import ForumCard from "@/app/ui/components/Forums/ForumCard";
 import Link from "next/link";
+import { SessionProvider } from "next-auth/react";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -55,9 +56,11 @@ export default async function Profile(props: {
       </div>
 
       <div className="w-[80vw]">
-        {forums.map((data, i) => (
-          <ForumCard key={data.id} data={data} />
-        ))}
+        <SessionProvider>
+          {forums.map((data, i) => (
+            <ForumCard key={data.id} data={data} />
+          ))}
+        </SessionProvider>
       </div>
     </div>
   );

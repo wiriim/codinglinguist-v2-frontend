@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import type { Reply } from "@/app/lib/definitions";
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
@@ -91,9 +92,9 @@ export default function Reply({
       <div className="flex gap-4 items-center">
         <div className="min-w-[40px] h-[40px] rounded-[100%] bg-[#E9E9E3]"></div>
         <div className="flex gap-1 items-center w-[90%] text-[20px]">
-          <div className="cursor-pointer w-fit hover:underline">
+          <Link href={`/profile/${user.username}`} className="cursor-pointer w-fit hover:underline">
             {user.username}
-          </div>
+          </Link>
           <div className="text-[16px] text-[#918D8D]">
             • {new Date(createdAt).toLocaleDateString("en-US")}
           </div>

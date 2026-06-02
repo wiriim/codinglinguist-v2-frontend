@@ -49,9 +49,9 @@ export default async function Forum(props: {
         <div className="flex gap-4 items-center">
           <div className="min-w-[70px] h-[70px] rounded-[100%] bg-[#E9E9E3]"></div>
           <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-            <div className="cursor-pointer w-fit hover:underline">
+            <Link href={`/profile/${forum.user.username}`} className="cursor-pointer w-fit hover:underline">
               {forum.user.username}
-            </div>
+            </Link>
             <div className="text-[16px] text-[#918D8D]">
               {new Date(forum.createdAt).toLocaleDateString("en-US")}
             </div>
