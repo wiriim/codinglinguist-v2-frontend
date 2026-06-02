@@ -52,9 +52,9 @@ export default function ForumCard({ data }: { data: Forum }) {
       <div className="flex gap-5 justify-between items-center">
         <div className="min-w-[65px] h-[65px] rounded-[100%] bg-[#E9E9E3]"></div>
         <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-          <Link href={`/profile/${user.username}`} className="cursor-pointer w-fit hover:underline">
+          <div className="cursor-pointer w-fit">
             {user.username}
-          </Link>
+          </div>
           <div className="text-[16px] text-[#918D8D]">
             {new Date(createdAt).toLocaleDateString("en-US")}
           </div>

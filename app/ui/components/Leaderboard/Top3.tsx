@@ -1,5 +1,6 @@
 import { User } from "@/app/lib/definitions";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function Top3({ users }: { users: User[] }) {
   return (
@@ -37,7 +38,7 @@ export default function Top3({ users }: { users: User[] }) {
             )}
           </div>
           <div className="bg-[#E9E9E3] -mt-15 ml-10 rounded-[100%] w-[130px] h-[130px] z-1"></div>
-          <div className="text-[24px] ml-15 mt-3">{user.username}</div>
+          <Link href={`/profile/${user.username}`} className="text-[24px] ml-15 mt-3 hover:underline w-fit">{user.username}</Link>
           <div className="text-[24px] ml-15 mt-3">{user.point} Points</div>
         </div>
       ))}
