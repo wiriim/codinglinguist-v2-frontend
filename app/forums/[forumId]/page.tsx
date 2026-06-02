@@ -26,7 +26,7 @@ export default async function Forum(props: {
     })
   ).json();
 
-  const liked = forum.likes.length > 0;
+  const liked = forum.likes && forum.likes.length > 0;
   const comments = forum.comments;
 
   return (

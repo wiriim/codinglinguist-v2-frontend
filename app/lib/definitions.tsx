@@ -53,6 +53,14 @@ export type Reply = {
   createdAt: string;
   _count: { likes: number };
   user: User;
+  likes: ReplyLike[];
+};
+
+export type ReplyLike = {
+  userId: number;
+  user: User;
+  replyId: number;
+  reply: Comment;
 };
 
 export type Comment = {
@@ -64,6 +72,14 @@ export type Comment = {
   _count: { likes: number };
   replies: Reply[];
   user: User;
+  likes: CommentLike[];
+};
+
+export type CommentLike = {
+  userId: number;
+  user: User;
+  commentId: number;
+  comment: Comment;
 };
 
 export type Forum = {
@@ -87,7 +103,7 @@ export type ForumLike = {
   forumId: number;
   user: User;
   userId: number;
-}
+};
 
 export type Level = {
   id: number;

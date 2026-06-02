@@ -7,16 +7,24 @@ import { useState } from "react";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
-export default function Reply({ data, commentId }: { data: Reply, commentId: number }) {
+export default function Reply({
+  data,
+  commentId,
+}: {
+  data: Reply;
+  commentId: number;
+}) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const { id, content, createdAt, _count, user } = data;
+  const { id, content, createdAt, _count, user, likes } = data;
 
   const [reply, setReply] = useState(false);
   const [replyContent, setReplyContent] = useState(`@${user.username} `);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+
+  const liked = likes && likes.length > 0;
 
   async function handleReply() {
     if (!session?.user) {
@@ -24,16 +32,19 @@ export default function Reply({ data, commentId }: { data: Reply, commentId: num
     } else if (!replyContent) {
       setError("Reply is empty");
     } else {
-      const response = await fetch(`${backendServer}/comments/${commentId}/replies`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: replyContent,
-          userId: session!.user.id,
-        }),
-      });
+      const response = await fetch(
+        `${backendServer}/comments/${commentId}/replies`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: replyContent,
+            userId: session!.user.id,
+          }),
+        }
+      );
 
       if (!response.ok) {
         setError(response.statusText);
@@ -44,6 +55,34 @@ export default function Reply({ data, commentId }: { data: Reply, commentId: num
         setReply(false);
         router.refresh();
       }
+    }
+  }
+
+  async function handleLike() {
+    if (!session?.user) {
+      router.push("/login");
+    } else {
+      const response = liked
+        ? await fetch(`${backendServer}/replies/${id}/dislike`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: session.user.id,
+            }),
+          })
+        : await fetch(`${backendServer}/replies/${id}/like`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: session.user.id,
+            }),
+          });
+
+      router.refresh();
     }
   }
 
@@ -64,12 +103,46 @@ export default function Reply({ data, commentId }: { data: Reply, commentId: num
       <div className="text-[20px] ms-14 mt-3">{content}</div>
 
       <div className="flex ms-14 mt-3 gap-5">
-        <div className="flex gap-2 items-center text-[20px] cursor-pointer">
-          <span>
-            <Image src="/heart-empty.png" width={20} height={20} alt="like" />
-          </span>
-          {_count.likes}
-        </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleLike();
+          }}
+          className="group flex gap-2 items-center text-[20px] relative cursor-pointer hover:text-red-500"
+        >
+          {liked ? (
+            <>
+              <div className="group-hover:bg-red-50 w-[35px] h-[35px] rounded-[100%] absolute z-0 -left-2"></div>
+              <Image
+                src="/heart-fill.png"
+                width={20}
+                height={20}
+                alt="like"
+                className="z-1 object-contain"
+              />
+            </>
+          ) : (
+            <>
+              <div className="group-hover:bg-red-50 w-[35px] h-[35px] rounded-[100%] absolute z-0 -left-2"></div>
+              <Image
+                src="/heart-empty.png"
+                width={20}
+                height={20}
+                alt="like"
+                className="group-hover:opacity-0"
+              />
+              <Image
+                src="/heart-empty-red.png"
+                width={20}
+                height={20}
+                alt="like"
+                className="absolute opacity-0 group-hover:opacity-100"
+              />
+            </>
+          )}
+
+          <span className="z-1">{_count.likes}</span>
+        </button>
         <button
           onClick={() => {
             reply ? setReply(false) : setReply(true);

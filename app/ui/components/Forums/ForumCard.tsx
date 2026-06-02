@@ -13,7 +13,7 @@ export default function ForumCard({ data }: { data: Forum }) {
   const { id, user, createdAt, category, categoryType, title, _count, likes } =
     data;
 
-  const liked = likes.length > 0;
+  const liked = likes && likes.length > 0;
 
   async function handleLike() {
     if (!session?.user) {
