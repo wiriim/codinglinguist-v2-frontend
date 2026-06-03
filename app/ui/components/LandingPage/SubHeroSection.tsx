@@ -27,13 +27,13 @@ export default function SubHeroSection() {
         initial="offscreen"
         whileInView="onscreen"
         viewport={{ once: true }}
-        className="flex flex-col bg-white items-center rounded-[45px] w-full"
+        className="flex flex-col bg-white items-center rounded-[25px] lg:rounded-[45px] w-full"
       >
         <div className="overflow-hidden">
           <SubHeroTitle />
         </div>
 
-        <div className="flex flex-wrap justify-center gap-10">
+        <div className="flex flex-wrap justify-center gap-10 w-full">
           {cardDatas.map((data, i) => (
             <SubHeroCard key={i} data={data} />
           ))}

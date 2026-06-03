@@ -40,7 +40,7 @@ export default function CTATwo() {
       viewport={{ once: true }}
       className="w-full flex flex-col bg-white items-center text-white py-60"
     >
-      <div className="h-[1000px] w-[80vw] flex flex-col items-center relative">
+      <div className="h-[800px] lg:h-[1000px] w-[80vw] flex flex-col items-center relative">
         <Image
           src="/abstract-image-2-us.jpg"
           fill
@@ -53,11 +53,11 @@ export default function CTATwo() {
           initial="offscreen"
           whileInView="onscreen"
           viewport={{once: true}}
-          className="absolute text-[80px] font-semibold top-80 max-w-[800px] text-center"
+          className="absolute text-[32px] lg:text-[80px] font-semibold top-80 max-w-[800px] text-center"
         >
           Ready To Take Your First Step?
         </motion.div>
-        <div className="absolute top-150 rounded-[15px] border border-[#DEDEDE] w-[165px] h-[50px] flex justify-center items-center cursor-pointer hover:bg-[#DEDEDE] hover:text-black">
+        <div className="absolute top-130 lg:top-150 rounded-[15px] border border-[#DEDEDE] w-[165px] h-[50px] flex justify-center items-center cursor-pointer hover:bg-[#DEDEDE] hover:text-black">
           Sign Up
         </div>
       </div>

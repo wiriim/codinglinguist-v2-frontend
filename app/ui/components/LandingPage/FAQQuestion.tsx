@@ -52,7 +52,7 @@ export default function FAQQuestion({ data }: { data: FAQData }) {
         initial="offscreen"
         whileInView="onscreen"
         viewport={{ once: true }}
-        className="text-[2rem] flex justify-between cursor-pointer"
+        className="text-[1.4rem] lg:text-[2rem] flex justify-between cursor-pointer"
       >
         {question}
         <span className="w-5">

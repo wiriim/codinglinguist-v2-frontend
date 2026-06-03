@@ -23,7 +23,7 @@ export default function SubHeroTitle() {
       initial="offscreen"
       whileInView="onscreen"
       viewport={{once: true}}
-      className="text-[80px] max-w-[844px] text-center mt-15 mb-20"
+      className="text-[56px] lg:text-[80px] max-w-[844px] text-center mt-15 mb-10 lg:mb-20"
     >
       <span>Improve While Having Fun</span>
     </motion.div>

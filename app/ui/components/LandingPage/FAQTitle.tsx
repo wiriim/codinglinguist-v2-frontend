@@ -24,7 +24,7 @@ export default function FAQTitle() {
       initial="offscreen"
       whileInView="onscreen"
       viewport={{ once: true }}
-      className="text-[80px] max-w-[844px] text-center mt-30 mb-50"
+      className="text-[64px] lg:text-[80px] max-w-[844px] text-center mt-30 mb-50"
     >
       <span>Frequently Asked Questions</span>
     </motion.div>

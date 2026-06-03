@@ -27,13 +27,13 @@ export default function SubHeroCard({ data }: { data: CardData }) {
       whileInView="onscreen"
       viewport={{ once: true }}
       className={clsx(
-        "w-[521px] h-[595px] bg-[#F1F1F1] rounded-[30px] p-8 flex flex-col justify-between",
+        "w-[321px] h-[395px] lg:w-[521px] lg:h-[595px] bg-[#F1F1F1] rounded-[30px] p-8 flex flex-col justify-between",
         {
-          "mt-40": number == "01" || number == "03",
+          "lg:mt-40": number == "01" || number == "03",
         }
       )}
     >
-      <div className="text-[32px] max-w-[300px]">{title}</div>
+      <div className="text-[22px] lg:text-[32px] max-w-[300px]">{title}</div>
       <div className="relative w-full h-[268px] flex flex-col justify-end">
         <Image
           src={image}
@@ -43,18 +43,18 @@ export default function SubHeroCard({ data }: { data: CardData }) {
           className="rounded-[30px] absolute"
         />
         <span
-          className={clsx("absolute text-white text-[96px]", {
-            "top-0 left-5": number == "01",
-            "bottom-0 left-5": number == "02",
-            "top-5 left-5": number == "03",
+          className={clsx("absolute text-white text-[24px] lg:text-[96px]", {
+            "bottom-25 lg:top-0 left-5": number == "01",
+            "bottom-2 lg:bottom-0 left-5": number == "02",
+            "bottom-16 lg:top-5 left-5": number == "03",
           })}
         >
           {number}
         </span>
         <span
-          className={clsx("absolute text-white leading-7 text-[24px] ", {
+          className={clsx("absolute text-white leading-7 text-[16px] lg:text-[24px] ", {
             "bottom-1 right-5": number == "01",
-            "-top-4 left-5 max-w-[160px]": number == "02",
+            "bottom-25 lg:-top-4 left-5 lg:max-w-[160px]": number == "02",
             "top-35 left-5 max-w-[207px]": number == "03",
           })}
         >
