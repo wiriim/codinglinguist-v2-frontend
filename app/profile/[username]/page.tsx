@@ -2,6 +2,8 @@ import { User } from "@/app/lib/definitions";
 import ForumCard from "@/app/ui/components/Forums/ForumCard";
 import Link from "next/link";
 import { SessionProvider } from "next-auth/react";
+import Image from "next/image";
+import EditProfile from "@/app/ui/components/Profile/EditProfile";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -27,16 +29,19 @@ export default async function Profile(props: {
 
   return (
     <div className="my-8 flex flex-col items-center">
-      <div className="rounded-[10px] border border-[#DEDEDE] min-h-[560px] w-[80vw]">
+      <div className="rounded-[10px] border border-[#DEDEDE] min-h-[560px] w-[80vw] relative">
         <div className="bg-cyan-700 h-[220px] rounded-t-[10px] w-full"></div>
         <div className="-mt-20 flex items-center">
           <div className="bg-[#D9D9D9] h-[3px] flex-1 max-w-[100px]"></div>
           <div className="rounded-[100%] bg-[#E9E9E3] min-w-[160px] h-[160px]"></div>
           <div className="bg-[#D9D9D9] h-[3px]  flex-1"></div>
         </div>
+
+        <EditProfile user={user}/>
+
         <h1 className="text-[36px] ml-25 my-5">{username}</h1>
         <h1 className="text-[24px] text-[#474747] ml-25 my-5">
-          Loving to learn stuff!
+          {user.bio}
         </h1>
       </div>
 

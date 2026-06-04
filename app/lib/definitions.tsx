@@ -33,6 +33,9 @@ export type User = {
   status: number;
   role: string;
   forums: Forum[];
+  background: string;
+  picture: string;
+  bio: string;
 };
 
 export type Category = {
