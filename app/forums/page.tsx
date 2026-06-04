@@ -25,7 +25,7 @@ export default async function Forums() {
     <div className="flex justify-center my-12">
       <div className="flex flex-col items-center gap-4 w-[80vw]">
         <ForumSearch />
-        <div className="w-2/3 mt-5">
+        <div className="w-[80vw] lg:w-[60vw] mt-5">
           <SessionProvider>
             <ForumCreate />
           </SessionProvider>

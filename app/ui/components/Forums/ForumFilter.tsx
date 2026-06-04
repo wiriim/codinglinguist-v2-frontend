@@ -1,7 +1,7 @@
 export default function ForumFilter() {
   return (
-    <div className="flex w-full justify-between mt-4">
-      <div className="flex gap-4">
+    <div className="flex flex-wrap gap-5 w-full justify-between mt-4">
+      <div className="flex flex-wrap gap-4">
         <button className="bg-[#E2E2E2] rounded-[10px] p-2 cursor-pointer">
           New
         </button>
@@ -10,7 +10,7 @@ export default function ForumFilter() {
         </button>
       </div>
 
-      <div className="flex gap-5">
+      <div className="flex flex-wrap gap-5">
         <div className="flex items-center gap-2">
           <label htmlFor="language">Language :</label>
           <select name="language" id="language" defaultValue={"all"}>

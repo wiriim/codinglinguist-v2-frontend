@@ -56,14 +56,14 @@ export default function ForumCreate() {
 
   return (
     <div className="flex flex-col border border-[#DEDEDE] rounded-[10px] min-h-[200px] p-8">
-      <div className="flex gap-5">
-        <div className="w-[60px] h-[60px] rounded-[100%] bg-[#E9E9E3]"></div>
+      <div className="flex flex-wrap justify-center gap-5">
+        <div className="min-w-[60px] h-[60px] rounded-[100%] bg-[#E9E9E3]"></div>
         <div
           className="w-[90%] min-h-[60px] rounded-[10px] bg-[#F3F3F3]"
           onFocus={handlePosting}
         >
           <input
-            className="w-full h-[60px] text-[24px] p-5 outline-0"
+            className="w-full h-[60px] lg:text-[24px] p-5 outline-0"
             name="title"
             placeholder="What's Up ?"
             required
@@ -86,7 +86,7 @@ export default function ForumCreate() {
         </div>
       </div>
       {error && <div className="text-red-500 mt-1 ms-20">{error}</div>}
-      <div className="flex justify-between mt-7">
+      <div className="flex flex-wrap gap-5 justify-between mt-7">
         <div className="flex gap-2 items-center text-[20px] ms-5 hover:bg-[#f3f3f3] p-2 rounded-[10px] cursor-pointer">
           <span>
             <Image src="/image-icon.png" width={20} height={20} alt="" />
@@ -94,7 +94,7 @@ export default function ForumCreate() {
           Image
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-2">
             <label htmlFor="language">Language :</label>
             <select

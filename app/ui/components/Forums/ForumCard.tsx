@@ -49,8 +49,8 @@ export default function ForumCard({ data }: { data: Forum }) {
       key={id}
       className="flex flex-col border border-[#DEDEDE] rounded-[10px] p-8 my-8 shadow cursor-pointer hover:scale-101 hover:shadow-lg transition delay-1"
     >
-      <div className="flex gap-5 justify-between items-center">
-        <div className="min-w-[65px] h-[65px] rounded-[100%] bg-[#E9E9E3]"></div>
+      <div className="sm:flex gap-5 justify-between items-center">
+        <div className="w-[65px] min-w-[65px] h-[65px] rounded-[100%] bg-[#E9E9E3]"></div>
         <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
           <div className="cursor-pointer w-fit">
             {user.username}
