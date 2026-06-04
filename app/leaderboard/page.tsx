@@ -27,7 +27,7 @@ export default async function Leaderboard() {
           <div
             key={user.id}
             className={clsx(
-              "border border-2 w-full h-[108px] rounded-[10px] flex justify-between items-center p-8 text-[36px]",
+              "border border-2 w-full h-[108px] rounded-[10px] flex justify-between items-center p-3 md:p-8 text-[24px] lg:text-[36px]",
               {
                 "border-[#C8B912] border-3": i == 0,
                 "border-[#717171] border-3": i == 1,
@@ -49,8 +49,8 @@ export default async function Leaderboard() {
               href={`/profile/${user.username}`}
               className="flex gap-2 items-center cursor-pointer hover:underline"
             >
-              <div className="rounded-[100%] bg-[#E9E9E3] w-[65px] h-[65px]"></div>{" "}
-              {user.username}
+              <div className="rounded-[100%] bg-[#E9E9E3] w-[45px] h-[45px] lg:w-[65px] lg:h-[65px]"></div>{" "}
+              <span className="max-w-[10ch] text-ellipsis overflow-hidden">{user.username}</span>
             </Link>
             <h2>{user.point}</h2>
           </div>
