@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import type { Forum } from "@/app/lib/definitions";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
@@ -51,6 +52,8 @@ export default function ForumCreate() {
       if (!response.ok) {
         setError(response.statusText);
       }
+      const forum: Forum = await response.json();
+      router.push(`/forums/${forum.id}`);
     }
   }
 
