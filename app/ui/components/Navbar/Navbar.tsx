@@ -41,8 +41,17 @@ export default async function Navbar() {
             <div className="flex items-center gap-5">
               <Link
                 href={`/profile/${session.user.username}`}
-                className="w-[60px] h-[60px] rounded-[100%] bg-[#e9e9e3]"
-              ></Link>
+                className="w-[60px] h-[60px] rounded-[100%] bg-[#e9e9e3] relative"
+              >
+                {session.user.picture && (
+                  <Image
+                    src={session.user.picture}
+                    fill
+                    alt="profile picture"
+                    className="rounded-[100%] bg-[#E9E9E3] w-[60px] h-[60px] object-cover"
+                  />
+                )}
+              </Link>
               <form
                 action={async () => {
                   "use server";

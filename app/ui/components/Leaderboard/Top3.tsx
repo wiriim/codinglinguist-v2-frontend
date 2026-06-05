@@ -1,6 +1,7 @@
 import { User } from "@/app/lib/definitions";
 import clsx from "clsx";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Top3({ users }: { users: User[] }) {
   return (
@@ -22,23 +23,43 @@ export default function Top3({ users }: { users: User[] }) {
           >
             {i == 0 ? (
               <>
-                <h1 className="text-[96px] italic absolute right-20 -top-5">1</h1>
+                <h1 className="text-[96px] italic absolute right-20 -top-5">
+                  1
+                </h1>
                 <h1 className="text-[36px] absolute right-8">st</h1>
               </>
             ) : i == 1 ? (
-                <>
-                <h1 className="text-[96px] italic absolute right-20 -top-5">2</h1>
+              <>
+                <h1 className="text-[96px] italic absolute right-20 -top-5">
+                  2
+                </h1>
                 <h1 className="text-[36px] absolute right-4">nd</h1>
               </>
             ) : (
-                <>
-                <h1 className="text-[96px] italic absolute right-20 -top-5">3</h1>
+              <>
+                <h1 className="text-[96px] italic absolute right-20 -top-5">
+                  3
+                </h1>
                 <h1 className="text-[36px] absolute right-8">rd</h1>
               </>
             )}
           </div>
-          <div className="bg-[#E9E9E3] -mt-15 ml-10 rounded-[100%] w-[130px] h-[130px] z-1"></div>
-          <Link href={`/profile/${user.username}`} className="text-[24px] ml-15 mt-3 hover:underline w-fit">{user.username}</Link>
+          <div className="bg-[#E9E9E3] -mt-15 ml-10 rounded-[100%] w-[130px] h-[130px] z-1 relative">
+            {user.picture && (
+              <Image
+                src={user.picture}
+                fill
+                alt="profile picture"
+                className="rounded-[100%] bg-[#E9E9E3] w-[130px] h-[130px] object-cover"
+              />
+            )}
+          </div>
+          <Link
+            href={`/profile/${user.username}`}
+            className="text-[24px] ml-15 mt-3 hover:underline w-fit"
+          >
+            {user.username}
+          </Link>
           <div className="text-[24px] ml-15 mt-3">{user.point} Points</div>
         </div>
       ))}

@@ -50,11 +50,18 @@ export default function ForumCard({ data }: { data: Forum }) {
       className="flex flex-col border border-[#DEDEDE] rounded-[10px] p-8 my-8 shadow cursor-pointer hover:scale-101 hover:shadow-lg transition delay-1"
     >
       <div className="sm:flex gap-5 justify-between items-center">
-        <div className="w-[65px] min-w-[65px] h-[65px] rounded-[100%] bg-[#E9E9E3]"></div>
+        <div className="w-[65px] min-w-[65px] h-[65px] rounded-[100%] bg-[#E9E9E3] relative">
+          {user.picture && (
+            <Image
+              src={user.picture}
+              fill
+              alt="profile picture"
+              className="rounded-[100%] bg-[#E9E9E3] w-[65px] h-[65px] object-cover"
+            />
+          )}
+        </div>
         <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-          <div className="cursor-pointer w-fit">
-            {user.username}
-          </div>
+          <div className="cursor-pointer w-fit max-w-[10ch] text-ellipsis overflow-hidden">{user.username}</div>
           <div className="text-[16px] text-[#918D8D]">
             {new Date(createdAt).toLocaleDateString("en-US")}
           </div>
@@ -82,7 +89,13 @@ export default function ForumCard({ data }: { data: Forum }) {
           {liked ? (
             <>
               <div className="group-hover:bg-red-50 w-[45px] h-[45px] rounded-[100%] absolute z-0 -left-2.5"></div>
-              <Image src="/heart-fill.png" width={25} height={25} alt="like" className="z-1"/>
+              <Image
+                src="/heart-fill.png"
+                width={25}
+                height={25}
+                alt="like"
+                className="z-1"
+              />
             </>
           ) : (
             <>

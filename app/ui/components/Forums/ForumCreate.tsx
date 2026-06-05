@@ -60,7 +60,16 @@ export default function ForumCreate() {
   return (
     <div className="flex flex-col border border-[#DEDEDE] rounded-[10px] min-h-[200px] p-8">
       <div className="flex flex-wrap justify-center gap-5">
-        <div className="min-w-[60px] h-[60px] rounded-[100%] bg-[#E9E9E3]"></div>
+        <div className="min-w-[60px] h-[60px] rounded-[100%] bg-[#E9E9E3] relative">
+          {session?.user.picture && (
+            <Image
+              src={session.user.picture}
+              fill
+              alt="profile picture"
+              className="rounded-[100%] bg-[#E9E9E3] w-[60px] h-[60px] object-cover"
+            />
+          )}
+        </div>
         <div
           className="w-[90%] min-h-[60px] rounded-[10px] bg-[#F3F3F3]"
           onFocus={handlePosting}

@@ -12,23 +12,32 @@ declare module "next-auth" {
       id: string;
       username: string;
       point: number;
+      picture: string;
     } & DefaultSession["user"];
   }
   interface User {
     username?: string;
     point?: number;
+    picture?: string;
   }
 }
 
 const backendServer = process.env.BACKEND_SERVER;
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && session?.user) {
+        return {
+          ...token,
+          ...session.user,
+        };
+      }
       if (user) {
         token.id = user.id;
         token.point = user.point;
         token.username = user.username;
+        token.picture = user.picture;
       }
       return token;
     },
@@ -36,6 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.id = token.id as string;
       session.user.username = token.username as string;
       session.user.point = token.point as number;
+      session.user.picture = token.picture as string;
       return session;
     },
   },

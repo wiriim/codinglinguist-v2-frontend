@@ -49,8 +49,19 @@ export default async function Leaderboard() {
               href={`/profile/${user.username}`}
               className="flex gap-2 items-center cursor-pointer hover:underline"
             >
-              <div className="rounded-[100%] bg-[#E9E9E3] w-[45px] h-[45px] lg:w-[65px] lg:h-[65px]"></div>{" "}
-              <span className="max-w-[10ch] text-ellipsis overflow-hidden">{user.username}</span>
+              <div className="rounded-[100%] bg-[#E9E9E3] w-[45px] h-[45px] lg:w-[65px] lg:h-[65px] relative">
+                {user.picture && (
+                  <Image
+                    src={user.picture}
+                    fill
+                    alt="profile picture"
+                    className="rounded-[100%] bg-[#E9E9E3] w-[45px] h-[45px] object-cover"
+                  />
+                )}
+              </div>
+              <span className="max-w-[10ch] text-ellipsis overflow-hidden">
+                {user.username}
+              </span>
             </Link>
             <h2>{user.point}</h2>
           </div>

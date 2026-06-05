@@ -84,9 +84,21 @@ export default function Comment({ data }: { data: Comment }) {
   return (
     <div>
       <div className="flex gap-4 items-center mt-5">
-        <div className="min-w-[40px] h-[40px] rounded-[100%] bg-[#E9E9E3]"></div>
+        <div className="min-w-[40px] h-[40px] rounded-[100%] bg-[#E9E9E3] relative">
+          {user.picture && (
+            <Image
+              src={user.picture}
+              fill
+              alt="profile picture"
+              className="rounded-[100%] bg-[#E9E9E3] w-[40px] h-[40px] object-cover"
+            />
+          )}
+        </div>
         <div className="flex gap-1 items-center w-[90%] text-[20px]">
-          <Link href={`/profile/${user.username}`} className="cursor-pointer w-fit hover:underline">
+          <Link
+            href={`/profile/${user.username}`}
+            className="cursor-pointer w-fit hover:underline"
+          >
             {user.username}
           </Link>
           <div className="text-[16px] text-[#918D8D]">
@@ -99,45 +111,45 @@ export default function Comment({ data }: { data: Comment }) {
 
       <div className="flex ms-14 mt-3 gap-5">
         <button
-              onClick={(e) => {
-                e.preventDefault();
-                handleLike();
-              }}
-              className="group flex gap-2 items-center text-[20px] relative cursor-pointer hover:text-red-500"
-            >
-              {liked ? (
-                <>
-                  <div className="group-hover:bg-red-50 w-[35px] h-[35px] rounded-[100%] absolute z-0 -left-2"></div>
-                  <Image
-                    src="/heart-fill.png"
-                    width={20}
-                    height={20}
-                    alt="like"
-                    className="z-1 object-contain"
-                  />
-                </>
-              ) : (
-                <>
-                  <div className="group-hover:bg-red-50 w-[35px] h-[35px] rounded-[100%] absolute z-0 -left-2"></div>
-                  <Image
-                    src="/heart-empty.png"
-                    width={20}
-                    height={20}
-                    alt="like"
-                    className="group-hover:opacity-0"
-                  />
-                  <Image
-                    src="/heart-empty-red.png"
-                    width={20}
-                    height={20}
-                    alt="like"
-                    className="absolute opacity-0 group-hover:opacity-100"
-                  />
-                </>
-              )}
-        
-              <span className="z-1">{_count.likes}</span>
-            </button>
+          onClick={(e) => {
+            e.preventDefault();
+            handleLike();
+          }}
+          className="group flex gap-2 items-center text-[20px] relative cursor-pointer hover:text-red-500"
+        >
+          {liked ? (
+            <>
+              <div className="group-hover:bg-red-50 w-[35px] h-[35px] rounded-[100%] absolute z-0 -left-2"></div>
+              <Image
+                src="/heart-fill.png"
+                width={20}
+                height={20}
+                alt="like"
+                className="z-1 object-contain"
+              />
+            </>
+          ) : (
+            <>
+              <div className="group-hover:bg-red-50 w-[35px] h-[35px] rounded-[100%] absolute z-0 -left-2"></div>
+              <Image
+                src="/heart-empty.png"
+                width={20}
+                height={20}
+                alt="like"
+                className="group-hover:opacity-0"
+              />
+              <Image
+                src="/heart-empty-red.png"
+                width={20}
+                height={20}
+                alt="like"
+                className="absolute opacity-0 group-hover:opacity-100"
+              />
+            </>
+          )}
+
+          <span className="z-1">{_count.likes}</span>
+        </button>
         <button
           onClick={() => {
             reply ? setReply(false) : setReply(true);

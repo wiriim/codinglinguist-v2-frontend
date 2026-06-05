@@ -47,9 +47,21 @@ export default async function Forum(props: {
         </Link>
 
         <div className="flex gap-4 items-center">
-          <div className="min-w-[70px] h-[70px] rounded-[100%] bg-[#E9E9E3]"></div>
+          <div className="min-w-[70px] h-[70px] rounded-[100%] bg-[#E9E9E3] relative">
+            {forum.user.picture && (
+              <Image
+                src={forum.user.picture}
+                fill
+                alt="profile picture"
+                className="rounded-[100%] bg-[#E9E9E3] w-[70px] h-[70px] object-cover"
+              />
+            )}
+          </div>
           <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-            <Link href={`/profile/${forum.user.username}`} className="cursor-pointer w-fit hover:underline">
+            <Link
+              href={`/profile/${forum.user.username}`}
+              className="cursor-pointer w-fit hover:underline max-w-[13ch] text-ellipsis overflow-hidden"
+            >
               {forum.user.username}
             </Link>
             <div className="text-[16px] text-[#918D8D]">
@@ -85,7 +97,7 @@ export default async function Forum(props: {
           <CommentCreate forumId={forumId} />
         </SessionProvider>
 
-        <div className="flex justify-between mt-5">
+        <div className="flex justify-between mt-5 ">
           <div className="flex items-center gap-2">
             <label htmlFor="language">Sort by :</label>
             <select name="language" id="language" defaultValue={"new"}>

@@ -90,9 +90,21 @@ export default function Reply({
   return (
     <div className="my-3">
       <div className="flex gap-4 items-center">
-        <div className="min-w-[40px] h-[40px] rounded-[100%] bg-[#E9E9E3]"></div>
+        <div className="min-w-[40px] h-[40px] rounded-[100%] bg-[#E9E9E3] relative">
+          {user.picture && (
+            <Image
+              src={user.picture}
+              fill
+              alt="profile picture"
+              className="rounded-[100%] bg-[#E9E9E3] w-[40px] h-[40px] object-cover"
+            />
+          )}
+        </div>
         <div className="flex gap-1 items-center w-[90%] text-[20px]">
-          <Link href={`/profile/${user.username}`} className="cursor-pointer w-fit hover:underline">
+          <Link
+            href={`/profile/${user.username}`}
+            className="cursor-pointer w-fit hover:underline"
+          >
             {user.username}
           </Link>
           <div className="text-[16px] text-[#918D8D]">

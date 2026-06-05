@@ -55,7 +55,7 @@ export default function CommentCreate({ forumId }: { forumId: string }) {
       />
       <button
         onClick={handleComment}
-        className="text-[20px] w-fit mt-2 ms-auto -mb-13 rounded-[10px] border border-[#DEDEDE] px-4 py-2 hover:bg-black hover:text-white flex justify-center items-center cursor-pointer"
+        className="text-[20px] w-fit mt-2 ms-auto rounded-[10px] border border-[#DEDEDE] px-4 py-2 hover:bg-black hover:text-white flex justify-center items-center cursor-pointer"
       >
         Comment
       </button>
