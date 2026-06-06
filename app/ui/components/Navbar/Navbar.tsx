@@ -21,18 +21,18 @@ export default async function Navbar() {
             <NavLink data={data} key={data.name} />
           ))}
         </div>
-        <div className="flex gap-12 text-[16px] absolute right-10">
+        <div className="flex gap-8 text-[16px] absolute right-10">
           {!session?.user ? (
             <>
               <Link
                 href={"/login"}
-                className="flex justify-center items-center cursor-pointer"
+                className="rounded-[15px] flex justify-center items-center cursor-pointer px-5 py-2 hover:outline hover:outline-[#DEDEDE]"
               >
                 Login
               </Link>
               <Link
                 href={"/signup"}
-                className="rounded-[15px] bg-black text-white px-5 py-2 flex justify-center items-center cursor-pointer"
+                className="rounded-[15px] bg-black text-white px-5 py-2 flex justify-center items-center cursor-pointer hover:bg-[#3E50DA] hover:text-white transition duration-200"
               >
                 Start Now
               </Link>
@@ -80,13 +80,13 @@ export default async function Navbar() {
             <>
               <Link
                 href={"/login"}
-                className="flex justify-center items-center cursor-pointer"
+                className="rounded-[15px] flex justify-center items-center cursor-pointer px-5 py-2 hover:outline hover:outline-[#DEDEDE]"
               >
                 Login
               </Link>
               <Link
                 href={"/signup"}
-                className="rounded-[15px] bg-black text-white px-5 py-2 flex justify-center items-center cursor-pointer"
+                className="rounded-[15px] bg-black text-white px-5 py-2 flex justify-center items-center cursor-pointer hover:bg-[#3E50DA] hover:text-white transition duration-200"
               >
                 Start Now
               </Link>
