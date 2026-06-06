@@ -3,36 +3,59 @@ import { useState } from "react";
 import Image from "next/image";
 import { navbarDatas } from "@/app/lib/navbar-data";
 import Link from "next/link";
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
 export default function DropDown() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   return (
     <div className="absolute left-10">
       {open ? (
-        <Image
-          src={"/close.png"}
-          width={30}
-          height={30}
-          alt="close nav button"
-          className="object-contain ms-1.5"
-          onClick={() => setOpen(false)}
-        />
+        <div className="hover:outline hover:outline-[#b3b3b3] rounded-[5px] p-2">
+          <Image
+            src={"/close.png"}
+            width={30}
+            height={30}
+            alt="close nav button"
+            className="object-contain"
+            onClick={() => setOpen(false)}
+          />
+        </div>
       ) : (
-        <Image
-          src={"/menu-bar.png"}
-          width={45}
-          height={45}
-          alt="open nav button"
-          className="object-contain"
-          onClick={() => setOpen(true)}
-        />
+        <div className="hover:outline hover:outline-[#b3b3b3] rounded-[5px]">
+          <Image
+            src={"/menu-bar.png"}
+            width={45}
+            height={45}
+            alt="open nav button"
+            className="object-contain"
+            onClick={() => setOpen(true)}
+          />
+        </div>
       )}
 
       {open && (
-        <div className="bg-[#ffffff] w-[110vw] h-100 absolute border -left-12 p-12 mt-5 flex flex-col gap-8">
-          <Link className="hover:underline" href={"/"}>CodingLinguist</Link>
+        <div className="bg-[#ffffff] w-[110vw] h-105 absolute border -left-12 p-10 mt-5 flex flex-col gap-8">
+          <Link
+            className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {
+              "bg-[#cacaca] rounded-[10px]": pathname.includes("/dashboard"),
+            })}
+            href={"/"}
+          >
+            CodingLinguist
+          </Link>
           {navbarDatas.map((data, i) => (
-            <Link className="hover:underline" href={data.route} key={data.name}>
+            <Link
+              className={clsx(
+                "p-2 hover:bg-[#e7e6e6] rounded-[10px] max-w-[90%]",
+                {
+                  "bg-[#cacaca]": pathname.includes(data.route),
+                }
+              )}
+              href={data.route}
+              key={data.name}
+            >
               {data.name}
             </Link>
           ))}
