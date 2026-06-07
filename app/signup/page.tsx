@@ -73,6 +73,7 @@ export default function Signup() {
                 id="username"
                 name="username"
                 className="border border-[#D6D6D6] rounded-[10px] h-[36px] mt-2 w-full p-2"
+                required
               />
             </div>
             <div className="my-6">
@@ -84,6 +85,7 @@ export default function Signup() {
                 id="email"
                 name="email"
                 className="border border-[#D6D6D6] rounded-[10px] h-[36px] mt-2 w-full p-2"
+                required
               />
             </div>
             <div className="my-6">
@@ -95,6 +97,7 @@ export default function Signup() {
                 id="password"
                 name="password"
                 className="border border-[#D6D6D6] rounded-[10px] h-[36px] mt-2 w-full p-2"
+                required
               />
             </div>
             <div className="my-6">
@@ -106,6 +109,7 @@ export default function Signup() {
                 id="passwordconf"
                 name="passwordconf"
                 className="border border-[#D6D6D6] rounded-[10px] h-[36px] mt-2 w-full p-2"
+                required
               />
             </div>
             <button className="bg-black text-white w-full rounded-[10px] mt-6 text-center p-2 cursor-pointer">

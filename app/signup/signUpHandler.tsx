@@ -6,9 +6,10 @@ export async function handler(formData: FormData) {
   if (formData.get("password") != formData.get("passwordconf")) {
     return {
       success: false,
-      msg: `${formData.get("password")} != ${formData.get("passwordconf")}`,
+      msg: "Passwords didn't match",
     };
   }
+
   const response = await fetch(`${backendServer}/users`, {
     method: "POST",
     headers: {
@@ -22,6 +23,10 @@ export async function handler(formData: FormData) {
   });
 
   if (!response.ok) {
+    if (response.status == 400) {
+      const result = await response.json();
+      return { success: false, msg: result };
+    }
     return { success: false, msg: response.statusText };
   }
   return { success: true, msg: "User created" };

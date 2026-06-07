@@ -1,10 +1,6 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { PassThrough } from "stream";
-import { signInSchema } from "./lib/zod";
 import { ZodError } from "zod";
-import { JWT } from "next-auth/jwt";
-import { User } from "./app/lib/definitions";
 
 declare module "next-auth" {
   interface Session {
@@ -54,8 +50,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   },
   providers: [
     Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
       credentials: {
         email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },
@@ -66,14 +60,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         }
         try {
           let user = null;
-          // const { email, password } = await signInSchema.parseAsync(
-          //   credentials
-          // );
-          // console.log("authorizing...");
-          // console.log(email, password);
-
-          // logic to salt and hash password
-          // const pwHash = saltAndHashPassword(credentials.password);
 
           const response = await fetch(`${backendServer}/users/login`, {
             method: "POST",

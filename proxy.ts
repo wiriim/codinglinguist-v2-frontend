@@ -8,7 +8,7 @@ export default async function customProxy(request: NextRequest) {
   if (session?.user && request.nextUrl.pathname == "/") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-  if (session?.user) {
+  if (!session?.user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -16,5 +16,5 @@ export default async function customProxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/dashboard/"],
+  matcher: ["/dashboard/:path*"],
 };
