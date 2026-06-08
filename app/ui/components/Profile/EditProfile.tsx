@@ -15,7 +15,7 @@ export default function EditProfile({ user }: { user: User }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [username, setUsername] = useState(user.username);
-  const [bio, setBio] = useState(user.bio);
+  const [bio, setBio] = useState(user.bio || "");
 
   const openDialog = () => {
     dialogRef.current?.showModal(); // Opens the native modal backdrop

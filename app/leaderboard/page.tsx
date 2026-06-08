@@ -15,7 +15,7 @@ export default async function Leaderboard() {
 
   return (
     <div className="flex flex-col items-center">
-      <Top3 users={top3Users} />
+      {top3Users.length > 0 && <Top3 users={top3Users} />}
 
       <div className="flex flex-col gap-3 w-[80vw] min-h-[400px] my-8 relative">
         <div className="flex justify-between w-full items-start text-[32px]">
