@@ -93,6 +93,7 @@ export type Forum = {
   userId: number;
   categoryId: number;
   categoryTypeId: number;
+  image: string;
   comments: Comment[];
   user: User;
   category: Category;

@@ -17,6 +17,8 @@ export default function ForumCreate() {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("1");
   const [type, setType] = useState("1");
+  const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   function handlePosting(e: React.FocusEvent) {
     setPosting(true);
@@ -24,7 +26,17 @@ export default function ForumCreate() {
   function handleCancelPosting(e: React.MouseEvent) {
     setTitle("");
     setContent("");
+    setImage("");
     setPosting(false);
+  }
+
+  async function handleImageInput(e: React.ChangeEvent) {
+    setPosting(true);
+    const files = (e.target as HTMLInputElement).files;
+    if (files && files[0]) {
+      setImage(URL.createObjectURL(files[0]));
+      setImageFile(files[0]);
+    }
   }
 
   async function handlePublish(e: React.MouseEvent) {
@@ -35,18 +47,21 @@ export default function ForumCreate() {
     } else if (!content) {
       setError("Content is empty");
     } else {
+      const button = e.target as HTMLButtonElement;
+      button.disabled = true;
       const response = await fetch(`${backendServer}/forums`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          content,
-          userId: session.user.id,
-          categoryId: category,
-          categoryTypeId: type,
-        }),
+        body: (() => {
+          const data = new FormData();
+          data.append("title", title);
+          data.append("content", content);
+          data.append("userId", session.user.id);
+          data.append("email", session.user.email as string);
+          data.append("categoryId", category);
+          data.append("categoryTypeId", type);
+          data.append("image", imageFile as File);
+          return data;
+        })(),
       });
 
       if (!response.ok) {
@@ -93,17 +108,38 @@ export default function ForumCreate() {
                 onChange={(e) => setContent(e.target.value)}
                 value={content}
               ></textarea>
+
+              {image && (
+                <div className="w-full min-h-[120px] text-[18px] p-5 flex justify-center">
+                  <img
+                    src={image}
+                    alt="post image"
+                    className="max-h-[200px] object-contain"
+                  />
+                </div>
+              )}
             </>
           )}
         </div>
       </div>
       {error && <div className="text-red-500 mt-1 ms-20">{error}</div>}
       <div className="flex flex-wrap gap-5 justify-between mt-7">
-        <div className="flex gap-2 items-center text-[20px] ms-5 hover:bg-[#f3f3f3] p-2 rounded-[10px] cursor-pointer">
+        <div className="flex gap-2 items-center text-[20px] ms-5 hover:bg-[#f3f3f3] px-2 ps-4 py-2 rounded-[10px] cursor-pointer">
           <span>
             <Image src="/image-icon.png" width={20} height={20} alt="" />
           </span>
-          Image
+
+          <label htmlFor="image" className="cursor-pointer">
+            Image
+          </label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            accept=".png, .jpg"
+            className="w-0 opacity-0"
+            onChange={handleImageInput}
+          ></input>
         </div>
 
         <div className="flex flex-wrap gap-4">
@@ -138,19 +174,19 @@ export default function ForumCreate() {
         </div>
         <div className="flex gap-4">
           {posting && (
-            <div
+            <button
               onClick={handleCancelPosting}
               className="text-[20px] rounded-[10px] border border-red-500 text-red-500 px-4 py-2 hover:bg-red-500 hover:text-white flex justify-center items-center cursor-pointer"
             >
               Cancel
-            </div>
+            </button>
           )}
-          <div
+          <button
             onClick={handlePublish}
             className="text-[20px] rounded-[10px] border border-[#DEDEDE] px-4 py-2 hover:bg-black hover:text-white flex justify-center items-center cursor-pointer"
           >
             Publish
-          </div>
+          </button>
         </div>
       </div>
     </div>

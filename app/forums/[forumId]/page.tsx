@@ -26,6 +26,11 @@ export default async function Forum(props: {
     })
   ).json();
 
+  const trailingSpace = forum.image && forum.image.slice(-3) == "%20";
+  if (trailingSpace) {
+    forum.image = forum.image.slice(0, -3);
+  }
+
   const liked = forum.likes && forum.likes.length > 0;
   const comments = forum.comments;
 
@@ -80,6 +85,16 @@ export default async function Forum(props: {
         </div>
         <div className="mt-7 text-[32px] font-semibold">{forum.title}</div>
         <div className="mt-5 text-[24px]">{forum.content}</div>
+        {forum.image && (
+          <div className="w-[300px] h-[300px] relative">
+            <Image
+              src={forum.image}
+              fill
+              alt="post image"
+              className="object-contain"
+            />
+          </div>
+        )}
 
         <div className="flex mt-7 gap-5">
           <SessionProvider>
