@@ -10,17 +10,21 @@ export default async function Navbar() {
   return (
     <div className="mb-24">
       <div className="hidden lg:flex py-5 px-12 justify-center w-full items-center fixed top-0 bg-white z-50">
-        { session?.user ? <Link
-          href={"/dashboard"}
-          className="font-bold text-[32px] cursor-pointer absolute left-10"
-        >
-          CodingLinguist
-        </Link> : <Link
-          href={"/"}
-          className="font-bold text-[32px] cursor-pointer absolute left-10"
-        >
-          CodingLinguist
-        </Link>}
+        {session?.user ? (
+          <Link
+            href={"/dashboard"}
+            className="font-bold text-[32px] cursor-pointer absolute left-10"
+          >
+            CodingLinguist
+          </Link>
+        ) : (
+          <Link
+            href={"/"}
+            className="font-bold text-[32px] cursor-pointer absolute left-10"
+          >
+            CodingLinguist
+          </Link>
+        )}
         <div className="flex rounded-[15px] justify-evenly items-center text-[16px] bg-[#F1F1F1] w-2/5 h-[50px]">
           {navbarDatas.map((data, i) => (
             <NavLink data={data} key={data.name} />
@@ -79,7 +83,7 @@ export default async function Navbar() {
         </div>
       </div>
       <div className="flex lg:hidden py-5 px-5 justify-end w-full items-center bg-white z-50 fixed top-0">
-        <DropDown session={session}/>
+        <DropDown session={session} />
         <div className="flex gap-7 text-[16px]">
           {!session?.user ? (
             <>
@@ -100,8 +104,17 @@ export default async function Navbar() {
             <div className="flex items-center gap-5">
               <Link
                 href={`/profile/${session.user.username}`}
-                className="w-[60px] h-[60px] rounded-[100%] bg-[#e9e9e3]"
-              ></Link>
+                className="w-[60px] h-[60px] rounded-[100%] bg-[#e9e9e3] relative"
+              >
+                {session.user.picture && (
+                  <Image
+                    src={session.user.picture}
+                    fill
+                    alt="profile picture"
+                    className="rounded-[100%] bg-[#E9E9E3] w-[60px] h-[60px] object-cover"
+                  />
+                )}
+              </Link>
               <form
                 action={async () => {
                   "use server";
