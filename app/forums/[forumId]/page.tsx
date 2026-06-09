@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import ForumLike from "@/app/ui/components/Forum/ForumLike";
+import RemovePost from "@/app/ui/components/Forum/RemovePost";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -73,6 +74,9 @@ export default async function Forum(props: {
               {new Date(forum.createdAt).toLocaleDateString("en-US")}
             </div>
           </div>
+          {session?.user && session.user.username == forum.user.username && (
+            <RemovePost session={session} forum={forum} />
+          )}
         </div>
 
         <div className="flex gap-4 mt-7">

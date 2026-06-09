@@ -18,12 +18,12 @@ export default function EditProfile({ user }: { user: User }) {
   const [bio, setBio] = useState(user.bio || "");
 
   const openDialog = () => {
-    dialogRef.current?.showModal(); // Opens the native modal backdrop
+    dialogRef.current?.showModal();
     setIsOpen(true);
   };
 
   const closeDialog = () => {
-    dialogRef.current?.close(); // Closes the dialog
+    dialogRef.current?.close();
     setIsOpen(false);
   };
 
