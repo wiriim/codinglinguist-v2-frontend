@@ -75,7 +75,7 @@ export default async function Forum(props: {
             </div>
           </div>
           {session?.user && session.user.username == forum.user.username && (
-            <RemovePost session={session} forum={forum} />
+            <RemovePost forum={forum} />
           )}
         </div>
 
@@ -129,7 +129,7 @@ export default async function Forum(props: {
         <div className="mt-5">
           <SessionProvider>
             {comments.map((data, i) => (
-              <Comment key={data.id} data={data} />
+              <Comment session={session} key={data.id} data={data} />
             ))}
           </SessionProvider>
         </div>

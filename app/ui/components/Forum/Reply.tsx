@@ -1,21 +1,23 @@
 "use client";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import type { Reply } from "@/app/lib/definitions";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { Session } from "next-auth";
+import RemoveReply from "./RemoveReply";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export default function Reply({
+  session,
   data,
   commentId,
 }: {
+  session: Session | null;
   data: Reply;
   commentId: number;
 }) {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const { id, content, createdAt, _count, user, likes } = data;
@@ -111,6 +113,9 @@ export default function Reply({
             • {new Date(createdAt).toLocaleDateString("en-US")}
           </div>
         </div>
+        {session?.user && session.user.username == user.username && (
+          <RemoveReply reply={data} />
+        )}
       </div>
 
       <div className="text-[20px] ms-14 mt-3">{content}</div>

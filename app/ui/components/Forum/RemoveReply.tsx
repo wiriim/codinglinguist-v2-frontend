@@ -1,26 +1,27 @@
 "use client";
-import { Forum } from "@/app/lib/definitions";
+import { Reply } from "@/app/lib/definitions";
+import { Session } from "next-auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
-export default function RemovePost({
-  forum,
+export default function RemoveReply({
+  reply,
 }: {
-  forum: Forum;
+  reply: Reply;
 }) {
   const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  async function removePost() {
-    const response = await fetch(`${backendServer}/forums/${forum.id}`, {
+  async function removeReply() {
+    const response = await fetch(`${backendServer}/replies/${reply.id}`, {
       method: "DELETE",
     });
 
     if (response.ok) {
-      router.push("/forums");
+      router.refresh();
     }
   }
 
@@ -38,7 +39,7 @@ export default function RemovePost({
         className="cursor-pointer min-w-[25px] h-[25px] relative"
         onClick={openDialog}
       >
-        <Image src={"/recycle-bin.png"} fill alt="Remove Post" />
+        <Image src={"/recycle-bin.png"} fill alt="Remove Reply" />
       </button>
 
       <dialog
@@ -48,7 +49,7 @@ export default function RemovePost({
         className="m-auto p-5 rounded-[10px]"
       >
         <h1 className="text-red-500">
-          Are you sure you want to delete your post?
+          Are you sure you want to delete your reply?
         </h1>
 
         <button
@@ -58,7 +59,7 @@ export default function RemovePost({
           Cancel
         </button>
         <button
-          onClick={removePost}
+          onClick={removeReply}
           className="mt-4 h-fit px-3 py-1 text-green-500 border border-green-500 rounded-[10px] hover:bg-green-500 hover:text-white cursor-pointer"
         >
           Confirm

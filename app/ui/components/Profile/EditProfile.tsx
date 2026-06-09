@@ -3,28 +3,23 @@ import type { User } from "@/app/lib/definitions";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { updateSession } from "./updateSession";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export default function EditProfile({ user }: { user: User }) {
-  const { update } = useSession();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
 
   const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio || "");
 
   const openDialog = () => {
     dialogRef.current?.showModal();
-    setIsOpen(true);
   };
 
   const closeDialog = () => {
     dialogRef.current?.close();
-    setIsOpen(false);
   };
 
   async function handleUpdate(formData: FormData) {

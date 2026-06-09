@@ -3,15 +3,21 @@ import type { Comment } from "@/app/lib/definitions";
 import Image from "next/image";
 import Reply from "./Reply";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
+import { Session } from "next-auth";
+import RemoveComment from "./RemoveComment";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
-export default function Comment({ data }: { data: Comment }) {
-  const { data: session } = useSession();
+export default function Comment({
+  session,
+  data,
+}: {
+  session: Session | null;
+  data: Comment;
+}) {
   const router = useRouter();
 
   const { id, content, createdAt, _count, user, replies, likes } = data;
@@ -105,6 +111,9 @@ export default function Comment({ data }: { data: Comment }) {
             • {new Date(createdAt).toLocaleDateString("en-US")}
           </div>
         </div>
+        {session?.user && session.user.username == user.username && (
+          <RemoveComment comment={data} />
+        )}
       </div>
 
       <div className="text-[20px] ms-14 mt-3">{content}</div>
@@ -219,7 +228,7 @@ export default function Comment({ data }: { data: Comment }) {
         )}
         {showReplies &&
           replies.map((data, i) => (
-            <Reply key={data.id} data={data} commentId={id} />
+            <Reply session={session} key={data.id} data={data} commentId={id} />
           ))}
       </div>
     </div>
