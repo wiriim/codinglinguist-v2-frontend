@@ -86,7 +86,7 @@ export default async function Forum(props: {
         <div className="mt-7 text-[32px] font-semibold">{forum.title}</div>
         <div className="mt-5 text-[24px]">{forum.content}</div>
         {forum.image && (
-          <div className="w-[300px] h-[300px] relative">
+          <div className="w-[300px] h-[300px] relative mx-auto">
             <Image
               src={forum.image}
               fill
