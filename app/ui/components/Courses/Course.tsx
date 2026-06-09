@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Course({ data }: { data: CourseData }) {
   const { name, description, levels, difficulty, image } = data;
   return (
-    <div className="flex justify-around border min-h-[345px] rounded-[20px] border-[#DEDEDE] p-8 gap-10 w-[60vw] shadow-md">
+    <div className="flex flex-col items-center lg:items-stretch px-2 py-8 lg:flex-row justify-around border min-h-[345px] rounded-[20px] border-[#DEDEDE] lg:p-8 gap-10 w-[90vw] lg:w-[60vw] shadow-md">
       <Image
           src={image}
           width={200}
@@ -22,13 +22,13 @@ export default function Course({ data }: { data: CourseData }) {
         <div className="text-[#918D8D] text-[16px] font-[24px] mt-auto">
           {levels}
         </div>
-        <div className="flex justify-between mt-1">
-          <div className="rounded-[15px] bg-[#48D278] text-white font-semibold w-[150px] h-[50px] flex justify-center items-center">
+        <div className="lg:flex justify-between mt-1">
+          <div className="mt-3 lg:mt-0 rounded-[15px] bg-[#48D278] text-white font-semibold w-[100px] lg:w-[150px] h-[50px] flex justify-center items-center">
             {difficulty}
           </div>
           <Link
             href={`/course/${name}`}
-            className="rounded-[15px] relative border-[#5988FF] border text-[#5988FF] font-semibold w-[165px] h-[50px] flex justify-center items-center cursor-pointer hover:bg-[#5988FF] hover:text-white hover:justify-start hover:pl-5"
+            className="mt-3 lg:mt-0 rounded-[15px] relative border-[#5988FF] border text-[#5988FF] font-semibold w-[165px] h-[50px] flex justify-center items-center cursor-pointer hover:bg-[#5988FF] hover:text-white hover:justify-start hover:pl-5"
           >
             Start Course
             <span>
