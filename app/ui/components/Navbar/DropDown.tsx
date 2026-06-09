@@ -5,8 +5,9 @@ import { navbarDatas } from "@/app/lib/navbar-data";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import { Session } from "next-auth";
 
-export default function DropDown() {
+export default function DropDown({ session }: { session: Session | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   return (
@@ -37,14 +38,25 @@ export default function DropDown() {
 
       {open && (
         <div className="bg-[#ffffff] w-[110vw] h-105 absolute border -left-12 p-10 mt-5 flex flex-col gap-8">
-          <Link
-            className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {
-              "bg-[#cacaca] rounded-[10px]": pathname.includes("/dashboard"),
-            })}
-            href={"/"}
-          >
-            CodingLinguist
-          </Link>
+          {session?.user ? (
+            <Link
+              className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {
+                "bg-[#cacaca] rounded-[10px]": pathname.includes("/dashboard"),
+              })}
+              href={"/dashboard"}
+            >
+              CodingLinguist
+            </Link>
+          ) : (
+            <Link
+              className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {
+                "bg-[#cacaca] rounded-[10px]": pathname.includes("/dashboard"),
+              })}
+              href={"/"}
+            >
+              CodingLinguist
+            </Link>
+          )}
           {navbarDatas.map((data, i) => (
             <Link
               className={clsx(

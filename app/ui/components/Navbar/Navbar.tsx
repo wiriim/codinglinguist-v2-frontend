@@ -10,12 +10,17 @@ export default async function Navbar() {
   return (
     <div className="mb-24">
       <div className="hidden lg:flex py-5 px-12 justify-center w-full items-center fixed top-0 bg-white z-50">
-        <Link
+        { session?.user ? <Link
+          href={"/dashboard"}
+          className="font-bold text-[32px] cursor-pointer absolute left-10"
+        >
+          CodingLinguist
+        </Link> : <Link
           href={"/"}
           className="font-bold text-[32px] cursor-pointer absolute left-10"
         >
           CodingLinguist
-        </Link>
+        </Link>}
         <div className="flex rounded-[15px] justify-evenly items-center text-[16px] bg-[#F1F1F1] w-2/5 h-[50px]">
           {navbarDatas.map((data, i) => (
             <NavLink data={data} key={data.name} />
@@ -74,7 +79,7 @@ export default async function Navbar() {
         </div>
       </div>
       <div className="flex lg:hidden py-5 px-5 justify-end w-full items-center bg-white z-50 fixed top-0">
-        <DropDown />
+        <DropDown session={session}/>
         <div className="flex gap-7 text-[16px]">
           {!session?.user ? (
             <>
