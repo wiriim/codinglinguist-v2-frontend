@@ -1,5 +1,7 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { ZodError } from "zod";
 
 declare module "next-auth" {
@@ -7,13 +9,11 @@ declare module "next-auth" {
     user: {
       id: string;
       username: string;
-      point: number;
       picture: string;
     } & DefaultSession["user"];
   }
   interface User {
     username?: string;
-    point?: number;
     picture?: string;
   }
 }
@@ -22,25 +22,54 @@ const backendServer = process.env.BACKEND_SERVER;
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   callbacks: {
-    jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, account, trigger, session }) {
       if (trigger === "update" && session?.user) {
         return {
           ...token,
           ...session.user,
         };
       }
+
       if (user) {
-        token.id = user.id;
-        token.point = user.point;
-        token.username = user.username;
-        token.picture = user.picture;
+        if (account?.provider == "google" || account?.provider == "github") {
+          try {
+            const response = await fetch(`${backendServer}/auth/login`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                id: account.providerAccountId,
+                email: user.email,
+                name: user.name,
+                provider: account?.provider,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Fetch error. ${response.statusText}`);
+            }
+
+            const backendUser = await response.json();
+            console.log(backendUser);
+            token.id = backendUser.id;
+            token.username = backendUser.username;
+            token.picture = backendUser.picture;
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          token.id = user.id;
+          token.username = user.username;
+          token.picture = user.picture;
+        }
       }
+
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id as string;
       session.user.username = token.username as string;
-      session.user.point = token.point as number;
       session.user.picture = token.picture as string;
       return session;
     },
@@ -49,6 +78,8 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
     signIn: "/login",
   },
   providers: [
+    Google,
+    GitHub,
     Credentials({
       credentials: {
         email: { label: "email", type: "text" },

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { handler } from "./signUpHandler";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function Signup() {
   const [error, setError] = useState<null | string>(null);
@@ -33,7 +34,10 @@ export default function Signup() {
           />
         </div>
         <div className="w-1/2 p-8">
-          <Link href={"/"} className="flex gap-3 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]">
+          <Link
+            href={"/"}
+            className="flex gap-3 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]"
+          >
             <Image
               src="/right-arrow.png"
               width={12}
@@ -117,7 +121,10 @@ export default function Signup() {
             </button>
           </form>
 
-          <div className="flex gap-3 justify-center border border-[#D6D6D6] w-full rounded-[10px] mt-10 p-2 cursor-pointer">
+          <button
+            onClick={() => signIn("google", { redirectTo: "/dashboard" })}
+            className="flex gap-3 justify-center border border-[#D6D6D6] w-full rounded-[10px] mt-10 p-2 cursor-pointer"
+          >
             <Image
               src="/google.png"
               width={18}
@@ -126,8 +133,11 @@ export default function Signup() {
               className="object-contain"
             />
             Log in with Google
-          </div>
-          <div className="flex gap-3 justify-center border border-[#D6D6D6] w-full rounded-[10px] mt-5 text-center p-2 cursor-pointer">
+          </button>
+          <button
+            onClick={() => signIn("github", { redirectTo: "/dashboard" })}
+            className="flex gap-3 justify-center border border-[#D6D6D6] w-full rounded-[10px] mt-5 text-center p-2 cursor-pointer"
+          >
             <Image
               src="/github.png"
               width={18}
@@ -136,7 +146,7 @@ export default function Signup() {
               className="object-contain"
             />
             Log in with Github
-          </div>
+          </button>
         </div>
       </div>
     </div>
