@@ -2,10 +2,17 @@ import { auth } from "@/auth";
 import { courseDatas } from "../lib/courses-data";
 import DashboardCard from "../ui/components/Dashboard/DashboardCard";
 import Image from "next/image";
+import { Progress } from "../lib/definitions";
+
+const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Dashboard() {
   const session = await auth();
-  console.log(session);
+
+  const progress: Progress = await (
+    await fetch(`${backendServer}/users/${session?.user.id}/progress`)
+  ).json();
+
   return (
     <div className="flex flex-col w-full items-center mt-8">
       <h1 className="text-[36px]">Hello, {session?.user?.username}</h1>
@@ -24,7 +31,7 @@ export default async function Dashboard() {
 
       <div className="flex flex-wrap justify-center gap-12 mt-20">
         {courseDatas.map((data, i) => (
-          <DashboardCard key={i} data={data} />
+          <DashboardCard key={i} data={data} progress={progress} />
         ))}
       </div>
     </div>

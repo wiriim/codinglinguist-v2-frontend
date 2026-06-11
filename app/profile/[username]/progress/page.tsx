@@ -1,9 +1,10 @@
-import { User } from "@/app/lib/definitions";
+import { Progress, User } from "@/app/lib/definitions";
 import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import EditProfile from "@/app/ui/components/Profile/EditProfile";
+import clsx from "clsx";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -16,6 +17,9 @@ export default async function Profile(props: {
 
   const user: User = await (
     await fetch(`${backendServer}/users/${username}`)
+  ).json();
+  const progress: Progress = await (
+    await fetch(`${backendServer}/users/${session?.user.id}/progress`)
   ).json();
 
   return (
@@ -72,16 +76,28 @@ export default async function Profile(props: {
       </div>
 
       <div className="w-[80vw]">
-        <div className="my-15 flex gap-30">
+        <div className="my-15 lg:flex gap-30">
           <Image src={"/c.png"} width={120} height={120} alt="C Logo" />
 
           <div className="flex flex-col w-full">
-            <div className="text-[#877C7C]">20 Levels | 20%</div>
-            <div className="border border-[#877C7C] rounded-[10px] w-full h-full"></div>
+            <div className="text-[#877C7C]">
+              20 Levels | {(progress.cProgress.length * 100) / 20}%
+            </div>
+            <div className="border border-[#877C7C] rounded-[10px] w-full h-[99px] flex">
+              {progress.cProgress.map((data, i) => (
+                <div
+                  key={i}
+                  className={clsx("w-[50px] bg-cyan-500", {
+                    "rounded-l-[10px]": i == 0,
+                    "rounded-r-[10px]": i == 19,
+                  })}
+                ></div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="my-15 flex gap-30">
+        <div className="my-15 lg:flex gap-30">
           <Image
             src={"/python.png"}
             width={125}
@@ -89,16 +105,40 @@ export default async function Profile(props: {
             alt="Python Logo"
           />
           <div className="flex flex-col w-full">
-            <div className="text-[#877C7C]">20 Levels | 20%</div>
-            <div className="border border-[#877C7C] rounded-[10px] w-full h-full"></div>
+            <div className="text-[#877C7C]">
+              20 Levels | {(progress.pythonProgress.length * 100) / 20}%
+            </div>
+            <div className="border border-[#877C7C] rounded-[10px] w-full h-[99px] flex">
+              {progress.pythonProgress.map((data, i) => (
+                <div
+                  key={i}
+                  className={clsx("w-[50px] bg-yellow-500", {
+                    "rounded-l-[10px]": i == 0,
+                    "rounded-r-[10px]": i == 19,
+                  })}
+                ></div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="my-15 flex gap-30">
+        <div className="my-15 lg:flex gap-30">
           <Image src={"/java.png"} width={135} height={135} alt="Java Logo" />
           <div className="flex flex-col w-full">
-            <div className="text-[#877C7C]">20 Levels | 20%</div>
-            <div className="border border-[#877C7C] rounded-[10px] w-full h-full"></div>
+            <div className="text-[#877C7C]">
+              20 Levels | {(progress.javaProgress.length * 100) / 20}%
+            </div>
+            <div className="border border-[#877C7C] rounded-[10px] w-full h-[99px] flex">
+              {progress.javaProgress.map((data, i) => (
+                <div
+                  key={i}
+                  className={clsx("w-[50px] bg-orange-500", {
+                    "rounded-l-[10px]": i == 0,
+                    "rounded-r-[10px]": i == 19,
+                  })}
+                ></div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

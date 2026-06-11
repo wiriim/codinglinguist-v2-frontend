@@ -134,3 +134,16 @@ export type Course = {
   name: string;
   levels: Level[];
 };
+
+export type Progress = {
+  cProgress: UserLevel[];
+  javaProgress: UserLevel[];
+  pythonProgress: UserLevel[];
+};
+
+export type UserLevel = {
+  id: number;
+  userId: number;
+  levelId: number;
+  status: number;
+};
