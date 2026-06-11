@@ -1,27 +1,54 @@
-import type { Level } from "@/app/lib/definitions";
+import type { Level, Progress } from "@/app/lib/definitions";
 import CodeInput from "@/app/ui/components/Level/CodeInput";
 import Link from "next/link";
 import Image from "next/image";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Level(props: {
-  params: Promise<{ name: string; levelNumber: string }>;
+  params: Promise<{ name: string; levelNumber: number }>;
 }) {
+  const session = await auth();
   const params = await props.params;
   const courseName = params.name;
   const levelNumber = params.levelNumber;
 
+  if (!session && levelNumber > 1) {
+    redirect("/login");
+  }
+
   const level: Level = await (
     await fetch(`${backendServer}/courses/${courseName}/levels/${levelNumber}`)
   ).json();
+  const progress: Progress = await (
+    await fetch(`${backendServer}/users/${session?.user.id}/progress`)
+  ).json();
+  
+  if (courseName.includes("C") && levelNumber > progress.cProgress.length + 1) {
+    redirect("/course/C");
+  } else if (
+    courseName.includes("Java") &&
+    levelNumber > progress.javaProgress.length + 1
+  ) {
+    redirect("/course/Java");
+  } else if (
+    courseName.includes("Python") &&
+    levelNumber > progress.pythonProgress.length + 1
+  ) {
+    redirect("/course/Python");
+  }
 
   const bossLevels = [10, 15, 20];
 
   return (
     <div className="flex flex-col items-center w-full my-12">
       <div className="border border-[#DEDEDE] rounded-[10px] p-8 px-12 w-[80vw]">
-        <Link href={`/course/${courseName}`} className="flex gap-2 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]">
+        <Link
+          href={`/course/${courseName}`}
+          className="flex gap-2 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]"
+        >
           <Image
             src="/right-arrow.png"
             width={12}

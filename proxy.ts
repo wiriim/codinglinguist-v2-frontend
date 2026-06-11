@@ -5,10 +5,16 @@ import type { NextRequest } from "next/server";
 export default async function customProxy(request: NextRequest) {
   const session = await auth();
 
-  if (session?.user && request.nextUrl.pathname == "/") {
+  const pathname = request.nextUrl.pathname;
+
+  if (
+    session?.user &&
+    (pathname === "/" || pathname === "/login" || pathname === "/signup")
+  ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-  if (!session?.user) {
+
+  if (!session?.user && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -16,5 +22,5 @@ export default async function customProxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/", "/login", "/signup", "/dashboard/:path*"],
 };
