@@ -43,10 +43,10 @@ export default function ForumCard({ data }: { data: Forum }) {
 
       if (liked) {
         setLiked(false);
-        setLikesCount(likesCount - 1);
+        setLikesCount(prev => prev - 1);
       } else {
         setLiked(true);
-        setLikesCount(likesCount + 1);
+        setLikesCount(prev => prev + 1);
       }
     }
   }

@@ -7,15 +7,23 @@ import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import ForumLike from "@/app/ui/components/Forum/ForumLike";
 import RemovePost from "@/app/ui/components/Forum/RemovePost";
+import ForumCommentFilter from "@/app/ui/components/Forum/ForumCommentFilter";
+import { mergeSortComment } from "@/app/lib/utils";
 
 const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Forum(props: {
   params: Promise<{ forumId: string }>;
+  searchParams?: Promise<{
+    sort?: string;
+  }>;
 }) {
   const session = await auth();
   const params = await props.params;
   const forumId = params.forumId;
+
+  const searchParams = await props.searchParams;
+  const sort = searchParams?.sort || "new";
 
   const forum: Forum = await (
     await fetch(`${backendServer}/forums/${forumId}`, {
@@ -33,7 +41,11 @@ export default async function Forum(props: {
   }
 
   const liked = forum.likes && forum.likes.length > 0;
-  const comments = forum.comments;
+  let comments = forum.comments;
+
+  if (sort == "popular") {
+    comments = mergeSortComment(comments);
+  }
 
   return (
     <div className="my-8 flex justify-center w-full">
@@ -116,15 +128,7 @@ export default async function Forum(props: {
           <CommentCreate forumId={forumId} />
         </SessionProvider>
 
-        <div className="flex justify-between mt-5 ">
-          <div className="flex items-center gap-2">
-            <label htmlFor="language">Sort by :</label>
-            <select name="language" id="language" defaultValue={"new"}>
-              <option value="new">New</option>
-              <option value="popular">Popular</option>
-            </select>
-          </div>
-        </div>
+        <ForumCommentFilter forumId={forumId} />
 
         <div className="mt-5">
           <SessionProvider>

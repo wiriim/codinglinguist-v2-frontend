@@ -1,18 +1,11 @@
 "use client";
 import { Reply } from "@/app/lib/definitions";
-import { Session } from "next-auth";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
-export default function RemoveReply({
-  reply,
-}: {
-  reply: Reply;
-}) {
-  const router = useRouter();
+export default function RemoveReply({ reply }: { reply: Reply }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   async function removeReply() {
@@ -21,7 +14,7 @@ export default function RemoveReply({
     });
 
     if (response.ok) {
-      router.refresh();
+      location.reload();
     }
   }
 

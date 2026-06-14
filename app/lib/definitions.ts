@@ -67,7 +67,7 @@ export type ReplyLike = {
 };
 
 export type Comment = {
-  id: number;
+  id?: number;
   forumId: number;
   userId: number;
   content: string;

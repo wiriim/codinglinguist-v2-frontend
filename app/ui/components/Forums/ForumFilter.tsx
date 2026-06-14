@@ -1,7 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import clsx from "clsx";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function ForumFilter() {
@@ -27,9 +26,12 @@ export default function ForumFilter() {
           onClick={() =>
             router.replace(`/forums?sort=new&lang=${lang}&type=${type}`)
           }
-          className={clsx("rounded-[10px] p-2 cursor-pointer hover:bg-[#eeeded]", {
-            "bg-[#E2E2E2]": sort == "new",
-          })}
+          className={clsx(
+            "rounded-[10px] p-2 cursor-pointer hover:bg-[#eeeded]",
+            {
+              "bg-[#E2E2E2]": sort == "new",
+            }
+          )}
         >
           New
         </button>
@@ -37,9 +39,12 @@ export default function ForumFilter() {
           onClick={() =>
             router.replace(`/forums?sort=popular&lang=${lang}&type=${type}`)
           }
-          className={clsx("rounded-[10px] p-2 cursor-pointer hover:bg-[#eeeded]", {
-            "bg-[#E2E2E2]": sort == "popular",
-          })}
+          className={clsx(
+            "rounded-[10px] p-2 cursor-pointer hover:bg-[#eeeded]",
+            {
+              "bg-[#E2E2E2]": sort == "popular",
+            }
+          )}
         >
           Popular
         </button>
@@ -53,11 +58,20 @@ export default function ForumFilter() {
             id="language"
             defaultValue={lang}
             onChange={handleLanguage}
+            className="cursor-pointer"
           >
-            <option value="all">All</option>
-            <option value="c">C</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
+            <option value="all" className="cursor-pointer">
+              All
+            </option>
+            <option value="c" className="cursor-pointer">
+              C
+            </option>
+            <option value="python" className="cursor-pointer">
+              Python
+            </option>
+            <option value="java" className="cursor-pointer">
+              Java
+            </option>
           </select>
         </div>
         <div className="flex items-center gap-2">
@@ -67,13 +81,26 @@ export default function ForumFilter() {
             id="type"
             defaultValue={type}
             onChange={handleType}
+            className="cursor-pointer"
           >
-            <option value="all">All</option>
-            <option value="error">Error</option>
-            <option value="question">Question</option>
-            <option value="discussion">Discussion</option>
-            <option value="guide">Guide</option>
-            <option value="other">Other</option>
+            <option value="all" className="cursor-pointer">
+              All
+            </option>
+            <option value="error" className="cursor-pointer">
+              Error
+            </option>
+            <option value="question" className="cursor-pointer">
+              Question
+            </option>
+            <option value="discussion" className="cursor-pointer">
+              Discussion
+            </option>
+            <option value="guide" className="cursor-pointer">
+              Guide
+            </option>
+            <option value="other" className="cursor-pointer">
+              Other
+            </option>
           </select>
         </div>
       </div>

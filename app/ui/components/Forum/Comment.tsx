@@ -1,7 +1,7 @@
 "use client";
-import type { Comment } from "@/app/lib/definitions";
+import type { Comment, Reply } from "@/app/lib/definitions";
 import Image from "next/image";
-import Reply from "./Reply";
+import ReplyComponent from "./Reply";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
@@ -27,7 +27,14 @@ export default function Comment({
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  const liked = likes && likes.length > 0;
+  const [liked, setLiked] = useState(likes && likes.length > 0);
+  const [likesCount, setLikesCount] = useState(_count.likes);
+
+  const [currentReplies, setCurrentReplies] = useState(replies);
+
+  function updateCurrentReplies(reply: Reply) {
+    setCurrentReplies((prev) => [...prev, reply]);
+  }
 
   async function handleReply() {
     if (!session?.user) {
@@ -54,7 +61,19 @@ export default function Comment({
         setError("");
         setShowReplies(true);
         setReply(false);
-        router.refresh();
+
+        const reply = await response.json();
+
+        updateCurrentReplies({
+          content: replyContent,
+          userId: parseInt(session!.user.id),
+          createdAt: new Date().toLocaleDateString(),
+          likes: [],
+          commentId: id as number,
+          _count: { likes: 0 },
+          user,
+          id: reply.id,
+        });
       }
     }
   }
@@ -83,7 +102,13 @@ export default function Comment({
             }),
           });
 
-      router.refresh();
+      if (liked) {
+        setLiked(false);
+        setLikesCount(likesCount - 1);
+      } else {
+        setLiked(true);
+        setLikesCount(likesCount + 1);
+      }
     }
   }
 
@@ -157,7 +182,7 @@ export default function Comment({
             </>
           )}
 
-          <span className="z-1">{_count.likes}</span>
+          <span className="z-1">{likesCount}</span>
         </button>
         <button
           onClick={() => {
@@ -206,7 +231,7 @@ export default function Comment({
       </div>
 
       <div className="ms-14 mt-4">
-        {replies.length > 0 && (
+        {currentReplies.length > 0 && (
           <button
             className="flex items-center mb-4 gap-2 cursor-pointer hover:bg-[#ebeaea] w-fit p-1 rounded-[10px]"
             onClick={() => {
@@ -227,8 +252,14 @@ export default function Comment({
           </button>
         )}
         {showReplies &&
-          replies.map((data, i) => (
-            <Reply session={session} key={data.id} data={data} commentId={id} />
+          currentReplies.map((data, i) => (
+            <ReplyComponent
+              session={session}
+              key={data.id}
+              data={data}
+              commentId={id as number}
+              updateCurrentReplies={updateCurrentReplies}
+            />
           ))}
       </div>
     </div>

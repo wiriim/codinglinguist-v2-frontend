@@ -9,14 +9,16 @@ import RemoveReply from "./RemoveReply";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
-export default function Reply({
+export default function ReplyComponent({
   session,
   data,
   commentId,
+  updateCurrentReplies,
 }: {
   session: Session | null;
   data: Reply;
   commentId: number;
+  updateCurrentReplies: Function
 }) {
   const router = useRouter();
 
@@ -27,7 +29,8 @@ export default function Reply({
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  const liked = likes && likes.length > 0;
+  const [liked, setLiked] = useState(likes && likes.length > 0);
+  const [likesCount, setLikesCount] = useState(_count.likes);
 
   async function handleReply() {
     if (!session?.user) {
@@ -56,7 +59,19 @@ export default function Reply({
         setSuccess("Reply created");
         setError("");
         setReply(false);
-        router.refresh();
+
+        const reply = await response.json();
+
+        updateCurrentReplies({
+          content: replyContent,
+          userId: parseInt(session!.user.id),
+          createdAt: new Date().toLocaleDateString(),
+          likes: [],
+          commentId: id as number,
+          _count: { likes: 0 },
+          user,
+          id: reply.id,
+        });
       }
     }
   }
@@ -85,7 +100,13 @@ export default function Reply({
             }),
           });
 
-      router.refresh();
+      if (liked) {
+        setLiked(false);
+        setLikesCount(likesCount - 1);
+      } else {
+        setLiked(true);
+        setLikesCount(likesCount + 1);
+      }
     }
   }
 
@@ -159,7 +180,7 @@ export default function Reply({
             </>
           )}
 
-          <span className="z-1">{_count.likes}</span>
+          <span className="z-1">{likesCount}</span>
         </button>
         <button
           onClick={() => {

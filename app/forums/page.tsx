@@ -6,6 +6,7 @@ import type { Forum } from "../lib/definitions";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Pagination from "../ui/components/Forums/Pagination";
+import { mergeSortForum } from "../lib/utils";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -46,11 +47,11 @@ export default async function Forums(props: {
   );
 
   if (sort == "popular") {
-    filteredForums = mergeSort(filteredForums);
+    filteredForums = mergeSortForum(filteredForums);
   }
 
   const take = 5;
-  const totalPages = Math.ceil((filteredForums.length) / take);
+  const totalPages = Math.ceil(filteredForums.length / take);
 
   const start = currentPage == 1 ? 0 : (currentPage - 1) * take;
   const end = currentPage * take;
@@ -78,33 +79,4 @@ export default async function Forums(props: {
       </div>
     </div>
   );
-}
-
-function mergeSort(arr: Forum[]): Forum[] {
-  if (arr.length <= 1) return arr;
-  let mid = Math.floor(arr.length / 2);
-
-  let left: Forum[] = mergeSort(arr.slice(0, mid));
-  let right: Forum[] = mergeSort(arr.slice(mid));
-  return merge(left, right);
-}
-
-function merge(left: Forum[], right: Forum[]): Forum[] {
-  const result: Forum[] = [];
-  let i = 0;
-  let j = 0;
-
-  while (i < left.length && j < right.length) {
-    if (left[i]._count.likes >= right[j]._count.likes) {
-      result.push(left[i++]);
-    } else {
-      result.push(right[j++]);
-    }
-  }
-
-  return [
-    ...result,
-    ...left.slice(i),
-    ...right.slice(j),
-  ];
 }
