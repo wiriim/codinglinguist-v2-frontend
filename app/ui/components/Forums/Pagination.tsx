@@ -1,17 +1,19 @@
 "use client";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
   const allPages = generatePagination(currentPage, totalPages);
+  const sort = searchParams.get("sort") || "new";
+  const lang = searchParams.get("lang") || "all";
+  const type = searchParams.get("type") || "all";
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 my-8">
       {currentPage <= 1 ? (
         <div className="cursor-pointer p-3 border border-[#DEDEDE] rounded-[10px] w-[40px] h-[40px] relative flex justify-center items-center hover:bg-[#ebeaea]">
           <Image
@@ -24,7 +26,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
         </div>
       ) : (
         <Link
-          href={`/forums?page=${currentPage - 1}`}
+          href={`/forums?page=${currentPage - 1}&sort=${sort}&lang=${lang}&type=${type}`}
           className="p-3 border border-[#DEDEDE] rounded-[10px] w-[40px] h-[40px] relative flex justify-center items-center hover:bg-[#ebeaea]"
         >
           <Image
@@ -50,7 +52,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           </div>
         ) : (
           <Link
-            href={`/forums?page=${page}`}
+            href={`/forums?page=${page}&sort=${sort}&lang=${lang}&type=${type}`}
             key={`${page}-${i}`}
             className={clsx(
               "p-3 border border-[#DEDEDE] rounded-[10px] w-[40px] h-[40px] flex justify-center items-center hover:bg-[#ebeaea]",
@@ -74,7 +76,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
         </div>
       ) : (
         <Link
-          href={`/forums?page=${currentPage + 1}`}
+          href={`/forums?page=${currentPage + 1}&sort=${sort}&lang=${lang}&type=${type}`}
           className="p-3 border border-[#DEDEDE] rounded-[10px] w-[40px] h-[40px] relative flex justify-center items-center hover:bg-[#ebeaea]"
         >
           <Image

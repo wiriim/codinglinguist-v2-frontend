@@ -12,12 +12,18 @@ const backendServer = process.env.BACKEND_SERVER;
 export default async function Forums(props: {
   searchParams?: Promise<{
     page?: string;
+    sort?: string;
+    lang?: string;
+    type?: string;
   }>;
 }) {
   const session = await auth();
 
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
+  const sort = searchParams?.sort || "new";
+  const lang = searchParams?.lang || "all";
+  const type = searchParams?.type || "all";
 
   const forums: Forum[] = await (
     await fetch(`${backendServer}/forums`, {
@@ -29,12 +35,26 @@ export default async function Forums(props: {
     })
   ).json();
 
+  let filteredForums: Forum[] = forums;
+
+  filteredForums = filteredForums.filter(
+    (forum) => lang == "all" || forum.category.name.toLocaleLowerCase() == lang
+  );
+  filteredForums = filteredForums.filter(
+    (forum) =>
+      type == "all" || forum.categoryType.name.toLocaleLowerCase() == type
+  );
+
+  if (sort == "popular") {
+    filteredForums = mergeSort(filteredForums);
+  }
+
   const take = 5;
-  const totalPages = Math.ceil((forums.length + 1) / take);
+  const totalPages = Math.ceil((filteredForums.length) / take);
 
   const start = currentPage == 1 ? 0 : (currentPage - 1) * take;
   const end = currentPage * take;
-  const paginatedForums = forums.slice(start, end);
+  filteredForums = filteredForums.slice(start, end);
 
   return (
     <div className="flex justify-center my-12">
@@ -48,7 +68,7 @@ export default async function Forums(props: {
           <ForumFilter />
 
           <SessionProvider>
-            {paginatedForums.map((data, i) => (
+            {filteredForums.map((data, i) => (
               <ForumCard key={data.id} data={data} />
             ))}
           </SessionProvider>
@@ -58,4 +78,33 @@ export default async function Forums(props: {
       </div>
     </div>
   );
+}
+
+function mergeSort(arr: Forum[]): Forum[] {
+  if (arr.length <= 1) return arr;
+  let mid = Math.floor(arr.length / 2);
+
+  let left: Forum[] = mergeSort(arr.slice(0, mid));
+  let right: Forum[] = mergeSort(arr.slice(mid));
+  return merge(left, right);
+}
+
+function merge(left: Forum[], right: Forum[]): Forum[] {
+  const result: Forum[] = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < left.length && j < right.length) {
+    if (left[i]._count.likes >= right[j]._count.likes) {
+      result.push(left[i++]);
+    } else {
+      result.push(right[j++]);
+    }
+  }
+
+  return [
+    ...result,
+    ...left.slice(i),
+    ...right.slice(j),
+  ];
 }

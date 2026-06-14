@@ -4,16 +4,18 @@ import type { Forum } from "@/app/lib/definitions";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export default function ForumCard({ data }: { data: Forum }) {
   const { data: session } = useSession();
   const router = useRouter();
-  const { id, user, createdAt, category, categoryType, title, _count, likes } =
+  let { id, user, createdAt, category, categoryType, title, _count, likes } =
     data;
 
-  const liked = likes && likes.length > 0;
+  const [liked, setLiked] = useState(likes && likes.length > 0);
+  const [likesCount, setLikesCount] = useState(_count.likes);
 
   async function handleLike() {
     if (!session?.user) {
@@ -39,7 +41,13 @@ export default function ForumCard({ data }: { data: Forum }) {
             }),
           });
 
-      router.refresh();
+      if (liked) {
+        setLiked(false);
+        setLikesCount(likesCount - 1);
+      } else {
+        setLiked(true);
+        setLikesCount(likesCount + 1);
+      }
     }
   }
 
@@ -61,7 +69,9 @@ export default function ForumCard({ data }: { data: Forum }) {
           )}
         </div>
         <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-          <div className="cursor-pointer w-fit max-w-[10ch] text-ellipsis overflow-hidden">{user.username}</div>
+          <div className="cursor-pointer w-fit max-w-[10ch] text-ellipsis overflow-hidden">
+            {user.username}
+          </div>
           <div className="text-[16px] text-[#918D8D]">
             {new Date(createdAt).toLocaleDateString("en-US")}
           </div>
@@ -117,7 +127,7 @@ export default function ForumCard({ data }: { data: Forum }) {
             </>
           )}
 
-          <span className="z-1">{_count.likes}</span>
+          <span className="z-1">{likesCount}</span>
         </button>
         <button className="flex gap-1 items-center text-[22px] cursor-pointer">
           <span>
