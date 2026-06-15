@@ -8,7 +8,6 @@ import Link from "next/link";
 import ForumLike from "@/app/ui/components/Forum/ForumLike";
 import RemovePost from "@/app/ui/components/Forum/RemovePost";
 import ForumCommentFilter from "@/app/ui/components/Forum/ForumCommentFilter";
-import { mergeSortComment } from "@/app/lib/utils";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -26,7 +25,7 @@ export default async function Forum(props: {
   const sort = searchParams?.sort || "new";
 
   const forum: Forum = await (
-    await fetch(`${backendServer}/forums/${forumId}`, {
+    await fetch(`${backendServer}/forums/${forumId}?sort=${sort}`, {
       headers: session?.user?.id
         ? {
             "x-user-id": session.user.id,
@@ -42,10 +41,6 @@ export default async function Forum(props: {
 
   const liked = forum.likes && forum.likes.length > 0;
   let comments = forum.comments;
-
-  if (sort == "popular") {
-    comments = mergeSortComment(comments);
-  }
 
   return (
     <div className="my-8 flex justify-center w-full">

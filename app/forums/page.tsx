@@ -2,11 +2,10 @@ import ForumCreate from "../ui/components/Forums/ForumCreate";
 import ForumCard from "../ui/components/Forums/ForumCard";
 import ForumSearch from "../ui/components/Forums/ForumSearch";
 import ForumFilter from "../ui/components/Forums/ForumFilter";
-import type { Forum } from "../lib/definitions";
+import type { ForumResp } from "../lib/definitions";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Pagination from "../ui/components/Forums/Pagination";
-import { mergeSortForum } from "../lib/utils";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -26,36 +25,18 @@ export default async function Forums(props: {
   const lang = searchParams?.lang || "all";
   const type = searchParams?.type || "all";
 
-  const forums: Forum[] = await (
-    await fetch(`${backendServer}/forums`, {
-      headers: session?.user?.id
-        ? {
-            "x-user-id": session.user.id,
-          }
-        : {},
-    })
+  const forumsResp: ForumResp = await (
+    await fetch(
+      `${backendServer}/forums?page=${currentPage}&sort=${sort}&lang=${lang}&type=${type}`,
+      {
+        headers: session?.user?.id
+          ? {
+              "x-user-id": session.user.id,
+            }
+          : {},
+      }
+    )
   ).json();
-
-  let filteredForums: Forum[] = forums;
-
-  filteredForums = filteredForums.filter(
-    (forum) => lang == "all" || forum.category.name.toLocaleLowerCase() == lang
-  );
-  filteredForums = filteredForums.filter(
-    (forum) =>
-      type == "all" || forum.categoryType.name.toLocaleLowerCase() == type
-  );
-
-  if (sort == "popular") {
-    filteredForums = mergeSortForum(filteredForums);
-  }
-
-  const take = 5;
-  const totalPages = Math.ceil(filteredForums.length / take);
-
-  const start = currentPage == 1 ? 0 : (currentPage - 1) * take;
-  const end = currentPage * take;
-  filteredForums = filteredForums.slice(start, end);
 
   return (
     <div className="flex justify-center my-12">
@@ -69,12 +50,12 @@ export default async function Forums(props: {
           <ForumFilter />
 
           <SessionProvider>
-            {filteredForums.map((data, i) => (
+            {forumsResp.forums.map((data, i) => (
               <ForumCard key={data.id} data={data} />
             ))}
           </SessionProvider>
 
-          <Pagination totalPages={totalPages} />
+          <Pagination totalPages={forumsResp.totalPages} />
         </div>
       </div>
     </div>

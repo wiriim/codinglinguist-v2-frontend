@@ -102,6 +102,11 @@ export type Forum = {
   _count: { likes: number; comments: number };
 };
 
+export type ForumResp = {
+  forums: Forum[];
+  totalPages: number;
+};
+
 export type ForumLike = {
   forum: Forum;
   forumId: number;
