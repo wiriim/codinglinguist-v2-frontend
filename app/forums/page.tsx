@@ -15,6 +15,7 @@ export default async function Forums(props: {
     sort?: string;
     lang?: string;
     type?: string;
+    query?: string;
   }>;
 }) {
   const session = await auth();
@@ -24,18 +25,27 @@ export default async function Forums(props: {
   const sort = searchParams?.sort || "new";
   const lang = searchParams?.lang || "all";
   const type = searchParams?.type || "all";
+  const query = searchParams?.query;
+
+  const params = new URLSearchParams();
+
+  params.set("page", String(currentPage));
+  params.set("sort", sort);
+  params.set("lang", lang);
+  params.set("type", type);
+
+  if (query) {
+    params.set("query", query);
+  }
 
   const forumsResp: ForumResp = await (
-    await fetch(
-      `${backendServer}/forums?page=${currentPage}&sort=${sort}&lang=${lang}&type=${type}`,
-      {
-        headers: session?.user?.id
-          ? {
-              "x-user-id": session.user.id,
-            }
-          : {},
-      }
-    )
+    await fetch(`${backendServer}/forums?${params}`, {
+      headers: session?.user?.id
+        ? {
+            "x-user-id": session.user.id,
+          }
+        : {},
+    })
   ).json();
 
   return (

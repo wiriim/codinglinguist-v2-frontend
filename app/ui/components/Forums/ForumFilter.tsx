@@ -9,23 +9,32 @@ export default function ForumFilter() {
   const sort = searchParams.get("sort") || "new";
   let lang = searchParams.get("lang") || "all";
   let type = searchParams.get("type") || "all";
+  const query = searchParams?.get("query");
+
+  const params = new URLSearchParams();
+  
+  params.set("lang", lang);
+  params.set("type", type);
+  if (query) {
+    params.set("query", query);
+  }
 
   function handleLanguage(e: React.ChangeEvent) {
     lang = (e.target as HTMLSelectElement).value;
-    router.replace(`/forums?sort=${sort}&lang=${lang}&type=${type}`);
+    params.set("lang", lang);
+    router.replace(`/forums?sort=${sort}&${params}`);
   }
   function handleType(e: React.ChangeEvent) {
     type = (e.target as HTMLSelectElement).value;
-    router.replace(`/forums?sort=${sort}&lang=${lang}&type=${type}`);
+    params.set("type", type);
+    router.replace(`/forums?sort=${sort}&${params}`);
   }
 
   return (
     <div className="flex flex-wrap gap-5 w-full justify-between mt-4">
       <div className="flex flex-wrap gap-4">
         <button
-          onClick={() =>
-            router.replace(`/forums?sort=new&lang=${lang}&type=${type}`)
-          }
+          onClick={() => router.replace(`/forums?sort=new&${params}`)}
           className={clsx(
             "rounded-[10px] p-2 cursor-pointer hover:bg-[#eeeded]",
             {
@@ -36,9 +45,7 @@ export default function ForumFilter() {
           New
         </button>
         <button
-          onClick={() =>
-            router.replace(`/forums?sort=popular&lang=${lang}&type=${type}`)
-          }
+          onClick={() => router.replace(`/forums?sort=popular&${params}`)}
           className={clsx(
             "rounded-[10px] p-2 cursor-pointer hover:bg-[#eeeded]",
             {

@@ -11,7 +11,7 @@ export default function DashboardCard({
   progress: Progress;
 }) {
   const { name, levels, image } = data;
-  console.log(progress);
+  
   return (
     <div
       className={clsx("p-8 rounded-[10px] w-[405px]", {

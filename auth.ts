@@ -51,7 +51,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
             }
 
             const backendUser = await response.json();
-            console.log(backendUser);
+            
             token.id = backendUser.id;
             token.username = backendUser.username;
             token.picture = backendUser.picture;
