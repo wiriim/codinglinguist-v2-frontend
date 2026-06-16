@@ -28,6 +28,7 @@ export default async function Profile(props: {
   }
 
   const { forums } = user;
+  const { badges } = user;
 
   return (
     <div className="my-8 flex flex-col items-center">
@@ -63,8 +64,21 @@ export default async function Profile(props: {
           </SessionProvider>
         )}
 
-        <h1 className="text-[36px] ml-25 my-5">{username}</h1>
+        <h1 className="text-[36px] ml-25">{username}</h1>
+        <h2 className="text-[20px] ml-25 my-1 mb-5">{user.point} Points</h2>
         <h1 className="text-[24px] text-[#474747] ml-25 my-5">{user.bio}</h1>
+        <div className="ml-25 flex flex-wrap gap-4">
+          {badges.map((badge, i) => (
+            <Image
+              key={badge.id}
+              src={badge.image}
+              width={40}
+              height={40}
+              alt={badge.name}
+              className="object-contain"
+            />
+          ))}
+        </div>
       </div>
 
       <div className="flex gap-8 mt-8 w-[80vw]">

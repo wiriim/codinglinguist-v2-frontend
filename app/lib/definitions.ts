@@ -36,6 +36,13 @@ export type User = {
   background: string;
   picture: string;
   bio: string;
+  badges: Badge[];
+};
+
+export type Badge = {
+  id: number;
+  name: string;
+  image: string;
 };
 
 export type Category = {
