@@ -31,78 +31,76 @@ export default async function Profile(props: {
   const { badges } = user;
 
   return (
-    <div className="my-8 flex flex-col items-center">
-      <div className="rounded-[10px] border border-[#DEDEDE] min-h-[560px] w-[80vw] relative">
-        <div className="bg-cyan-700 h-[220px] rounded-t-[10px] w-full relative">
-          {user.background && (
-            <Image
-              src={user.background}
-              fill
-              alt="profile picture"
-              className="rounded-t-[10px] bg-[#E9E9E3] h-[220px] object-cover"
-            />
-          )}
-        </div>
-        <div className="-mt-20 flex items-center">
-          <div className="bg-[#D9D9D9] h-[3px] flex-1 max-w-[100px]"></div>
-          <div className="rounded-[100%] bg-[#E9E9E3] min-w-[160px] h-[160px] relative">
-            {user.picture && (
+    <SessionProvider>
+      <div className="my-8 flex flex-col items-center">
+        <div className="rounded-[10px] border border-[#DEDEDE] min-h-[560px] w-[80vw] relative">
+          <div className="bg-cyan-700 h-[220px] rounded-t-[10px] w-full relative">
+            {user.background && (
               <Image
-                src={user.picture}
+                src={user.background}
                 fill
                 alt="profile picture"
-                className="rounded-[100%] bg-[#E9E9E3] min-w-[160px] h-[160px] object-cover"
+                className="rounded-t-[10px] bg-[#E9E9E3] h-[220px] object-cover"
               />
             )}
           </div>
-          <div className="bg-[#D9D9D9] h-[3px]  flex-1"></div>
-        </div>
+          <div className="-mt-20 flex items-center">
+            <div className="bg-[#D9D9D9] h-[3px] flex-1 max-w-[100px]"></div>
+            <div className="rounded-[100%] bg-[#E9E9E3] min-w-[160px] h-[160px] relative">
+              {user.picture && (
+                <Image
+                  src={user.picture}
+                  fill
+                  alt="profile picture"
+                  className="rounded-[100%] bg-[#E9E9E3] min-w-[160px] h-[160px] object-cover"
+                />
+              )}
+            </div>
+            <div className="bg-[#D9D9D9] h-[3px]  flex-1"></div>
+          </div>
 
-        {session?.user && session?.user.email == user.email && (
-          <SessionProvider>
+          {session?.user && session?.user.email == user.email && (
             <EditProfile user={user} />
-          </SessionProvider>
-        )}
+          )}
 
-        <h1 className="text-[36px] ml-25">{username}</h1>
-        <h2 className="text-[20px] ml-25 my-1 mb-5">{user.point} Points</h2>
-        <h1 className="text-[24px] text-[#474747] ml-25 my-5">{user.bio}</h1>
-        <div className="ml-25 flex flex-wrap gap-4">
-          {badges.map((badge, i) => (
-            <Image
-              key={badge.id}
-              src={badge.image}
-              width={40}
-              height={40}
-              alt={badge.name}
-              className="object-contain"
-            />
-          ))}
+          <h1 className="text-[36px] ml-25">{username}</h1>
+          <h2 className="text-[20px] ml-25 my-1 mb-5">{user.point} Points</h2>
+          <h1 className="text-[24px] text-[#474747] ml-25 my-5">{user.bio}</h1>
+          <div className="ml-25 flex flex-wrap gap-4">
+            {badges.map((badge, i) => (
+              <Image
+                key={badge.id}
+                src={badge.image}
+                width={40}
+                height={40}
+                alt={badge.name}
+                className="object-contain"
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="flex gap-8 mt-8 w-[80vw]">
-        <Link
-          href={`/profile/${username}`}
-          className="cursor-pointer text-[36px] underline"
-        >
-          Posts
-        </Link>
-        <Link
-          href={`/profile/${username}/progress`}
-          className="cursor-pointer text-[36px]"
-        >
-          Progress
-        </Link>
-      </div>
+        <div className="flex gap-8 mt-8 w-[80vw]">
+          <Link
+            href={`/profile/${username}`}
+            className="cursor-pointer text-[36px] underline"
+          >
+            Posts
+          </Link>
+          <Link
+            href={`/profile/${username}/progress`}
+            className="cursor-pointer text-[36px]"
+          >
+            Progress
+          </Link>
+        </div>
 
-      <div className="w-[80vw]">
-        <SessionProvider>
+        <div className="w-[80vw]">
           {forums.map((data, i) => (
             <ForumCard key={data.id} data={data} />
           ))}
-        </SessionProvider>
+        </div>
       </div>
-    </div>
+    </SessionProvider>
   );
 }

@@ -107,31 +107,27 @@ export default async function Forum(props: {
           </div>
         )}
 
-        <div className="flex mt-7 gap-5">
-          <SessionProvider>
-            <ForumLike id={forumId} likes={forum._count.likes} liked={liked} />
-          </SessionProvider>
-          <div className="flex gap-1 items-center text-[22px] cursor-pointer">
-            <span>
-              <Image src="/comment.png" width={31} height={31} alt="like" />
-            </span>
-            {forum._count.comments}
-          </div>
-        </div>
-
         <SessionProvider>
+          <div className="flex mt-7 gap-5">
+            <ForumLike id={forumId} likes={forum._count.likes} liked={liked} />
+            <div className="flex gap-1 items-center text-[22px] cursor-pointer">
+              <span>
+                <Image src="/comment.png" width={31} height={31} alt="like" />
+              </span>
+              {forum._count.comments}
+            </div>
+          </div>
+
           <CommentCreate forumId={forumId} />
-        </SessionProvider>
 
-        <ForumCommentFilter forumId={forumId} />
+          <ForumCommentFilter forumId={forumId} />
 
-        <div className="mt-5">
-          <SessionProvider>
+          <div className="mt-5">
             {comments.map((data, i) => (
               <Comment session={session} key={data.id} data={data} />
             ))}
-          </SessionProvider>
-        </div>
+          </div>
+        </SessionProvider>
       </div>
     </div>
   );

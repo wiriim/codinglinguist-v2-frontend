@@ -55,11 +55,8 @@ export default async function Forums(props: {
         <div className="w-[80vw] lg:w-[60vw] mt-5">
           <SessionProvider>
             <ForumCreate />
-          </SessionProvider>
+            <ForumFilter />
 
-          <ForumFilter />
-
-          <SessionProvider>
             {forumsResp.forums.map((data, i) => (
               <ForumCard key={data.id} data={data} />
             ))}
