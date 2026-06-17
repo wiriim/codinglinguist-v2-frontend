@@ -25,7 +25,7 @@ export default async function Level(props: {
   const progress: Progress = await (
     await fetch(`${backendServer}/users/${session?.user.id}/progress`)
   ).json();
-  
+
   if (courseName.includes("C") && levelNumber > progress.cProgress.length + 1) {
     redirect("/course/C");
   } else if (
@@ -62,10 +62,11 @@ export default async function Level(props: {
 
         {bossLevels.includes(level.number) ? (
           <>
-            <CodeInput />{" "}
-            <button className="border border-[#3E50DA] rounded-[10px] text-[#3E50DA] px-8 py-2 mt-8 cursor-pointer block max-w-[120px] text-center ml-auto hover:bg-[#3E50DA] hover:text-white">
-              Submit
-            </button>
+            <CodeInput
+              userId={session?.user.id!}
+              courseName={courseName}
+              levelId={level.id}
+            />
           </>
         ) : (
           <Link

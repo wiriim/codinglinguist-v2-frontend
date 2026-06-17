@@ -159,3 +159,10 @@ export type UserLevel = {
   levelId: number;
   status: number;
 };
+
+export type CompilerOutput = {
+  output: string;
+  error: string;
+  statusCode: number;
+  isCompiled: boolean;
+};
