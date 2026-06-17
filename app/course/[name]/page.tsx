@@ -34,12 +34,12 @@ export default async function Course(props: {
           <div className="bg-[#D9D9D9] w-full h-[3px] rounded-2xl"></div>
         </div>
 
-        <div className="flex flex-wrap justify-around my-25">
+        <div className="flex flex-wrap gap-8 justify-around my-25">
           {basicSyntax1.map((data, i) => (
             <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
         </div>
-        <div className="flex flex-wrap justify-around my-25">
+        <div className="flex flex-wrap gap-8 justify-around my-25">
           {basicSyntax2.map((data, i) => (
             <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
@@ -50,7 +50,7 @@ export default async function Course(props: {
           <div className="bg-[#D9D9D9] w-full h-[3px] rounded-2xl"></div>
         </div>
 
-        <div className="flex flex-wrap justify-around my-25">
+        <div className="flex flex-wrap gap-8 justify-around my-25">
           {conditionals.map((data, i) => (
             <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}
@@ -61,7 +61,7 @@ export default async function Course(props: {
           <div className="bg-[#D9D9D9] w-full h-[3px] rounded-2xl"></div>
         </div>
 
-        <div className="flex flex-wrap justify-around my-25">
+        <div className="flex flex-wrap gap-8 justify-around my-25">
           {functions.map((data, i) => (
             <Level key={data.id} data={data} id={data.id} course={courseName} />
           ))}

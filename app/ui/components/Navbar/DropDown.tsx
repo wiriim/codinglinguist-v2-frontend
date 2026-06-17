@@ -37,7 +37,7 @@ export default function DropDown({ session }: { session: Session | null }) {
       )}
 
       {open && (
-        <div className="bg-[#ffffff] w-[110vw] h-105 absolute border -left-12 p-10 mt-5 flex flex-col gap-8">
+        <div className="bg-[#ffffff] w-[110vw] h-[100vh] absolute text-[1.5rem] -left-12 p-10 mt-5 flex flex-col gap-8">
           {session?.user ? (
             <Link
               className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {

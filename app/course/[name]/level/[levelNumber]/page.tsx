@@ -44,7 +44,7 @@ export default async function Level(props: {
 
   return (
     <div className="flex flex-col items-center w-full my-12">
-      <div className="border border-[#DEDEDE] rounded-[10px] p-8 px-12 w-[80vw]">
+      <div className="border border-[#DEDEDE] rounded-[10px] p-8 px-4 lg:px-12 w-[90vw] lg:w-[80vw]">
         <Link
           href={`/course/${courseName}`}
           className="flex gap-2 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]"
@@ -78,8 +78,8 @@ export default async function Level(props: {
         )}
       </div>
 
-      <div className="flex justify-end w-[80vw] mt-5">
-        <div className="flex  items-center gap-10 rounded-[10px] bg-[#F3F3F3] px-8 py-2 font-semibold">
+      <div className="flex justify-end w-[90vw] lg:w-[80vw] mt-5">
+        <div className="flex flex-wrap items-center justify-center gap-10 rounded-[10px] bg-[#F3F3F3] px-8 py-2 font-semibold">
           <div className="rounded-[10px] text-center bg-white px-5 py-2 cursor-pointer shadow-md">
             i
           </div>

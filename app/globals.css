@@ -7,21 +7,21 @@
     border-radius: 0.25rem;
     font-family: monospace;
   }
-  ul{
+  ul {
     margin-left: 30px;
   }
-  li{
+  li {
     list-style-type: disc;
   }
-  table{
+  table {
     border-collapse: separate;
     border-spacing: 30px 0;
   }
-  th{
+  th {
     font-size: 16px;
     font-weight: 600;
   }
-  td{
+  td {
     text-align: center;
     padding: 20px;
   }
@@ -41,45 +41,72 @@ body {
 
 /* Course Level Question */
 
-.level-header, .question-header{
+.level-header,
+.question-header {
+  margin-top: 1.5rem;
   text-align: center;
-  font-size: 4rem;
+  font-size: 2rem;
 }
 
-.level-sub-header, .question-sub-header{
+.level-sub-header,
+.question-sub-header {
   text-align: start;
-  font-size: 2rem;
+  font-size: 1rem;
   margin: 30px 0 20px 0;
   font-weight: 650;
 }
 
-.level-content, .question-content{
+.level-content,
+.question-content {
   margin: 20px 0;
+  font-size: 0.9rem;
 }
 
-.question-content ul{
+.question-content ul {
   margin: 0;
 }
-.question-content li{
-  border: 1px solid #DEDEDE;
+.question-content li {
+  border: 1px solid #dedede;
   border-radius: 10px;
   list-style-type: none;
   padding: 16px;
   cursor: pointer;
   margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
-.question-content li:hover{
+.question-content li:hover {
   background-color: #ebebeb;
   list-style-type: none;
 }
 
-
-.level-code-input, .question-code-input, .question-input{
+.level-code-input,
+.question-code-input,
+.question-input {
   width: 100%;
   margin: 20px 0;
   border-radius: 10px;
   background-color: #323232;
   color: white;
   padding: 15px;
+  font-size: .9rem;
+}
+
+@media (min-width: 1024px) {
+  .level-header,
+  .question-header {
+    font-size: 4rem;
+  }
+  .level-sub-header,
+  .question-sub-header {
+    font-size: 2rem;
+  }
+  .level-content,
+  .question-content,
+  .question-content li,
+  .level-code-input,
+  .question-code-input,
+  .question-input {
+    font-size: 1rem;
+  }
 }
