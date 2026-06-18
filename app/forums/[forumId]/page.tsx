@@ -59,59 +59,69 @@ export default async function Forum(props: {
           Back to forums
         </Link>
 
-        <div className="flex gap-4 items-center">
-          <div className="min-w-[70px] h-[70px] rounded-[100%] bg-[#E9E9E3] relative">
-            {forum.user.picture && (
-              <Image
-                src={forum.user.picture}
-                fill
-                alt="profile picture"
-                className="rounded-[100%] bg-[#E9E9E3] w-[70px] h-[70px] object-cover"
-              />
+        <SessionProvider>
+          <div className="flex gap-4 items-center">
+            <div className="min-w-[70px] h-[70px] rounded-[100%] bg-[#E9E9E3] relative">
+              {forum.user.picture && (
+                <Image
+                  src={forum.user.picture}
+                  fill
+                  alt="profile picture"
+                  className="rounded-[100%] bg-[#E9E9E3] w-[70px] h-[70px] object-cover"
+                />
+              )}
+            </div>
+            <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
+              <Link
+                href={`/profile/${forum.user.username}`}
+                className="cursor-pointer w-fit hover:underline max-w-[13ch] text-ellipsis overflow-hidden"
+              >
+                {forum.user.username}
+              </Link>
+              <div className="text-[16px] text-[#918D8D]">
+                {new Date(forum.createdAt).toLocaleDateString("en-US")}
+              </div>
+            </div>
+            {session?.user && session.user.username == forum.user.username && (
+              <>
+                <Link
+                  href={`/forums/${forumId}/edit`}
+                  className="cursor-pointer min-w-[25px] h-[25px] relative"
+                >
+                  <Image src={"/edit.png"} fill alt="Edit Post" />
+                </Link>
+                <RemovePost forum={forum} />
+              </>
             )}
           </div>
-          <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-            <Link
-              href={`/profile/${forum.user.username}`}
-              className="cursor-pointer w-fit hover:underline max-w-[13ch] text-ellipsis overflow-hidden"
-            >
-              {forum.user.username}
-            </Link>
-            <div className="text-[16px] text-[#918D8D]">
-              {new Date(forum.createdAt).toLocaleDateString("en-US")}
+
+          <div className="flex gap-4 mt-7">
+            <div className="rounded-[10px] bg-[#BECBFF] border border-[#5364A9] text-[#5364A9] font-semibold px-4 py-2">
+              {forum.category.name}
+            </div>
+            <div className="rounded-[10px] bg-[#A0F599] border border-[#1F631A] text-[#1F631A] font-semibold px-4 py-2">
+              {forum.categoryType.name}
             </div>
           </div>
-          {session?.user && session.user.username == forum.user.username && (
-            <RemovePost forum={forum} />
+          <div className="mt-7 text-[32px] font-semibold ps-2">
+            {forum.title}
+          </div>
+          {forum.image && (
+            <div className="w-[300px] h-[300px] relative mx-auto mt-10">
+              <Image
+                src={forum.image}
+                fill
+                alt="post image"
+                className="object-contain"
+              />
+            </div>
           )}
-        </div>
-
-        <div className="flex gap-4 mt-7">
-          <div className="rounded-[10px] bg-[#BECBFF] border border-[#5364A9] text-[#5364A9] font-semibold px-4 py-2">
-            {forum.category.name}
-          </div>
-          <div className="rounded-[10px] bg-[#A0F599] border border-[#1F631A] text-[#1F631A] font-semibold px-4 py-2">
-            {forum.categoryType.name}
-          </div>
-        </div>
-        <div className="mt-7 text-[32px] font-semibold">{forum.title}</div>
-        {forum.image && (
-          <div className="w-[300px] h-[300px] relative mx-auto mt-10">
-            <Image
-              src={forum.image}
-              fill
-              alt="post image"
-              className="object-contain"
-            />
-          </div>
-        )}
-        <textarea
-          disabled
-          className="mt-10 text-[24px] w-full field-sizing-content "
-          defaultValue={forum.content}
-        ></textarea>
-
-        <SessionProvider>
+          <textarea
+            disabled
+            className="mt-10 p-2 text-[24px] w-full field-sizing-content "
+            defaultValue={forum.content}
+          ></textarea>
+          
           <div className="flex mt-7 gap-5">
             <ForumLike id={forumId} likes={forum._count.likes} liked={liked} />
             <div className="flex gap-1 items-center text-[22px] cursor-pointer">
