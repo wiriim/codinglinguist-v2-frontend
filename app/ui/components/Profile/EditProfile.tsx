@@ -76,7 +76,7 @@ export default function EditProfile({ user }: { user: User }) {
       <dialog
         ref={dialogRef}
         onClose={closeDialog}
-        closedby="any"
+        closedby="closerequest"
         className="m-auto p-5 rounded-[10px]"
       >
         <h1>Edit Profile</h1>
@@ -111,6 +111,7 @@ export default function EditProfile({ user }: { user: User }) {
               name="profilePicture"
               id="profilePicture"
               accept=".png, .jpg"
+              className="hover:file:bg-[#e0e0e0] file:underline hover:file:cursor-pointer hover:file:rounded-[5px] hover:file:p-2 file:p-2 file:mr-5"
             />
           </div>
           <div>
@@ -120,11 +121,13 @@ export default function EditProfile({ user }: { user: User }) {
               name="backgroundPicture"
               id="backgroundPicture"
               accept=".png, .jpg"
+              className="hover:file:bg-[#e0e0e0] file:underline hover:file:cursor-pointer hover:file:rounded-[5px] hover:file:p-2 file:p-2 file:mr-5"
             />
           </div>
           <div className="flex gap-2 mt-5">
             <button
               onClick={closeDialog}
+              type="button"
               className="h-fit px-3 py-1 text-red-500 border border-red-500 rounded-[10px] hover:bg-red-500 hover:text-white cursor-pointer"
             >
               Cancel
