@@ -40,6 +40,7 @@ export default function DropDown({ session }: { session: Session | null }) {
         <div className="bg-[#ffffff] w-[110vw] h-[100vh] absolute text-[1.5rem] -left-12 p-10 mt-5 flex flex-col gap-8">
           {session?.user ? (
             <Link
+              onClick={() => setOpen(false)}
               className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {
                 "bg-[#cacaca] rounded-[10px]": pathname.includes("/dashboard"),
               })}
@@ -49,6 +50,7 @@ export default function DropDown({ session }: { session: Session | null }) {
             </Link>
           ) : (
             <Link
+              onClick={() => setOpen(false)}
               className={clsx("p-2 hover:bg-[#e7e6e6] rounded-[10px]", {
                 "bg-[#cacaca] rounded-[10px]": pathname.includes("/dashboard"),
               })}
@@ -59,6 +61,7 @@ export default function DropDown({ session }: { session: Session | null }) {
           )}
           {navbarDatas.map((data, i) => (
             <Link
+              onClick={() => setOpen(false)}
               className={clsx(
                 "p-2 hover:bg-[#e7e6e6] rounded-[10px] max-w-[90%]",
                 {
