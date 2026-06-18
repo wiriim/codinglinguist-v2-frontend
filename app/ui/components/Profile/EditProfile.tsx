@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { updateSession } from "./updateSession";
+import { update } from "./updateProfile";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
@@ -23,38 +24,9 @@ export default function EditProfile({ user }: { user: User }) {
   };
 
   async function handleUpdate(formData: FormData) {
-    const profilePicture = formData.get("profilePicture") as File;
-    const backgroundPicture = formData.get("backgroundPicture") as File;
-    const response = await fetch(`${backendServer}/users/${user.id}`, {
-      method: "PUT",
-      body: (() => {
-        const data = new FormData();
+    const result = await update(formData, user);
 
-        const usernameValue = formData.get("username");
-        const bioValue = formData.get("bio");
-
-        data.append(
-          "username",
-          typeof usernameValue === "string" ? usernameValue : ""
-        );
-        data.append("bio", typeof bioValue === "string" ? bioValue : "");
-
-        if (profilePicture && profilePicture.size > 0) {
-          data.append("profile", profilePicture);
-        }
-        if (backgroundPicture && backgroundPicture.size > 0) {
-          data.append("background", backgroundPicture);
-        }
-
-        data.append("email", user.email);
-        data.append("picture", user.picture);
-        data.append("background", user.background);
-        return data;
-      })(),
-    });
-
-    if (response.ok) {
-      const user: User = await response.json();
+    if (result.success) {
       await updateSession(user);
       router.push(`/profile/${user.username}`);
       router.refresh();
