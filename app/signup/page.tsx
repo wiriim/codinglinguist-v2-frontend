@@ -23,8 +23,8 @@ export default function Signup() {
 
   return (
     <div className="flex justify-center w-full items-center my-8">
-      <div className="w-[70vw] min-h-[800px] flex">
-        <div className="w-1/2 flex justify-center items-start">
+      <div className="lg:w-[70vw] lg:h-[800px] flex flex-col justify-center items-center lg:flex-row">
+        <div className="w-1/2 flex justify-center items-start hidden lg:block">
           <Image
             src="/upscale-geo.png"
             width={579}
@@ -33,7 +33,7 @@ export default function Signup() {
             className="object-contain"
           />
         </div>
-        <div className="w-1/2 p-8">
+        <div className="lg:w-1/2 p-8">
           <Link
             href={"/"}
             className="flex gap-3 cursor-pointer w-fit rounded-[10px] p-1 px-2 hover:bg-[#ebeaea]"
