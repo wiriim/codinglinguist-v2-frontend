@@ -36,7 +36,11 @@ export async function update(formData: FormData, user: User) {
   });
 
   if (response.ok) {
-    return { success: true, msg: response.statusText };
+    return {
+      success: true,
+      data: await response.json(),
+      msg: response.statusText,
+    };
   }
-  return { success: false, msg: response.statusText };
+  return { success: false, data: null, msg: response.statusText };
 }

@@ -7,14 +7,10 @@ export async function updateSession(user: User) {
 
   if (!session) return { error: "Unauthorized" };
 
-  // Execute database logic here...
-
-  // Force cookie session update on the server side
   await unstable_update({
     user: {
       username: user.username,
       picture: user.picture,
     },
   });
-  console.log(session.user);
 }

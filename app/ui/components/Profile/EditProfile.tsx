@@ -6,14 +6,13 @@ import { useRouter } from "next/navigation";
 import { updateSession } from "./updateSession";
 import { update } from "./updateProfile";
 
-const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
-
 export default function EditProfile({ user }: { user: User }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
 
   const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio || "");
+  const [error, setError] = useState("");
 
   const openDialog = () => {
     dialogRef.current?.showModal();
@@ -24,13 +23,28 @@ export default function EditProfile({ user }: { user: User }) {
   };
 
   async function handleUpdate(formData: FormData) {
+    if (error) {
+      return;
+    }
+    
     const result = await update(formData, user);
 
     if (result.success) {
-      await updateSession(user);
+      await updateSession(result.data);
       router.push(`/profile/${user.username}`);
       router.refresh();
       closeDialog();
+    }
+  }
+
+  function checkSize(e: React.ChangeEvent) {
+    const input = e.target as HTMLInputElement;
+
+    const maxFileSize = 1024 * 1024;
+    if (input.files && input.files[0].size > maxFileSize) {
+      setError("Image can't be bigger than 1MB");
+    } else {
+      setError("");
     }
   }
 
@@ -52,6 +66,9 @@ export default function EditProfile({ user }: { user: User }) {
         className="m-auto p-5 rounded-[10px]"
       >
         <h1>Edit Profile</h1>
+
+        {error && <div className="text-red-500 text-[16px] my-2">{error}</div>}
+
         <form action={handleUpdate} className="flex flex-col gap-4 mt-4">
           <div>
             <label htmlFor="username">Username: </label> <br />
@@ -79,6 +96,7 @@ export default function EditProfile({ user }: { user: User }) {
           <div>
             <label htmlFor="profilePicture">Profile: </label>
             <input
+              onChange={checkSize}
               type="file"
               name="profilePicture"
               id="profilePicture"
@@ -89,6 +107,7 @@ export default function EditProfile({ user }: { user: User }) {
           <div>
             <label htmlFor="backgroundPicture">Background: </label>
             <input
+              onChange={checkSize}
               type="file"
               name="backgroundPicture"
               id="backgroundPicture"
