@@ -56,17 +56,17 @@ export default async function Profile(props: {
                 />
               )}
             </div>
-            <div className="bg-[#D9D9D9] h-[3px]  flex-1"></div>
+            <div className="bg-[#D9D9D9] h-[3px] flex-1"></div>
           </div>
 
           {session?.user && session?.user.email == user.email && (
             <EditProfile user={user} />
           )}
 
-          <h1 className="text-[36px] ml-25">{username}</h1>
-          <h2 className="text-[20px] ml-25 my-1 mb-5">{user.point} Points</h2>
-          <h1 className="text-[24px] text-[#474747] ml-25 my-5">{user.bio}</h1>
-          <div className="ml-25 flex flex-wrap gap-4">
+          <h1 className="text-[36px] ml-15 lg:ml-25">{username}</h1>
+          <h2 className="text-[20px] ml-15 lg:ml-25 my-1 mb-5">{user.point} Points</h2>
+          <h1 className="text-[24px] text-[#474747] ml-15 lg:ml-25 my-5">{user.bio}</h1>
+          <div className="ml-15 lg:ml-25 flex flex-wrap gap-4">
             {badges.map((badge, i) => (
               <Image
                 key={badge.id}

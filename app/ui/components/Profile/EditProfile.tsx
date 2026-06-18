@@ -42,7 +42,7 @@ export default function EditProfile({ user }: { user: User }) {
           width={21}
           height={21}
           alt="edit profile"
-          className="right-10 top-60 absolute cursor-pointer"
+          className="right-5 lg:right-10 top-60 absolute cursor-pointer"
         />
       </button>
       <dialog
