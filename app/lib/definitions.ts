@@ -160,6 +160,11 @@ export type UserLevel = {
   status: number;
 };
 
+export type CompilerResp = {
+  result: CompilerOutput;
+  correct: boolean;
+};
+
 export type CompilerOutput = {
   output: string;
   error: string;

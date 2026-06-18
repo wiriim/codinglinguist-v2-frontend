@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import type { CompilerOutput } from "@/app/lib/definitions";
+import type { CompilerResp, UserLevel } from "@/app/lib/definitions";
 import Link from "next/link";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
@@ -28,11 +28,11 @@ export default function CodeInput({
     async function fetchUserAnswer() {
       if (!userId || finished) return;
 
-      const levelData = await (
+      const levelData: UserLevel = await (
         await fetch(`${backendServer}/users/${userId}/levels/${levelId}`)
       ).json();
 
-      if (levelData) {
+      if (levelData.status == 1) {
         setFinished(true);
       }
     }
@@ -60,10 +60,14 @@ export default function CodeInput({
       setOutput(`Status ${response.status}: ${response.statusText}`);
       return;
     }
+    const compilerResponse: CompilerResp = await response.json();
+    setOutput(compilerResponse.result.output);
 
-    const result: CompilerOutput = await response.json();
-    setOutput(result.output);
-    button.disabled = false;
+    if (compilerResponse.correct) {
+      setFinished(true);
+    } else {
+      button.disabled = false;
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -154,7 +158,7 @@ export default function CodeInput({
           id="code"
           className="border border-white p-2 min-h-[150px] mt-5 w-full"
           readOnly
-          defaultValue={output}
+          value={output}
           onChange={(e) => setOutput(e.target.value)}
         ></textarea>
       </div>
@@ -173,6 +177,6 @@ export default function CodeInput({
           Submit
         </button>
       )}
-    </> 
+    </>
   );
 }
