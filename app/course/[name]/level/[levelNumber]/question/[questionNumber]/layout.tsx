@@ -10,12 +10,12 @@ export default async function Layout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ name: string; levelNumber: number }>;
+  params: Promise<{ name: string; levelNumber: string }>;
 }>) {
   const session = await auth();
   const { name: courseName, levelNumber } = await params;
 
-  if (!session && levelNumber > 1) {
+  if (!session && parseInt(levelNumber) > 1) {
     redirect("/login");
   }
 
@@ -23,16 +23,19 @@ export default async function Layout({
     await fetch(`${backendServer}/users/${session?.user.id}/progress`)
   ).json();
 
-  if (courseName.includes("C") && levelNumber > progress.cProgress.length + 1) {
+  if (
+    courseName.includes("C") &&
+    parseInt(levelNumber) > progress.cProgress.length + 1
+  ) {
     redirect("/course/C");
   } else if (
     courseName.includes("Java") &&
-    levelNumber > progress.javaProgress.length + 1
+    parseInt(levelNumber) > progress.javaProgress.length + 1
   ) {
     redirect("/course/Java");
   } else if (
     courseName.includes("Python") &&
-    levelNumber > progress.pythonProgress.length + 1
+    parseInt(levelNumber) > progress.pythonProgress.length + 1
   ) {
     redirect("/course/Python");
   }
