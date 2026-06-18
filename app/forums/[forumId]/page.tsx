@@ -95,9 +95,8 @@ export default async function Forum(props: {
           </div>
         </div>
         <div className="mt-7 text-[32px] font-semibold">{forum.title}</div>
-        <div className="mt-5 text-[24px]">{forum.content}</div>
         {forum.image && (
-          <div className="w-[300px] h-[300px] relative mx-auto">
+          <div className="w-[300px] h-[300px] relative mx-auto mt-10">
             <Image
               src={forum.image}
               fill
@@ -106,6 +105,11 @@ export default async function Forum(props: {
             />
           </div>
         )}
+        <textarea
+          disabled
+          className="mt-10 text-[24px] w-full field-sizing-content "
+          defaultValue={forum.content}
+        ></textarea>
 
         <SessionProvider>
           <div className="flex mt-7 gap-5">
