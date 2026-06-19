@@ -10,7 +10,7 @@ export default function ForumSearch() {
 
   const handleSearch = useDebouncedCallback((e: React.ChangeEvent) => {
     const term = (e.target as HTMLInputElement).value;
-    console.log(term);
+    
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     if (term) {
