@@ -13,7 +13,7 @@ export default function DropDown({ session }: { session: Session | null }) {
   return (
     <div className="absolute left-10">
       {open ? (
-        <div className="hover:outline hover:outline-[#b3b3b3] rounded-[5px] p-2">
+        <div className="hover:outline hover:outline-[#b3b3b3] rounded-[5px] p-2 cursor-pointer">
           <Image
             src={"/close.png"}
             width={30}
@@ -24,7 +24,7 @@ export default function DropDown({ session }: { session: Session | null }) {
           />
         </div>
       ) : (
-        <div className="hover:outline hover:outline-[#b3b3b3] rounded-[5px]">
+        <div className="hover:outline hover:outline-[#b3b3b3] rounded-[5px] cursor-pointer">
           <Image
             src={"/menu-bar.png"}
             width={45}
