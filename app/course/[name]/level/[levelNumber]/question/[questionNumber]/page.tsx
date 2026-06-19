@@ -59,7 +59,7 @@ export default function Question() {
   useEffect(() => {
     const input: null | HTMLInputElement =
       document.querySelector(".question-input");
-    if (input){
+    if (input) {
       input.focus();
     }
     if (input && answer) {
@@ -110,7 +110,7 @@ export default function Question() {
         .replace(/&amp;/g, "&")
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">");
-      
+
       const borderColor = finished ? "#00e622" : "#505050";
 
       const activeStyle = `class="question-choice" style="border: 1px solid ${borderColor};"`;
@@ -155,7 +155,14 @@ export default function Question() {
             dangerouslySetInnerHTML={{ __html: dynamicHtml }}
           ></div>
         ) : (
-          <div className="mt-8 ms-7"> Fetching question... </div>
+          <>
+            <div
+              className={`shimmer shimmer-bg shimmer-speed-400 mt-[1.5rem] bg-muted relative overflow-hidden rounded-xl bg-gray-100 w-[90%] mx-auto min-h-[80px] p-2 shadow-sm`}
+            ></div>
+            <div
+              className={`shimmer shimmer-bg shimmer-speed-400 mt-[1.5rem] bg-muted relative overflow-hidden rounded-xl bg-gray-100 min-h-[400px] p-2 shadow-sm`}
+            ></div>
+          </>
         )}
 
         {incorrect && !finished && (
