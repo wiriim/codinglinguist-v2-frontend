@@ -23,40 +23,40 @@ export default function Question() {
 
   useEffect(() => {
     async function fetchQuestion() {
-      if (!level) {
-        const levelData: Level = await (
-          await fetch(
-            `${backendServer}/courses/${courseName}/levels/${levelNumber}`
-          )
-        ).json();
-        setLevel(levelData);
-      }
-
-      if (!question) {
+      if (session?.user && question) {
+        console.log("fetching questionData");
         const questionData: Question = await (
           await fetch(
-            `${backendServer}/courses/${courseName}/levels/${levelNumber}/questions/${questionNumber}`
+            `${backendServer}/users/${session.user.id}/questions/${
+              question!.id
+            }`
           )
         ).json();
-        setQuestion(questionData);
-      }
-
-      if (session?.user && question && !finished) {
-        const questionData: Question = await (
-          await fetch(
-            `${backendServer}/users/${session.user.id}/questions/${question?.id}`
-          )
-        ).json();
+        console.log(questionData);
         if (questionData) {
           setAnswer(questionData.answer);
           setFinished(true);
         } else {
           setFinished(false);
         }
+      } else {
+        const levelData: Level = await (
+          await fetch(
+            `${backendServer}/courses/${courseName}/levels/${levelNumber}`
+          )
+        ).json();
+        setLevel(levelData);
+
+        const questionData = await (
+          await fetch(
+            `${backendServer}/courses/${courseName}/levels/${levelNumber}/questions/${questionNumber}`
+          )
+        ).json();
+        setQuestion(questionData);
       }
     }
     fetchQuestion();
-  }, [session]);
+  }, [session, question]);
 
   useEffect(() => {
     const input: null | HTMLInputElement =
@@ -172,9 +172,7 @@ export default function Question() {
         )}
 
         {finished == null ? (
-          <button className="shimmer shimmer-bg shimmer-speed-400 border rounded-[10px] text-white min-w-[150px] min-h-[45px] mt-8 block ml-auto text-center">
-            
-          </button>
+          <button className="shimmer shimmer-bg shimmer-speed-400 border rounded-[10px] text-white min-w-[150px] min-h-[45px] mt-8 block ml-auto text-center"></button>
         ) : finished == true ? (
           <Link
             href={
