@@ -25,7 +25,7 @@ export default async function Navbar() {
             CodingLinguist
           </Link>
         )}
-        <div className="flex rounded-[15px] justify-evenly items-center text-[16px] bg-[#F1F1F1] w-2/5 h-[50px]">
+        <div className="flex rounded-[15px] justify-evenly items-center text-sm bg-[#F1F1F1] w-2/5 h-[50px]">
           {navbarDatas.map((data, i) => (
             <NavLink data={data} key={data.name} />
           ))}
