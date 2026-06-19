@@ -43,6 +43,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
                 email: user.email,
                 name: user.name,
                 provider: account?.provider,
+                picture: user.image,
               }),
             });
 
@@ -51,7 +52,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
             }
 
             const backendUser = await response.json();
-            
+
             token.id = backendUser.id;
             token.username = backendUser.username;
             token.picture = backendUser.picture;

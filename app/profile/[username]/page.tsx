@@ -13,7 +13,7 @@ export default async function Profile(props: {
 }) {
   const session = await auth();
   const params = await props.params;
-  let username = params.username;
+  let username = decodeURIComponent(params.username);
 
   const user: User = await (
     await fetch(`${backendServer}/users/${username}`)

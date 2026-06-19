@@ -24,7 +24,6 @@ export default function Question() {
   useEffect(() => {
     async function fetchQuestion() {
       if (session?.user && question) {
-        console.log("fetching questionData");
         const questionData: Question = await (
           await fetch(
             `${backendServer}/users/${session.user.id}/questions/${

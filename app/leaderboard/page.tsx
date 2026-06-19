@@ -59,7 +59,7 @@ export default async function Leaderboard() {
                   />
                 )}
               </div>
-              <span className="max-w-[10ch] text-ellipsis overflow-hidden">
+              <span className="max-w-[10ch] text-ellipsis overflow-hidden text-nowrap">
                 {user.username}
               </span>
             </Link>

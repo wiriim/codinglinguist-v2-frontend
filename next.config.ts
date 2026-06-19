@@ -6,9 +6,12 @@ const nextConfig: NextConfig = {
       new URL(
         "https://zwriyprfujdaxtrxapfc.supabase.co/storage/v1/object/public/CodingLinguistV2/**"
       ),
-      new URL(
-        "https://lh3.googleusercontent.com/a/**"
-      ),
+      new URL("https://lh3.googleusercontent.com/a/**"),
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/u/**",
+      },
     ],
   },
 };
