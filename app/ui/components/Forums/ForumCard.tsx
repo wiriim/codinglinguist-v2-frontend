@@ -69,7 +69,7 @@ export default function ForumCard({ data }: { data: Forum }) {
           )}
         </div>
         <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
-          <div className="cursor-pointer w-fit max-w-[10ch] text-ellipsis overflow-hidden">
+          <div className="cursor-pointer w-fit max-w-[10ch] text-ellipsis overflow-hidden text-nowrap">
             {user.username}
           </div>
           <div className="text-[16px] text-[#918D8D]">
