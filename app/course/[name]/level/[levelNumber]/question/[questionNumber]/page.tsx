@@ -18,7 +18,7 @@ export default function Question() {
   const [level, setLevel] = useState<null | Level>(null);
   const [question, setQuestion] = useState<null | Question>(null);
   const [answer, setAnswer] = useState<null | string>(null);
-  const [finished, setFinished] = useState<boolean>(false);
+  const [finished, setFinished] = useState<boolean | null>(null);
   const [incorrect, setIncorrect] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,6 +50,8 @@ export default function Question() {
         if (questionData) {
           setAnswer(questionData.answer);
           setFinished(true);
+        } else {
+          setFinished(false);
         }
       }
     }
@@ -169,7 +171,11 @@ export default function Question() {
           <div className="text-red-500">Incorrect</div>
         )}
 
-        {finished ? (
+        {finished == null ? (
+          <button className="shimmer shimmer-bg shimmer-speed-400 border rounded-[10px] text-white min-w-[150px] min-h-[45px] mt-8 block ml-auto text-center">
+            
+          </button>
+        ) : finished == true ? (
           <Link
             href={
               question!.number != "4"
