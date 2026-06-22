@@ -26,10 +26,11 @@ export default function EditProfile({ user }: { user: User }) {
     if (error) {
       return;
     }
-    
+
     const result = await update(formData, user);
 
     if (result.success) {
+      user = result.data;
       await updateSession(result.data);
       router.push(`/profile/${user.username}`);
       router.refresh();

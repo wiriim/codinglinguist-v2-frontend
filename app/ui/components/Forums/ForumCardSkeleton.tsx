@@ -1,6 +1,6 @@
 export default function ForumCardSkeleton() {
   return (
-    <>
+    <div className="w-full">
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={i}
@@ -26,6 +26,6 @@ export default function ForumCardSkeleton() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }

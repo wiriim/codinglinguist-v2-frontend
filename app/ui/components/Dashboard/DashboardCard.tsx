@@ -42,7 +42,7 @@ export default function DashboardCard({
           ? progress.cProgress.map((data, i) => (
               <div
                 key={i}
-                className={clsx("w-[20px] bg-white", {
+                className={clsx("w-[5%] bg-white", {
                   "rounded-l-[10px]": i == 0,
                   "rounded-r-[10px]": i == 19,
                 })}
@@ -51,7 +51,7 @@ export default function DashboardCard({
           : name.includes("Java")
           ? progress.javaProgress.map((data, i) => (
               <div
-                className={clsx("w-[20px] bg-white", {
+                className={clsx("w-[5%] bg-white", {
                   "rounded-l-[10px]": i == 0,
                   "rounded-r-[10px]": i == 19,
                 })}
@@ -60,7 +60,7 @@ export default function DashboardCard({
             ))
           : progress.pythonProgress.map((data, i) => (
               <div
-                className={clsx("w-[20px] bg-white", {
+                className={clsx("w-[5%] bg-white", {
                   "rounded-l-[10px]": i == 0,
                   "rounded-r-[10px]": i == 19,
                 })}

@@ -11,9 +11,8 @@ const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 export default function ForumCard({ data }: { data: Forum }) {
   const { data: session } = useSession();
   const router = useRouter();
-  let { id, user, createdAt, category, categoryType, title, _count, likes } =
-    data;
-
+  let { id, createdAt, category, categoryType, title, _count, likes } = data;
+  const user = session?.user;
   const [liked, setLiked] = useState(likes && likes.length > 0);
   const [likesCount, setLikesCount] = useState(_count.likes);
 
@@ -43,10 +42,10 @@ export default function ForumCard({ data }: { data: Forum }) {
 
       if (liked) {
         setLiked(false);
-        setLikesCount(prev => prev - 1);
+        setLikesCount((prev) => prev - 1);
       } else {
         setLiked(true);
-        setLikesCount(prev => prev + 1);
+        setLikesCount((prev) => prev + 1);
       }
     }
   }
@@ -59,7 +58,7 @@ export default function ForumCard({ data }: { data: Forum }) {
     >
       <div className="sm:flex gap-5 justify-between items-center">
         <div className="w-[65px] min-w-[65px] h-[65px] rounded-[100%] bg-[#E9E9E3] relative">
-          {user.picture && (
+          {user?.picture && (
             <Image
               src={user.picture}
               fill
@@ -70,7 +69,7 @@ export default function ForumCard({ data }: { data: Forum }) {
         </div>
         <div className="flex flex-col justify-center w-[90%] h-[80px] text-[24px]">
           <div className="cursor-pointer w-fit max-w-[10ch] text-ellipsis overflow-hidden text-nowrap">
-            {user.username}
+            {user?.username}
           </div>
           <div className="text-[16px] text-[#918D8D]">
             {new Date(createdAt).toLocaleDateString("en-US")}
