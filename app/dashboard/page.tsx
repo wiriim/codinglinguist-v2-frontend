@@ -8,7 +8,7 @@ const backendServer = process.env.BACKEND_SERVER;
 
 export default async function Dashboard() {
   const session = await auth();
-
+  
   const progress: Progress = await (
     await fetch(`${backendServer}/users/${session?.user.id}/progress`)
   ).json();

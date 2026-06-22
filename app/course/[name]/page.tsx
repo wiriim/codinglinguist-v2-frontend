@@ -1,6 +1,12 @@
 import type { Course } from "@/app/lib/definitions";
+import BasicSyntax from "@/app/ui/components/Course/BasicSyntax";
+import DoubleSkeleton from "@/app/ui/components/Course/LevelSkeleton";
 import Level from "@/app/ui/components/Course/Level";
 import { auth } from "@/auth";
+import Link from "next/link";
+import { Suspense } from "react";
+import Conditionals from "@/app/ui/components/Course/Conditionals";
+import Functions from "@/app/ui/components/Course/Functions";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -11,15 +17,10 @@ export default async function Course(props: {
   const params = await props.params;
   let courseName = params.name;
 
-  const course: Course = await (
-    await fetch(`${backendServer}/courses/${courseName}`)
-  ).json();
-  const levels = course.levels;
-
-  const basicSyntax1 = levels.slice(0, 5);
-  const basicSyntax2 = levels.slice(5, 10);
-  const conditionals = levels.slice(10, 15);
-  const functions = levels.slice(15, 20);
+  const basicSyntax1 = [1, 2, 3, 4, 5];
+  const basicSyntax2 = [6, 7, 8, 9, 10];
+  const conditionals = [11, 12, 13, 14, 15];
+  const functions = [16, 17, 18, 19, 20];
 
   return (
     <div className="mt-8 flex flex-col items-center">
@@ -34,38 +35,25 @@ export default async function Course(props: {
           <div className="bg-[#D9D9D9] w-full h-[3px] rounded-2xl"></div>
         </div>
 
-        <div className="flex flex-wrap gap-8 justify-around my-25">
-          {basicSyntax1.map((data, i) => (
-            <Level key={data.id} data={data} id={data.id} course={courseName} />
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-8 justify-around my-25">
-          {basicSyntax2.map((data, i) => (
-            <Level key={data.id} data={data} id={data.id} course={courseName} />
-          ))}
-        </div>
+        <BasicSyntax
+          basicSyntax1={basicSyntax1}
+          basicSyntax2={basicSyntax2}
+          courseName={courseName}
+        />
 
         <div className="flex items-center gap-8">
           <h1 className="text-[36px] min-w-fit">Conditionals & Loops</h1>
           <div className="bg-[#D9D9D9] w-full h-[3px] rounded-2xl"></div>
         </div>
 
-        <div className="flex flex-wrap gap-8 justify-around my-25">
-          {conditionals.map((data, i) => (
-            <Level key={data.id} data={data} id={data.id} course={courseName} />
-          ))}
-        </div>
+        <Conditionals conditionals={conditionals} courseName={courseName} />
 
         <div className="flex items-center gap-8">
           <h1 className="text-[36px] min-w-fit">{courseName} Functions</h1>
           <div className="bg-[#D9D9D9] w-full h-[3px] rounded-2xl"></div>
         </div>
 
-        <div className="flex flex-wrap gap-8 justify-around my-25">
-          {functions.map((data, i) => (
-            <Level key={data.id} data={data} id={data.id} course={courseName} />
-          ))}
-        </div>
+        <Functions functions={functions} courseName={courseName} />
       </div>
     </div>
   );

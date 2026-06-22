@@ -31,7 +31,7 @@ export default function Question() {
             }`
           )
         ).json();
-        
+
         if (questionData) {
           setAnswer(questionData.answer);
           setFinished(true);
