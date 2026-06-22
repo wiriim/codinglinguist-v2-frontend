@@ -1,13 +1,10 @@
 import ForumCreate from "../ui/components/Forums/ForumCreate";
-import ForumCard from "../ui/components/Forums/ForumCard";
 import ForumSearch from "../ui/components/Forums/ForumSearch";
 import ForumFilter from "../ui/components/Forums/ForumFilter";
-import type { ForumResp } from "../lib/definitions";
 import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
-import Pagination from "../ui/components/Forums/Pagination";
-
-const backendServer = process.env.BACKEND_SERVER;
+import ForumList from "../ui/components/Forums/ForumList";
+import ForumCardSkeleton from "../ui/components/Forums/ForumCardSkeleton";
+import { Suspense } from "react";
 
 export default async function Forums(props: {
   searchParams?: Promise<{
@@ -18,8 +15,6 @@ export default async function Forums(props: {
     query?: string;
   }>;
 }) {
-  const session = await auth();
-
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
   const sort = searchParams?.sort || "new";
@@ -27,26 +22,7 @@ export default async function Forums(props: {
   const type = searchParams?.type || "all";
   const query = searchParams?.query;
 
-  const params = new URLSearchParams();
-
-  params.set("page", String(currentPage));
-  params.set("sort", sort);
-  params.set("lang", lang);
-  params.set("type", type);
-
-  if (query) {
-    params.set("query", query);
-  }
-
-  const forumsResp: ForumResp = await (
-    await fetch(`${backendServer}/forums?${params}`, {
-      headers: session?.user?.id
-        ? {
-            "x-user-id": session.user.id,
-          }
-        : {},
-    })
-  ).json();
+  const params = { currentPage, sort, lang, type, query };
 
   return (
     <div className="flex justify-center my-12">
@@ -56,13 +32,10 @@ export default async function Forums(props: {
           <SessionProvider>
             <ForumCreate />
             <ForumFilter />
-
-            {forumsResp.forums.map((data, i) => (
-              <ForumCard key={data.id} data={data} />
-            ))}
+            <Suspense key={JSON.stringify(params)} fallback={<ForumCardSkeleton />}>
+              <ForumList params={params} />
+            </Suspense>
           </SessionProvider>
-
-          <Pagination totalPages={forumsResp.totalPages} />
         </div>
       </div>
     </div>
