@@ -19,6 +19,7 @@ export default function ForumCreate() {
   const [type, setType] = useState("1");
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   function handlePosting(e: React.FocusEvent) {
     setPosting(true);
@@ -47,8 +48,7 @@ export default function ForumCreate() {
     } else if (!content) {
       setError("Content is empty");
     } else {
-      const button = e.target as HTMLButtonElement;
-      button.disabled = true;
+      setLoading(true);
       const response = await fetch(`${backendServer}/forums`, {
         method: "POST",
         body: (() => {
@@ -184,8 +184,9 @@ export default function ForumCreate() {
           <button
             onClick={handlePublish}
             className="text-[20px] rounded-[10px] border border-[#DEDEDE] px-4 py-2 hover:bg-black hover:text-white flex justify-center items-center cursor-pointer"
+            disabled={loading}
           >
-            Publish
+            {loading ? "Publishing..." : "Publish"}
           </button>
         </div>
       </div>
