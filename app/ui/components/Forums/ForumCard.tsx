@@ -12,7 +12,7 @@ export default function ForumCard({ data }: { data: Forum }) {
   const { data: session } = useSession();
   const router = useRouter();
   let { id, createdAt, category, categoryType, title, _count, likes } = data;
-  const user = session?.user;
+  const user = data.user;
   const [liked, setLiked] = useState(likes && likes.length > 0);
   const [likesCount, setLikesCount] = useState(_count.likes);
 
