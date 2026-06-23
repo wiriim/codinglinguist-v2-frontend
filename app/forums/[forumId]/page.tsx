@@ -8,6 +8,7 @@ import Link from "next/link";
 import ForumLike from "@/app/ui/components/Forum/ForumLike";
 import RemovePost from "@/app/ui/components/Forum/RemovePost";
 import ForumCommentFilter from "@/app/ui/components/Forum/ForumCommentFilter";
+import { redirect } from "next/navigation";
 
 const backendServer = process.env.BACKEND_SERVER;
 
@@ -21,6 +22,10 @@ export default async function Forum(props: {
   const params = await props.params;
   const forumId = params.forumId;
 
+  if (Number.isNaN(Number(forumId))) {
+    redirect("/not-found");
+  }
+
   const searchParams = await props.searchParams;
   const sort = searchParams?.sort || "new";
 
@@ -33,6 +38,10 @@ export default async function Forum(props: {
         : {},
     })
   ).json();
+
+  if (!forum) {
+    redirect("/not-found");
+  }
 
   const trailingSpace = forum.image && forum.image.slice(-3) == "%20";
   if (trailingSpace) {
@@ -121,7 +130,7 @@ export default async function Forum(props: {
             className="mt-10 p-2 text-[24px] w-full field-sizing-content "
             defaultValue={forum.content}
           ></textarea>
-          
+
           <div className="flex mt-7 gap-5">
             <ForumLike id={forumId} likes={forum._count.likes} liked={liked} />
             <div className="flex gap-1 items-center text-[22px] cursor-pointer">
