@@ -23,6 +23,9 @@ export default function Question() {
 
   useEffect(() => {
     async function fetchQuestion() {
+      if (!session?.user) {
+        setFinished(false);
+      }
       if (session?.user && question) {
         const questionData: Question = await (
           await fetch(
