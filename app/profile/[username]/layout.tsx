@@ -1,6 +1,5 @@
 import ProfileCard from "@/app/ui/components/Profile/ProfileCard";
 import ProfileLinks from "@/app/ui/components/Profile/ProfileLinks";
-import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import ProfileCardSkeleton from "@/app/ui/components/Profile/ProfileCardSkeleton";
 import { Suspense } from "react";

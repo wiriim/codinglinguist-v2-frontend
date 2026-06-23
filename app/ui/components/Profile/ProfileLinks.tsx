@@ -5,7 +5,6 @@ import clsx from "clsx";
 
 export default function ProfileLinks({ username }: { username: string }) {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <div className="flex gap-8 mt-8 w-[80vw]">
       <Link
