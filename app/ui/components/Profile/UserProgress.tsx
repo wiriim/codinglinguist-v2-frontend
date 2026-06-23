@@ -5,11 +5,11 @@ import clsx from "clsx";
 
 const backendServer = process.env.BACKEND_SERVER;
 
-export default async function UserProgress() {
+export default async function UserProgress({ username }: { username: string }) {
   const session = await auth();
 
   const progress: Progress = await (
-    await fetch(`${backendServer}/users/${session?.user.id}/progress`)
+    await fetch(`${backendServer}/users/${username}/progress`)
   ).json();
 
   return (
