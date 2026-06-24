@@ -20,6 +20,7 @@ export default function Question() {
   const [answer, setAnswer] = useState<null | string>(null);
   const [finished, setFinished] = useState<boolean | null>(null);
   const [incorrect, setIncorrect] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchQuestion() {
@@ -87,6 +88,7 @@ export default function Question() {
   }
 
   async function handleSubmit(e: React.MouseEvent) {
+    setSubmitting(true);
     if (answer && !finished) {
       const result: boolean = await (
         await fetch(`${backendServer}/questions/${question?.id}/submit`, {
@@ -103,6 +105,7 @@ export default function Question() {
       ).json();
       result ? setFinished(true) : setIncorrect(true);
     }
+    setSubmitting(false);
   }
 
   let dynamicHtml = question ? question.content : "";
@@ -193,8 +196,9 @@ export default function Question() {
             <button
               onClick={handleSubmit}
               className="border border-[#3E50DA] rounded-[10px] text-[#3E50DA] px-8 py-2 mt-8 cursor-pointer block ml-auto text-center hover:bg-[#3E50DA] hover:text-white"
+              disabled={submitting}
             >
-              Submit
+              {submitting ? "Submitting..." : "Submit"}
             </button>
           )
         )}
