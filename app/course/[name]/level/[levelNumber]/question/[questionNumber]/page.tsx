@@ -41,7 +41,7 @@ export default function Question() {
         } else {
           setFinished(false);
         }
-      } else {
+      } else if (!level || !question) {
         const levelData: Level = await (
           await fetch(
             `${backendServer}/courses/${courseName}/levels/${levelNumber}`
