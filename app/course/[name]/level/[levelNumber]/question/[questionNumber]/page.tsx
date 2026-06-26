@@ -3,9 +3,10 @@ import type { Level, Question } from "@/app/lib/definitions";
 import Link from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { QuestionContext } from "../provider";
 
 const backendServer = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
@@ -14,16 +15,17 @@ export default function Question() {
   const params = useParams();
   const courseName = params.name;
   const { levelNumber, questionNumber } = params;
+  const context = useContext(QuestionContext);
+  const question = context?.question;
+  const level = context?.level;
 
-  const [level, setLevel] = useState<null | Level>(null);
-  const [question, setQuestion] = useState<null | Question>(null);
   const [answer, setAnswer] = useState<null | string>(null);
   const [finished, setFinished] = useState<boolean | null>(null);
   const [incorrect, setIncorrect] = useState<boolean>(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
-    async function fetchQuestion() {
+    async function checkFinished() {
       if (!session?.user) {
         setFinished(false);
       }
@@ -42,23 +44,9 @@ export default function Question() {
         } else {
           setFinished(false);
         }
-      } else if (!level || !question) {
-        const levelData: Level = await (
-          await fetch(
-            `${backendServer}/courses/${courseName}/levels/${levelNumber}`
-          )
-        ).json();
-        setLevel(levelData);
-
-        const questionData = await (
-          await fetch(
-            `${backendServer}/courses/${courseName}/levels/${levelNumber}/questions/${questionNumber}`
-          )
-        ).json();
-        setQuestion(questionData);
       }
     }
-    fetchQuestion();
+    checkFinished();
   }, [session, question]);
 
   useEffect(() => {
