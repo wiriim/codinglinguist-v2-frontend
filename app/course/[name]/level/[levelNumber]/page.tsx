@@ -23,8 +23,10 @@ export default async function Level(props: {
     await fetch(`${backendServer}/courses/${courseName}/levels/${levelNumber}`)
   ).json();
   const progress: Progress = await (
-    await fetch(`${backendServer}/users/${session?.user.id}/progress`)
+    await fetch(`${backendServer}/users/${session?.user.username}/progress`)
   ).json();
+
+  console.log(progress)
 
   if (courseName.includes("C") && levelNumber > progress.cProgress.length + 1) {
     redirect("/course/C");

@@ -22,7 +22,7 @@ export default async function Layout({
 
   if (session?.user) {
     const progress: Progress = await (
-      await fetch(`${backendServer}/users/${session?.user.id}/progress`)
+      await fetch(`${backendServer}/users/${session?.user.username}/progress`)
     ).json();
 
     if (
