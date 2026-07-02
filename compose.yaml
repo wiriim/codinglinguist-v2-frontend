@@ -1,0 +1,24 @@
+services:
+  frontend:
+    build: .
+    ports:
+      - 4000:4000
+    depends_on:
+      - backend
+    env_file:
+      - ".env"
+    environment:
+      - BACKEND_SERVER=http://backend:3000
+      - NEXT_PUBLIC_BACKEND_SERVER=http://backend:3000
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /app
+        - action: rebuild
+          path: package*.json
+
+  backend:
+    image: williamcatlovrr/codinglinguistv2:latest
+    env_file:
+      - "be.env"
