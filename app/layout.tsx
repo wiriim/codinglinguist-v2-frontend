@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "CodingLinguist",
   description:
     "CodingLinguist is a web-based programming language learning platform designed to make coding education more interactive and engaging.",
+  verification: {
+    google: "1A3-HUHTnFJX__TJQ__iGl5Cp2wsi0iS4hnKREwzr54",
+  },
 };
 
 export default function RootLayout({
